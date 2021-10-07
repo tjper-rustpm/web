@@ -1,0 +1,83 @@
+.paper {
+  color: #1a1a1a;
+  background-color: #f5f5f5;
+}
+.wrapper {
+  height: 2.75rem;
+}
+.thumbnailItem {
+  display: none;
+  height: 2.5rem;
+  margin: 0 2%;
+}
+.thumbnail {
+  width: auto;
+  height: 100%;
+  border-radius: 4px;
+}
+.nameItem {
+  margin: 0 3%;
+  width: 30%;
+}
+.name {
+  font-size: .8rem;
+  position: relative;
+}
+.online {
+  position: absolute;
+  top: -.4rem;
+  right: -.9rem;
+  font-size: .65rem;
+  color: #cf432c;
+}
+.countdownItem {
+  margin-left: auto;
+}
+.countdown {
+  font-size: 1rem;
+}
+.details, .players, .schedule {
+  display: none;
+}
+.expand {
+  margin-right: 2%;
+  margin-left: auto;
+}
+.mobileDropdown {
+  margin: 10px 0;
+}
+
+@media screen and (min-width: 480px) {
+  .thumbnailItem {
+    display: flex;
+  }
+}
+@media screen and (min-width: 640px) {
+  .nameItem {
+    width: 20%;
+  }
+  .countdownItem {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .details {
+    display: flex;
+    margin-left: auto;
+  }
+  .players {
+    display: flex;
+  }
+}
+@media screen and (min-width: 800px) {
+  .details {
+    width: 30%;
+  }
+  .schedule {
+    display: flex;
+    margin-left: auto;
+  }
+  .players, .schedule {
+    padding-left: 1%;
+    padding-right: 1%;
+  }
+}
