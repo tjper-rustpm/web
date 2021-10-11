@@ -39,7 +39,9 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
   let queuedPlayersComponent: JSX.Element | null = null;
   let countComponent: JSX.Element | null = null;
   if (server.__typename === 'LiveServer') {
-    count = useCount({ initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate() });
+    count = useCount({
+      initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
+    });
 
     ipComponent = (
       <span className="server-nameplate__ip">
@@ -77,7 +79,10 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
       </div>
     );
   } else if (server.__typename === 'DormantServer') {
-    count = useCount({ direction: '-', initial: DateTime.fromISO(server.startsAt.toString()).diffNow() });
+    count = useCount({
+      direction: '-',
+      initial: DateTime.fromISO(server.startsAt.toString()).diffNow(),
+    });
     countComponent = (
       <div className="server-nameplate__countdown">
         <Tooltip title="Launch Countdown" aria-label="launch countdown" placement="left">
