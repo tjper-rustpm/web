@@ -1,23 +1,23 @@
-import { Redirect, Route, Switch } from "react-router-dom";
-import styled from "styled-components";
+import { Redirect, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Footer from "./components/Footer/Footer";
+import Footer from './components/Footer/Footer';
 
-import Header from "./containers/Header/Header";
-import SignIn from "./containers/SignIn/SignIn";
-import SignUp from "./containers/SignUp/SignUp";
-import Servers from "./containers/Servers/Servers";
+import Header from './containers/Header/Header';
+import SignIn from './containers/SignIn/SignIn';
+import SignUp from './containers/SignUp/SignUp';
+import Servers from './containers/Servers/Servers';
 
 // import background from './images/backgrounds/poly4.svg';
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { light } from "themes/light";
-import { ApolloProvider } from "@apollo/client";
-import client from "./apollo/apollo";
-import { StylesProvider } from "@material-ui/core/styles";
-import { SnackbarProvider } from "notistack";
-import { UserServiceProvider } from "./providers/User/User";
-import { ServerServiceProvider } from "./providers/Server/Server";
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { light } from 'themes/light';
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo/apollo';
+import { StylesProvider } from '@material-ui/core/styles';
+import { SnackbarProvider } from 'notistack';
+import { UserServiceProvider } from './providers/User/User';
+import { ServerServiceProvider } from './providers/Server/Server';
 
 const Container = styled.div`
   background-color: ${(props): string => props.theme.colors.bravo};
