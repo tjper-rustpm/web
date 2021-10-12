@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, CSSProp } from 'styled-components';
 
 import { StyledIconBase } from '@styled-icons/styled-icon';
 import ButtonBase, { ButtonBaseProps } from '@material-ui/core/ButtonBase';
@@ -14,7 +14,7 @@ interface StyledButtonProps {
 }
 
 const StyledButton = styled.div<StyledButtonProps>`
-  ${({ color }: StyledButtonProps) => {
+  ${({ color }: StyledButtonProps): CSSProp => {
     switch (color) {
       case 'green':
         return css`
@@ -29,7 +29,7 @@ const StyledButton = styled.div<StyledButtonProps>`
       --primary-color-darkest: none;
     `;
   }}
-  ${({ size }: StyledButtonProps) => {
+  ${({ size }: StyledButtonProps): CSSProp => {
     switch (size) {
       case 'compact':
         return css`
@@ -72,48 +72,51 @@ const StyledButton = styled.div<StyledButtonProps>`
     margin: 0 0.5rem;
   }
 
-  ${({ slanted }: StyledButtonProps) =>
-    slanted &&
-    css`
-      & > .MuiButtonBase-root {
-        clip-path: polygon(3% 0, 0 100%, 97% 100%, 100% 0);
-      }
-    `}
-  ${({ disabled }: StyledButtonProps) =>
-    disabled &&
-    css`
-      transition: none;
-      filter: none;
+  ${({ slanted }: StyledButtonProps): CSSProp | null =>
+    slanted
+      ? css`
+          & > .MuiButtonBase-root {
+            clip-path: polygon(3% 0, 0 100%, 97% 100%, 100% 0);
+          }
+        `
+      : null}
+  ${({ disabled }: StyledButtonProps): CSSProp | null =>
+    disabled
+      ? css`
+          transition: none;
+          filter: none;
 
-      & > .MuiButtonBase-root {
-        opacity: 0.4;
-      }
-      :hover {
-        filter: none;
-        & > .MuiButtonBase-root {
-          background-color: ${(props): string => props.theme.colors.golf.light};
-        }
-      }
-    `}
-  ${({ loading }: StyledButtonProps) =>
-    loading &&
-    css`
-      position: relative;
+          & > .MuiButtonBase-root {
+            opacity: 0.4;
+          }
+          :hover {
+            filter: none;
+            & > .MuiButtonBase-root {
+              background-color: ${(props): string => props.theme.colors.golf.light};
+            }
+          }
+        `
+      : null}
+  ${({ loading }: StyledButtonProps): CSSProp | null =>
+    loading
+      ? css`
+          position: relative;
 
-      & > .MuiButtonBase-root {
-        opacity: 0.2;
-      }
-      .MuiCircularProgress-root {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -1.4rem;
-        margin-top: -1.4rem;
-      }
-      .MuiCircularProgress-colorPrimary {
-        color: var(--primary-color-darkest);
-      }
-    `}
+          & > .MuiButtonBase-root {
+            opacity: 0.2;
+          }
+          .MuiCircularProgress-root {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -1.4rem;
+            margin-top: -1.4rem;
+          }
+          .MuiCircularProgress-colorPrimary {
+            color: var(--primary-color-darkest);
+          }
+        `
+      : null}
 `;
 
 type ButtonProps = ButtonBaseProps & {

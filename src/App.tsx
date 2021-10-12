@@ -1,4 +1,3 @@
-import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -10,6 +9,15 @@ import SignUp from './containers/SignUp/SignUp';
 import Servers from './containers/Servers/Servers';
 
 // import background from './images/backgrounds/poly4.svg';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { light } from 'themes/light';
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo/apollo';
+import { StylesProvider } from '@material-ui/core/styles';
+import { SnackbarProvider } from 'notistack';
+import { UserServiceProvider } from './providers/User/User';
+import { ServerServiceProvider } from './providers/Server/Server';
 
 const Container = styled.div`
   background-color: ${(props): string => props.theme.colors.bravo};
@@ -29,28 +37,40 @@ const StyledServers = styled(Servers)`
 
 function App(): JSX.Element {
   return (
-    <React.Fragment>
-      <Header />
-      <Container>
-        <div>
-          <Switch>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <Route path="/login">
-              <SignIn />
-            </Route>
-            <Route path="/servers">
-              <StyledServers />
-            </Route>
-            <Route path="*">
-              <Redirect to="/servers" />
-            </Route>
-          </Switch>
-        </div>
-      </Container>
-      <StyledFooter />
-    </React.Fragment>
+    <BrowserRouter>
+      <ThemeProvider theme={light}>
+        <ApolloProvider client={client}>
+          <StylesProvider injectFirst>
+            <SnackbarProvider>
+              <UserServiceProvider>
+                <ServerServiceProvider>
+                  <Header />
+                  <Container>
+                    <div>
+                      <Switch>
+                        <Route path="/signup">
+                          <SignUp />
+                        </Route>
+                        <Route path="/login">
+                          <SignIn />
+                        </Route>
+                        <Route path="/servers">
+                          <StyledServers />
+                        </Route>
+                        <Route path="*">
+                          <Redirect to="/servers" />
+                        </Route>
+                      </Switch>
+                    </div>
+                  </Container>
+                  <StyledFooter />
+                </ServerServiceProvider>
+              </UserServiceProvider>
+            </SnackbarProvider>
+          </StylesProvider>
+        </ApolloProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
