@@ -159,8 +159,10 @@ function useUserServiceProvider(): UserService {
       }
       success = result.data;
       enqueueSnackbar('You have logged out of your account', { variant: 'info' });
-    } catch (e) {
-      enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+    } catch (e: unknown) {
+      if (e instanceof ApolloError) {
+        enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      }
     }
     return success;
   };
@@ -175,7 +177,9 @@ function useUserServiceProvider(): UserService {
       user = result.data;
       enqueueSnackbar('Account created.', { variant: 'info' });
     } catch (e) {
-      enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      if (e instanceof ApolloError) {
+        enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      }
     }
     return user;
   };
@@ -196,7 +200,9 @@ function useUserServiceProvider(): UserService {
         enqueueSnackbar('Please check your email in order to verify your account.', { variant: 'info' });
       }
     } catch (e) {
-      enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      if (e instanceof ApolloError) {
+        enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      }
     }
     return user;
   };
