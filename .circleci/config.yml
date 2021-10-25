@@ -32,4 +32,4 @@ workflows:
           region: AWS_REGION
           repo: rustpm/web
           skip-when-tags-exist: false
-          tag: $CIRCLE_BRANCH
+          tag: $CIRCLE_SHA1,latest
