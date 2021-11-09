@@ -1,8 +1,30 @@
 import React, { useState } from 'react';
-import { DateTime } from 'luxon';
 
 import { useSnackbar } from 'notistack';
-import { ApolloError, gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
+import { ApolloError, useApolloClient, useMutation, useQuery } from '@apollo/client';
+
+import {
+  UserService,
+  User,
+  LoginUserResult,
+  LoginUserArgs,
+  LogoutUserFunc,
+  CreateUserFunc,
+  CreateUserResult,
+  CreateUserArgs,
+  VerifyEmailFunc,
+  VerifyEmailArgs,
+  ResendEmailVerificationFunc,
+} from './types';
+
+import {
+  LOGOUT_USER_MUTATION,
+  CREATE_USER_MUTATION,
+  LOGIN_USER_MUTATION,
+  VERIFY_EMAIL_MUTATION,
+  RESEND_EMAIL_VERIFICATION_MUTATION,
+  ME_QUERY,
+} from './gql';
 
 const UserServiceContext = React.createContext<UserService | undefined>(undefined);
 
@@ -39,118 +61,17 @@ export function useVerifyEmail(): VerifyEmailFunc {
   return service.verifyEmail;
 }
 
+export function useResendEmailVerification(): ResendEmailVerificationFunc {
+  const service = useUserService();
+  return service.resendEmailVerification;
+}
+
 export function useUserService(): UserService {
   const user = React.useContext(UserServiceContext);
   if (user === undefined) {
     throw new Error('useUser must be called within child component fo UserProvider');
   }
   return user;
-}
-
-type LogoutUserFunc = () => Promise<boolean>;
-type CreateUserFunc = ({ email, password }: { email: string; password: string }) => Promise<User | undefined>;
-type LoginUserFunc = CreateUserFunc;
-type VerifyEmailFunc = (hash: string) => Promise<User | undefined>;
-
-export interface UserService {
-  useMe(): User | undefined;
-  logoutUser: LogoutUserFunc;
-  createUser: CreateUserFunc;
-  loginUser: LoginUserFunc;
-  verifyEmail: VerifyEmailFunc;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  verifiedAt: DateTime;
-  updatedAt: DateTime;
-  createdAt: DateTime;
-}
-
-const CREATE_USER = gql`
-  mutation CreateUser($email: String!, $password: String!) {
-    createUser(input: { email: $email, password: $password }) {
-      user {
-        id
-        email
-        verifiedAt
-        updatedAt
-        createdAt
-      }
-    }
-  }
-`;
-interface CreateUserResult {
-  createUser: { user: User };
-}
-interface CreateUserArgs {
-  email: string;
-  password: string;
-}
-
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(input: { email: $email, password: $password }) {
-      user {
-        id
-        email
-        verifiedAt
-        updatedAt
-        createdAt
-      }
-    }
-  }
-`;
-interface LoginUserResult {
-  loginUser: { user: User };
-}
-interface LoginUserArgs {
-  email: string;
-  password: string;
-}
-
-const LOGOUT_USER_MUTATION = gql`
-  mutation {
-    logoutUser
-  }
-`;
-
-const VERIFY_EMAIL_MUTATION = gql`
-  mutation VerifyEmail($hash: String!) {
-    verifyEmail(input: { hash: $hash }) {
-      user {
-        id
-        email
-        verifiedAt
-        updatedAt
-        createdAt
-      }
-    }
-  }
-`;
-interface VerifyEmailResult {
-  verifyEmail: { user: User };
-}
-export interface VerifyEmailArgs {
-  hash: string;
-}
-
-const ME_QUERY = gql`
-  query Me {
-    me {
-      id
-      email
-      role
-      verifiedAt
-      updatedAt
-      createdAt
-    }
-  }
-`;
-export interface FetchMeResult {
-  user: User | undefined;
-  loading: boolean;
 }
 
 function useUserServiceProvider(): UserService {
@@ -160,9 +81,10 @@ function useUserServiceProvider(): UserService {
   const [me, setMe] = useState<User | undefined>(undefined);
 
   const [logoutUserMutation] = useMutation<boolean>(LOGOUT_USER_MUTATION);
-  const [createUserMutation] = useMutation<CreateUserResult, CreateUserArgs>(CREATE_USER);
-  const [loginUserMutation] = useMutation<LoginUserResult, LoginUserArgs>(LOGIN_USER);
-  const [verifyEmailMutation] = useMutation<VerifyEmailResult, VerifyEmailArgs>(VERIFY_EMAIL_MUTATION);
+  const [createUserMutation] = useMutation<CreateUserResult, CreateUserArgs>(CREATE_USER_MUTATION);
+  const [loginUserMutation] = useMutation<LoginUserResult, LoginUserArgs>(LOGIN_USER_MUTATION);
+  const [verifyEmailMutation] = useMutation<boolean, VerifyEmailArgs>(VERIFY_EMAIL_MUTATION);
+  const [resendEmailVerificationMutation] = useMutation<boolean>(RESEND_EMAIL_VERIFICATION_MUTATION);
 
   const useMe = (): User | undefined => {
     useQuery<User>(ME_QUERY, {
@@ -230,7 +152,7 @@ function useUserServiceProvider(): UserService {
 
       enqueueSnackbar('Welcome!', { variant: 'success' });
       if (user.verifiedAt == null) {
-        enqueueSnackbar('Please verify your email.', { variant: 'info' });
+        enqueueSnackbar('Please verify your email. Click to resend your verification email.', { variant: 'info' });
       }
     } catch (e) {
       if (e instanceof ApolloError) {
@@ -240,22 +162,39 @@ function useUserServiceProvider(): UserService {
     return user;
   };
 
-  const verifyEmail = async (hash: string): Promise<User | undefined> => {
-    let user: User | undefined;
+  const verifyEmail = async (hash: string): Promise<boolean> => {
+    let success = false;
     try {
       const result = await verifyEmailMutation({ variables: { hash: hash } });
       if (result.data == null) {
         throw new Error('unable to verify email; please contact support');
       }
 
-      user = result.data.verifyEmail.user;
-      enqueueSnackbar(`${user.email} verified!`, { variant: 'success' });
+      success = result.data;
+      enqueueSnackbar('Email verified!', { variant: 'success' });
     } catch (e) {
       if (e instanceof ApolloError) {
         enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
       }
     }
-    return user;
+    return success;
+  };
+
+  const resendEmailVerification = async (): Promise<boolean> => {
+    let success = false;
+    try {
+      const result = await resendEmailVerificationMutation();
+      if (result.data == null) {
+        throw new Error('unable to resend email verification');
+      }
+      success = result.data;
+      enqueueSnackbar('Please check your email in order to verify your account.', { variant: 'error' });
+    } catch (e: unknown) {
+      if (e instanceof ApolloError) {
+        enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      }
+    }
+    return success;
   };
 
   return {
@@ -264,5 +203,6 @@ function useUserServiceProvider(): UserService {
     createUser: createUser,
     loginUser: loginUser,
     verifyEmail: verifyEmail,
+    resendEmailVerification: resendEmailVerification,
   };
 }
