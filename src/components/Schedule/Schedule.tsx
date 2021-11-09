@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Event } from '../../providers/Server/Server';
 import { DateTime } from 'luxon';
+
+import { Event } from '../../services/server/types';
 
 type ScheduleProps = {
   className?: string;

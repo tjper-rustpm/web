@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import Card from '../../components/Card/Card';
 
 import { useEffect, useState } from 'react';
-import { useVerifyEmail, VerifyEmailArgs } from '../../providers/User/User';
 import { useRouter } from '../../router/router';
+
+import { useVerifyEmail } from '../../services/user/use';
+import { VerifyEmailArgs } from '../../services/user/types';
 
 interface VerifyEmailProps {
   className?: string;

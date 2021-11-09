@@ -17,7 +17,8 @@ import Schedule from '../../components/Schedule/Schedule';
 import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
 import Tooltip from '../../components/Tooltip/Tooltip';
 
-import { Server, Tag, useServerService } from '../../providers/Server/Server';
+import { Server, Tag } from '../../services/server/types';
+import { useServerService } from '../../services/server/use';
 
 type ServersProps = {
   /**

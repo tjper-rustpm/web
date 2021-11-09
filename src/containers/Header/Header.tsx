@@ -15,7 +15,8 @@ import Logo from '../../components/Logo/Logo';
 
 import { useRouter } from '../../router/router';
 import { useState } from 'react';
-import { useLogoutUser, useMe } from '../../providers/User/User';
+
+import { useLogoutUser, useMe } from '../../services/user/use';
 
 const StyledHeader = styled.header`
   position: fixed;

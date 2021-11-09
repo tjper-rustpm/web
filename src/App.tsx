@@ -17,8 +17,8 @@ import { ApolloProvider } from '@apollo/client';
 import client from './apollo/apollo';
 import { StylesProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
-import { UserServiceProvider } from './providers/User/User';
-import { ServerServiceProvider } from './providers/Server/Server';
+import { UserServiceProvider } from './services/user/use';
+import { ServerServiceProvider } from './services/server/use';
 
 const Container = styled.div`
   background-color: ${(props): string => props.theme.colors.bravo};

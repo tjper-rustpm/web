@@ -10,7 +10,7 @@ import Card from '../../components/Card/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 
-import { useCreateUser } from '../../providers/User/User';
+import { useCreateUser } from '../../services/user/use';
 import { useRouter } from '../../router/router';
 
 interface SignUpProps {

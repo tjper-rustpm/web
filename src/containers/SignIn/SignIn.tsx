@@ -10,7 +10,7 @@ import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 
 import { useFormik } from 'formik';
-import { useLoginUser } from '../../providers/User/User';
+import { useLoginUser } from '../../services/user/use';
 import { useRouter } from '../../router/router';
 
 interface FormValues {

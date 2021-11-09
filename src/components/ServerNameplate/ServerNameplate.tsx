@@ -19,7 +19,7 @@ import oxum from '../../images/nameplates/oxum.png';
 import sewerNight from '../../images/nameplates/sewerNight.png';
 import towerNight from '../../images/nameplates/towerNight.png';
 
-import { Server, Background } from '../../providers/Server/Server';
+import { Server, Background } from '../../services/server/types';
 
 // ServerNameplateProps is used to pass critical and variable information to
 // ServerNameplate component.
