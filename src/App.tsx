@@ -7,6 +7,7 @@ import Header from './containers/Header/Header';
 import SignIn from './containers/SignIn/SignIn';
 import SignUp from './containers/SignUp/SignUp';
 import Servers from './containers/Servers/Servers';
+import VerifyEmail from './containers/VerifyEmail/VerifyEmail';
 
 // import background from './images/backgrounds/poly4.svg';
 import { BrowserRouter } from 'react-router-dom';
@@ -53,6 +54,9 @@ function App(): JSX.Element {
                         </Route>
                         <Route path="/login">
                           <SignIn />
+                        </Route>
+                        <Route path="/verify-email">
+                          <VerifyEmail />
                         </Route>
                         <Route path="/servers">
                           <StyledServers />

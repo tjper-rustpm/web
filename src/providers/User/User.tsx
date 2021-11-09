@@ -34,6 +34,11 @@ export function useLoginUser(): CreateUserFunc {
   return service.loginUser;
 }
 
+export function useVerifyEmail(): VerifyEmailFunc {
+  const service = useUserService();
+  return service.verifyEmail;
+}
+
 export function useUserService(): UserService {
   const user = React.useContext(UserServiceContext);
   if (user === undefined) {
@@ -45,18 +50,20 @@ export function useUserService(): UserService {
 type LogoutUserFunc = () => Promise<boolean>;
 type CreateUserFunc = ({ email, password }: { email: string; password: string }) => Promise<User | undefined>;
 type LoginUserFunc = CreateUserFunc;
+type VerifyEmailFunc = (hash: string) => Promise<User | undefined>;
 
 export interface UserService {
   useMe(): User | undefined;
   logoutUser: LogoutUserFunc;
   createUser: CreateUserFunc;
   loginUser: LoginUserFunc;
+  verifyEmail: VerifyEmailFunc;
 }
 
 export interface User {
   id: string;
   email: string;
-  verifiedAt: DateTime | undefined;
+  verifiedAt: DateTime;
   updatedAt: DateTime;
   createdAt: DateTime;
 }
@@ -74,7 +81,9 @@ const CREATE_USER = gql`
     }
   }
 `;
-
+interface CreateUserResult {
+  createUser: { user: User };
+}
 interface CreateUserArgs {
   email: string;
   password: string;
@@ -93,18 +102,41 @@ const LOGIN_USER = gql`
     }
   }
 `;
+interface LoginUserResult {
+  loginUser: { user: User };
+}
 interface LoginUserArgs {
   email: string;
   password: string;
 }
 
-export const LOGOUT_USER_MUTATION = gql`
+const LOGOUT_USER_MUTATION = gql`
   mutation {
     logoutUser
   }
 `;
 
-export const ME_QUERY = gql`
+const VERIFY_EMAIL_MUTATION = gql`
+  mutation VerifyEmail($hash: String!) {
+    verifyEmail(input: { hash: $hash }) {
+      user {
+        id
+        email
+        verifiedAt
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+interface VerifyEmailResult {
+  verifyEmail: { user: User };
+}
+export interface VerifyEmailArgs {
+  hash: string;
+}
+
+const ME_QUERY = gql`
   query Me {
     me {
       id
@@ -128,8 +160,9 @@ function useUserServiceProvider(): UserService {
   const [me, setMe] = useState<User | undefined>(undefined);
 
   const [logoutUserMutation] = useMutation<boolean>(LOGOUT_USER_MUTATION);
-  const [createUserMutation] = useMutation<User, CreateUserArgs>(CREATE_USER);
-  const [loginUserMutation] = useMutation<User, LoginUserArgs>(LOGIN_USER);
+  const [createUserMutation] = useMutation<CreateUserResult, CreateUserArgs>(CREATE_USER);
+  const [loginUserMutation] = useMutation<LoginUserResult, LoginUserArgs>(LOGIN_USER);
+  const [verifyEmailMutation] = useMutation<VerifyEmailResult, VerifyEmailArgs>(VERIFY_EMAIL_MUTATION);
 
   const useMe = (): User | undefined => {
     useQuery<User>(ME_QUERY, {
@@ -174,7 +207,7 @@ function useUserServiceProvider(): UserService {
       if (result.data == null) {
         throw new Error('unable to create user; please contact support');
       }
-      user = result.data;
+      user = result.data.createUser.user;
       enqueueSnackbar('Account created.', { variant: 'info' });
     } catch (e) {
       if (e instanceof ApolloError) {
@@ -189,16 +222,34 @@ function useUserServiceProvider(): UserService {
     try {
       client.resetStore();
       const result = await loginUserMutation({ variables: { email: email, password: password } });
-      if (result.data === null || result.data === undefined) {
+      if (result.data == null) {
         throw new Error('unable to login user; please contact support');
       }
-      user = result.data;
+      user = result.data.loginUser.user;
       setMe(user);
 
       enqueueSnackbar('Welcome!', { variant: 'success' });
-      if (user.verifiedAt === undefined) {
-        enqueueSnackbar('Please check your email in order to verify your account.', { variant: 'info' });
+      if (user.verifiedAt == null) {
+        enqueueSnackbar('Please verify your email.', { variant: 'info' });
       }
+    } catch (e) {
+      if (e instanceof ApolloError) {
+        enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
+      }
+    }
+    return user;
+  };
+
+  const verifyEmail = async (hash: string): Promise<User | undefined> => {
+    let user: User | undefined;
+    try {
+      const result = await verifyEmailMutation({ variables: { hash: hash } });
+      if (result.data == null) {
+        throw new Error('unable to verify email; please contact support');
+      }
+
+      user = result.data.verifyEmail.user;
+      enqueueSnackbar(`${user.email} verified!`, { variant: 'success' });
     } catch (e) {
       if (e instanceof ApolloError) {
         enqueueSnackbar(`${e.message}; please contact support.`, { variant: 'error' });
@@ -212,5 +263,6 @@ function useUserServiceProvider(): UserService {
     logoutUser: logoutUser,
     createUser: createUser,
     loginUser: loginUser,
+    verifyEmail: verifyEmail,
   };
 }
