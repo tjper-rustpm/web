@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-import Card from '../../components/Card/Card';
+import { LoadingCard } from '../../components/Card/LoadingCard';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from '../../router/router';
@@ -16,18 +14,22 @@ const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
   const router = useRouter<VerifyEmailArgs>();
   const verifyEmail = useVerifyEmail();
 
-  const [status, setStatus] = useState<string>('verifying ...');
+  const [text, setText] = useState<string>('Verifying your email.');
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('success');
+
+  // if (!router.query.hash) {
+  //   router.push('/servers');
+  // }
 
   useEffect(() => {
     if (typeof router.query.hash === 'string') {
       verifyEmail(router.query.hash);
-      setStatus('verified!');
+      setText('Verified!');
+      setStatus('success');
     }
   }, [router.query.hash]);
 
-  return <StyledCard className={className}>{status}</StyledCard>;
+  return <LoadingCard className={className} text={text} status={status} />;
 };
 
 export default VerifyEmail;
-
-const StyledCard = styled(Card)``;
