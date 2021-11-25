@@ -83,7 +83,3 @@ export declare type Background =
   | 'OXUM'
   | 'SEWER_NIGHT'
   | 'TOWER_NIGHT';
-
-export interface ServersArgs {
-  state: string;
-}
