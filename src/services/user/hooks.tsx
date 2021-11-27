@@ -1,62 +1,42 @@
-import React, { useState } from 'react';
-
-import { useSnackbar } from 'notistack';
-
 import { useQuery, UseQueryResult, useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
 import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs } from './types';
 
-const me = async () => {
-  const { data } = await axios.get<User>('http://localhost:8000/user-api/v1/user');
-  return data;
-};
-
 export function useMe(): UseQueryResult<User, Error> {
-  return useQuery('me', () => me());
+  return useQuery('me', () => {
+    axios.get<User>('/user-api/v1/user').then((res) => res.data);
+  });
 }
 
-const logoutUser = async () => {
-  const { data } = await axios.post<null>('http://localhost:8000/user-api/v1/user/logout');
-  return data;
-};
-
-export function useLogoutUser(): UseMutationResult<null, Error, null> {
-  return useMutation('logout', logoutUser);
+export function useLogoutUser(): UseMutationResult<void, Error, void> {
+  return useMutation<void, Error>(async () => {
+    await axios.post<void>('/user-api/v1/user/logout');
+    return;
+  });
 }
-
-const createUser = async (args: CreateUserArgs) => {
-  const { data } = await axios.post<User>('http://localhost:8000/user-api/v1/user', args);
-  return data;
-};
 
 export function useCreateUser(): UseMutationResult<User, Error, CreateUserArgs> {
-  return useMutation('create user', createUser);
+  return useMutation<User, Error, CreateUserArgs>(async (args) => {
+    return axios.post<User>('/user-api/v1/user', args).then((res) => res.data);
+  });
 }
-
-const loginUser = async (args: LoginUserArgs) => {
-  const { data } = await axios.post<User>('http://localhost:8000/user-api/v1/user/login', args);
-  return data;
-};
 
 export function useLoginUser(): UseMutationResult<User, Error, LoginUserArgs> {
-  return useMutation('login user', loginUser);
+  return useMutation<User, Error, LoginUserArgs>(async (args) => {
+    return axios.post<User>('/user-api/v1/user/login', args).then((res) => res.data);
+  });
 }
 
-const verifyEmail = async (args: VerifyEmailArgs) => {
-  const { data } = await axios.post<null>('http://localhost:8000/user-api/v1/user/verify-email', args);
-  return data;
-};
-
-export function useVerifyEmail(): UseMutationResult<null, Error, VerifyEmailArgs> {
-  return useMutation('verify email', verifyEmail);
+export function useVerifyEmail(): UseMutationResult<void, Error, VerifyEmailArgs> {
+  return useMutation<void, Error, VerifyEmailArgs>(async (args) => {
+    return axios.post<void>('/user-api/v1/user/verify-email', args).then((res) => res.data);
+  });
 }
 
-const resendVerificationEmail = async () => {
-  const { data } = await axios.post<null>('http://localhost:8000/user-api/v1/user/resend-verification-email');
-  return data;
-};
-
-export function useResendVerificationEmail(): UseMutationResult<null, Error, null> {
-  return useMutation('resend verification email', resendVerificationEmail);
+export function useResendVerificationEmail(): UseMutationResult<void, Error, void> {
+  return useMutation<void, Error>(async () => {
+    await axios.post<void>('/user-api/v1/user/resend-verification-email');
+    return;
+  });
 }
