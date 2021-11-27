@@ -9,16 +9,13 @@ import SignUp from './containers/SignUp/SignUp';
 import Servers from './containers/Servers/Servers';
 import VerifyEmail from './containers/VerifyEmail/VerifyEmail';
 
-// import background from './images/backgrounds/poly4.svg';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { light } from 'themes/light';
-import { ApolloProvider } from '@apollo/client';
-import client from './apollo/apollo';
+
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { StylesProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
-import { UserServiceProvider } from './services/user/use';
-import { ServerServiceProvider } from './services/server/use';
 
 const Container = styled.div`
   background-color: ${(props): string => props.theme.colors.bravo};
@@ -36,43 +33,41 @@ const StyledServers = styled(Servers)`
   margin: 0 auto;
 `;
 
+const queryClient = new QueryClient();
+
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <ThemeProvider theme={light}>
-        <ApolloProvider client={client}>
-          <StylesProvider injectFirst>
-            <SnackbarProvider>
-              <UserServiceProvider>
-                <ServerServiceProvider>
-                  <Header />
-                  <Container>
-                    <div>
-                      <Switch>
-                        <Route path="/signup">
-                          <SignUp />
-                        </Route>
-                        <Route path="/login">
-                          <SignIn />
-                        </Route>
-                        <Route path="/verify-email">
-                          <VerifyEmail />
-                        </Route>
-                        <Route path="/servers">
-                          <StyledServers />
-                        </Route>
-                        <Route path="*">
-                          <Redirect to="/servers" />
-                        </Route>
-                      </Switch>
-                    </div>
-                  </Container>
-                  <StyledFooter />
-                </ServerServiceProvider>
-              </UserServiceProvider>
-            </SnackbarProvider>
-          </StylesProvider>
-        </ApolloProvider>
+        <StylesProvider injectFirst>
+          <SnackbarProvider>
+            <QueryClientProvider client={queryClient}>
+              <Header />
+              <Container>
+                <div>
+                  <Switch>
+                    <Route path="/signup">
+                      <SignUp />
+                    </Route>
+                    <Route path="/login">
+                      <SignIn />
+                    </Route>
+                    <Route path="/verify-email">
+                      <VerifyEmail />
+                    </Route>
+                    <Route path="/servers">
+                      <StyledServers />
+                    </Route>
+                    <Route path="*">
+                      <Redirect to="/servers" />
+                    </Route>
+                  </Switch>
+                </div>
+              </Container>
+              <StyledFooter />
+            </QueryClientProvider>
+          </SnackbarProvider>
+        </StylesProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
