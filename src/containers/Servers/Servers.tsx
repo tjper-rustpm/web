@@ -18,7 +18,7 @@ import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
 import Tooltip from '../../components/Tooltip/Tooltip';
 
 import { Server, Tag } from '../../services/server/types';
-import { useServerService } from '../../services/server/use';
+import { useServers } from '../../services/server/hooks';
 
 type ServersProps = {
   /**
@@ -31,42 +31,41 @@ type ServersProps = {
  * Servers is a component responsible for Rustpm's servers.
  */
 const Servers = ({ className }: ServersProps): JSX.Element => {
-  const { servers } = useServerService();
-  const { data, loading, error } = servers();
+  const { data, isLoading, error } = useServers();
 
-  if (loading) {
+  if (isLoading) {
     return <Wrapper className={className}>Loading ...</Wrapper>;
   }
   if (error) {
     return <Wrapper className={className}>Error ...</Wrapper>;
   }
-  const serversData = data.servers.servers;
   return (
     <Wrapper className={className}>
-      {serversData.map((server: Server) => (
-        <ServerCard key={server.id} className="server">
-          <ServerNameplate className="server__server-nameplate" server={server} />
-          <Schedule className="server__schedule" schedule={server.definition.schedule} />
-          <Button className="server__join" color="green" size="compact">
-            <Mouse2 className="server__join-icon" />
-            <span className="server__join-title">Join</span>
-          </Button>
-          <Button className="server__membership" color="green" size="compact">
-            <VipCrown className="server__membership-icon" />
-            <span className="server__membership-title">Membership</span>
-          </Button>
-          <div className="server__tags">
-            {server.definition.tags.map((tag: Tag) => (
-              <Tooltip key={tag.id} title={tag.description} placement="top">
-                <div className="server__tag">
-                  <span className="server__tag-icon">{TagIconComponent[tag.icon]}</span>
-                  <span className="server__tag-value">{tag.value}</span>
-                </div>
-              </Tooltip>
-            ))}
-          </div>
-        </ServerCard>
-      ))}
+      {data &&
+        data.map((server: Server) => (
+          <ServerCard key={server.id} className="server">
+            <ServerNameplate className="server__server-nameplate" server={server} />
+            <Schedule className="server__schedule" schedule={server.definition.schedule} />
+            <Button className="server__join" color="green" size="compact">
+              <Mouse2 className="server__join-icon" />
+              <span className="server__join-title">Join</span>
+            </Button>
+            <Button className="server__membership" color="green" size="compact">
+              <VipCrown className="server__membership-icon" />
+              <span className="server__membership-title">Membership</span>
+            </Button>
+            <div className="server__tags">
+              {server.definition.tags.map((tag: Tag) => (
+                <Tooltip key={tag.id} title={tag.description} placement="top">
+                  <div className="server__tag">
+                    <span className="server__tag-icon">{TagIconComponent[tag.icon]}</span>
+                    <span className="server__tag-value">{tag.value}</span>
+                  </div>
+                </Tooltip>
+              ))}
+            </div>
+          </ServerCard>
+        ))}
     </Wrapper>
   );
 };

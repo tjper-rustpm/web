@@ -16,7 +16,7 @@ import Logo from '../../components/Logo/Logo';
 import { useRouter } from '../../router/router';
 import { useState } from 'react';
 
-import { useLogoutUser, useMe } from '../../services/user/use';
+import { useLogoutUser, useMe } from '../../services/user/hooks';
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -56,7 +56,7 @@ type HeaderProps = {
 
 function Header({ className }: HeaderProps): JSX.Element {
   const router = useRouter();
-  const me = useMe();
+  const { data } = useMe();
   const logoutUser = useLogoutUser();
 
   const [anchor, setAnchor] = useState<Element | null>(null);
@@ -67,7 +67,7 @@ function Header({ className }: HeaderProps): JSX.Element {
     setAnchor(null);
   };
   const handleLogout = async (): Promise<boolean> => {
-    await logoutUser();
+    logoutUser.mutate;
     handleCloseMenu();
     return true;
   };
@@ -81,7 +81,7 @@ function Header({ className }: HeaderProps): JSX.Element {
   const profile = (
     <StyledButton onClick={handleOpenMenu}>
       <UserIcon />
-      {me && me.email}
+      {data && data.email}
     </StyledButton>
   );
 
@@ -99,7 +99,7 @@ function Header({ className }: HeaderProps): JSX.Element {
       </Discord>
       <VerticalRule />
       <div>
-        {me ? profile : login}
+        {data ? profile : login}
         <Menu id="menu" anchorEl={anchor} keepMounted open={Boolean(anchor)} onClose={handleCloseMenu}>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>

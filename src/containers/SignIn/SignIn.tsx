@@ -10,7 +10,7 @@ import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 
 import { useFormik } from 'formik';
-import { useLoginUser } from '../../services/user/use';
+import { useLoginUser } from '../../services/user/hooks';
 import { useRouter } from '../../router/router';
 
 interface FormValues {
@@ -43,8 +43,10 @@ const SignIn = ({ className }: SignInProps): JSX.Element => {
         .required('password is required'),
     }),
     onSubmit: async (values) => {
-      await loginUser({ email: values.email, password: values.password });
-      router.push('/servers');
+      loginUser.mutate(
+        { email: values.email, password: values.password },
+        { onSuccess: () => router.push('/servers') },
+      );
     },
   });
   return (
@@ -80,8 +82,8 @@ const SignIn = ({ className }: SignInProps): JSX.Element => {
           className="signin__submit"
           type="submit"
           color="green"
-          disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
-          loading={formik.isSubmitting && !formik.isValidating}
+          disabled={!formik.dirty || !formik.isValid || loginUser.isLoading}
+          loading={loginUser.isLoading && !formik.isValidating}
         >
           Login
         </Button>

@@ -10,7 +10,7 @@ import Card from '../../components/Card/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 
-import { useCreateUser } from '../../services/user/use';
+import { useCreateUser } from '../../services/user/hooks';
 import { useRouter } from '../../router/router';
 
 interface SignUpProps {
@@ -45,8 +45,7 @@ const SignUp = ({ className }: SignUpProps): JSX.Element => {
         .required('password confirmation is required'),
     }),
     onSubmit: async (values) => {
-      await createUser({ email: values.email, password: values.password });
-      router.push('/login');
+      createUser.mutate({ email: values.email, password: values.password }, { onSuccess: () => router.push('/login') });
     },
   });
 
@@ -94,8 +93,8 @@ const SignUp = ({ className }: SignUpProps): JSX.Element => {
           className="signup__submit"
           type="submit"
           color="green"
-          disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
-          loading={formik.isSubmitting && !formik.isValidating}
+          disabled={!formik.dirty || !formik.isValid || createUser.isLoading}
+          loading={createUser.isLoading && !formik.isValidating}
         >
           Sign Up
         </Button>

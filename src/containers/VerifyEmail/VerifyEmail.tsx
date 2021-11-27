@@ -3,7 +3,7 @@ import { LoadingCard } from '../../components/Card/LoadingCard';
 import { useEffect, useState } from 'react';
 import { useRouter } from '../../router/router';
 
-import { useVerifyEmail } from '../../services/user/use';
+import { useVerifyEmail } from '../../services/user/hooks';
 import { VerifyEmailArgs } from '../../services/user/types';
 
 interface VerifyEmailProps {
@@ -23,7 +23,7 @@ const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
 
   useEffect(() => {
     if (typeof router.query.hash === 'string') {
-      verifyEmail(router.query.hash);
+      verifyEmail.mutate({ hash: router.query.hash });
       setText('Verified!');
       setStatus('success');
     }
