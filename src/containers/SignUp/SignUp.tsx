@@ -12,6 +12,7 @@ import TextField from '../../components/TextField/TextField';
 
 import { useCreateUser } from '../../services/user/hooks';
 import { useRouter } from '../../router/router';
+import { toast } from 'react-hot-toast';
 
 interface SignUpProps {
   className?: string;
@@ -45,7 +46,18 @@ const SignUp = ({ className }: SignUpProps): JSX.Element => {
         .required('password confirmation is required'),
     }),
     onSubmit: async (values) => {
-      createUser.mutate({ email: values.email, password: values.password }, { onSuccess: () => router.push('/login') });
+      createUser.mutate(
+        { email: values.email, password: values.password },
+        {
+          onSuccess: () => {
+            toast.success('User account created!');
+            router.push('/login');
+          },
+          onError: (error: Error) => {
+            toast.error(error.message);
+          },
+        },
+      );
     },
   });
 
