@@ -1,14 +1,5 @@
 import { DateTime } from 'luxon';
 
-export interface UserService {
-  useMe(): User | undefined;
-  logoutUser: LogoutUserFunc;
-  createUser: CreateUserFunc;
-  loginUser: LoginUserFunc;
-  verifyEmail: VerifyEmailFunc;
-  resendEmailVerification: ResendEmailVerificationFunc;
-}
-
 export interface User {
   id: string;
   email: string;
