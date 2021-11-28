@@ -13,6 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { light } from 'themes/light';
 
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { StylesProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
@@ -65,6 +66,7 @@ function App(): JSX.Element {
                 </div>
               </Container>
               <StyledFooter />
+              <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </SnackbarProvider>
         </StylesProvider>
