@@ -9,9 +9,12 @@ import Card from '../../components/Card/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 
-import { useFormik } from 'formik';
 import { useLoginUser } from '../../services/user/hooks';
+import { User } from '../../services/user/types';
+
+import { useFormik } from 'formik';
 import { useRouter } from '../../router/router';
+import { toast } from 'react-hot-toast';
 
 interface FormValues {
   email: string;
@@ -45,7 +48,18 @@ const SignIn = ({ className }: SignInProps): JSX.Element => {
     onSubmit: async (values) => {
       loginUser.mutate(
         { email: values.email, password: values.password },
-        { onSuccess: () => router.push('/servers') },
+        {
+          onSuccess: (data: User) => {
+            toast.success('Successfully logged-in!');
+            if (!data.verifiedAt) {
+              toast.error('Please verify your email.');
+            }
+            router.push('/servers');
+          },
+          onError: (error: Error) => {
+            toast.error(error.message);
+          },
+        },
       );
     },
   });

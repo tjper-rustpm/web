@@ -16,7 +16,7 @@ import { light } from 'themes/light';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { StylesProvider } from '@material-ui/core/styles';
-import { SnackbarProvider } from 'notistack';
+import { Toaster } from 'react-hot-toast';
 
 const Container = styled.div`
   background-color: ${(props): string => props.theme.colors.bravo};
@@ -41,34 +41,33 @@ function App(): JSX.Element {
     <BrowserRouter>
       <ThemeProvider theme={light}>
         <StylesProvider injectFirst>
-          <SnackbarProvider>
-            <QueryClientProvider client={queryClient}>
-              <Header />
-              <Container>
-                <div>
-                  <Switch>
-                    <Route path="/signup">
-                      <SignUp />
-                    </Route>
-                    <Route path="/login">
-                      <SignIn />
-                    </Route>
-                    <Route path="/verify-email">
-                      <VerifyEmail />
-                    </Route>
-                    <Route path="/servers">
-                      <StyledServers />
-                    </Route>
-                    <Route path="*">
-                      <Redirect to="/servers" />
-                    </Route>
-                  </Switch>
-                </div>
-              </Container>
-              <StyledFooter />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </SnackbarProvider>
+          <QueryClientProvider client={queryClient}>
+            <Toaster position="bottom-center" reverseOrder={false} />
+            <Header />
+            <Container>
+              <div>
+                <Switch>
+                  <Route path="/signup">
+                    <SignUp />
+                  </Route>
+                  <Route path="/login">
+                    <SignIn />
+                  </Route>
+                  <Route path="/verify-email">
+                    <VerifyEmail />
+                  </Route>
+                  <Route path="/servers">
+                    <StyledServers />
+                  </Route>
+                  <Route path="*">
+                    <Redirect to="/servers" />
+                  </Route>
+                </Switch>
+              </div>
+            </Container>
+            <StyledFooter />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </StylesProvider>
       </ThemeProvider>
     </BrowserRouter>
