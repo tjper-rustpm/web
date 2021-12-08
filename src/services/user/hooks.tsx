@@ -1,19 +1,13 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs } from './types';
+import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs, ForgotPasswordArgs } from './types';
 
 export function useMe(): UseQueryResult<User, Error> {
-  return useQuery(
-    'me',
-    async () => {
-      const res = await axios.get<User>('/user-api/v1/user');
-      return res.data;
-    },
-    {
-      retry: 1,
-    },
-  );
+  return useQuery('me', async () => {
+    const res = await axios.get<User>('/user-api/v1/user/me');
+    return res.data;
+  });
 }
 
 export function useLogoutUser(): UseMutationResult<void, Error, void> {
@@ -72,6 +66,17 @@ export function useVerifyEmail(): UseMutationResult<void, Error, VerifyEmailArgs
 export function useResendVerificationEmail(): UseMutationResult<void, Error, void> {
   return useMutation<void, Error>(async () => {
     await axios.post<void>('/user-api/v1/user/resend-verification-email');
-    return;
+  });
+}
+
+export function useForgotPassword(): UseMutationResult<void, Error, ForgotPasswordArgs> {
+  return useMutation<void, Error, ForgotPasswordArgs>(async (args) => {
+    await axios.post<void>('/user-api/v1/user/forgot-password', args);
+  });
+}
+
+export function useChangePassword(): UseMutationResult<void, Error, ChangePasswordArgs> {
+  return useMutation<void, Error, ChangePasswordArgs>(async (args) => {
+    await axios.post<void>('/user-api/v1/user/change-password', args);
   });
 }

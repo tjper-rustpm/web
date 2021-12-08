@@ -21,3 +21,12 @@ export interface LoginUserArgs {
 export interface VerifyEmailArgs {
   hash: string;
 }
+
+export interface ForgotPasswordArgs {
+  email: string;
+}
+
+export interface ChangePasswordArgs {
+  hash: string;
+  password: string;
+}
