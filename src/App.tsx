@@ -7,7 +7,10 @@ import Header from './containers/Header/Header';
 import SignIn from './containers/SignIn/SignIn';
 import SignUp from './containers/SignUp/SignUp';
 import Servers from './containers/Servers/Servers';
+import Profile from './containers/Profile/Profile';
 import VerifyEmail from './containers/VerifyEmail/VerifyEmail';
+import ForgotPassword from './containers/ForgotPassword/ForgotPassword';
+import ChangePassword from './containers/ChangePassword/ChangePassword';
 
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -53,8 +56,17 @@ function App(): JSX.Element {
                   <Route path="/login">
                     <SignIn />
                   </Route>
+                  <Route path="/profile">
+                    <Profile />
+                  </Route>
                   <Route path="/verify-email">
                     <VerifyEmail />
+                  </Route>
+                  <Route path="/forgot-password">
+                    <ForgotPassword />
+                  </Route>
+                  <Route path="/change-password">
+                    <ChangePassword />
                   </Route>
                   <Route path="/servers">
                     <StyledServers />

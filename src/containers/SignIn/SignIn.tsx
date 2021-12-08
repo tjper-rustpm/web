@@ -114,6 +114,18 @@ const SignIn = ({ className }: SignInProps): JSX.Element => {
             Sign Up
           </Button>
         </Footer>
+        <Footer>
+          <span>Forgot your password?</span>
+          <Button
+            type="button"
+            color="green"
+            onClick={(): void => {
+              router.push('/forgot-password');
+            }}
+          >
+            Forgot Password
+          </Button>
+        </Footer>
       </form>
     </StyledSignIn>
   );

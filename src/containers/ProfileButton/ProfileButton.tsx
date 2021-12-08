@@ -16,7 +16,7 @@ interface ProfileButtonProps {
 }
 function ProfileButton({ className }: ProfileButtonProps): JSX.Element {
   const router = useRouter();
-  const { data, isSuccess } = useMe();
+  const { data } = useMe();
   const logoutUser = useLogoutUser();
 
   const [anchor, setAnchor] = useState<Element | null>(null);
@@ -32,7 +32,7 @@ function ProfileButton({ className }: ProfileButtonProps): JSX.Element {
     return true;
   };
 
-  if (!isSuccess) {
+  if (!data) {
     return (
       <StyledButton size="compact" onClick={(): void => router.push('/login')}>
         <LoginIcon />
@@ -48,6 +48,7 @@ function ProfileButton({ className }: ProfileButtonProps): JSX.Element {
         {data && data.email}
       </StyledButton>
       <Menu id="menu" anchorEl={anchor} keepMounted open={Boolean(anchor)} onClose={handleCloseMenu}>
+        <MenuItem onClick={() => router.push('/profile')}>Profile</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
