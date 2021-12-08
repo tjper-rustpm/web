@@ -1,5 +1,5 @@
 import Button from '../../components/Button/Button';
-import Card from '../../components/Card/Card';
+import { Card } from '../../styles/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import { Password as PasswordIcon } from '@styled-icons/material/Password';
 

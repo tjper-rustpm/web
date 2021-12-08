@@ -12,7 +12,7 @@ import { CalendarEvent } from '@styled-icons/bootstrap/CalendarEvent';
 import { Games } from '@styled-icons/fluentui-system-regular/Games';
 
 import Button from '../../components/Button/Button';
-import Card from '../../components/Card/Card';
+import { Card } from '../../styles/Card';
 import Schedule from '../../components/Schedule/Schedule';
 import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
 import Tooltip from '../../components/Tooltip/Tooltip';

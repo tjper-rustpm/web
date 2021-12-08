@@ -6,7 +6,7 @@ import { StyledIconBase } from '@styled-icons/styled-icon';
 import { PersonCircle } from '@styled-icons/bootstrap/PersonCircle';
 
 import Button from '../../components/Button/Button';
-import Card from '../../components/Card/Card';
+import { Card } from '../../styles/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import TextField from '../../components/TextField/TextField';
 

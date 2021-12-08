@@ -1,4 +1,4 @@
-import Card from '../../components/Card/Card';
+import { Card } from '../../styles/Card';
 import TextField from '../../components/TextField/TextField';
 import Button from '../../components/Button/Button';
 

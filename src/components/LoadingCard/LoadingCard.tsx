@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AbsoluteCenter } from '../../styles/Center';
 import { Icon } from '../../styles/Icon';
 
-import Card from '../Card/Card';
+import { Card } from '../../styles/Card';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Check } from '@styled-icons/bootstrap/Check';

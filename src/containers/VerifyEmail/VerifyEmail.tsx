@@ -1,4 +1,4 @@
-import { LoadingCard } from '../../components/Card/LoadingCard';
+import { LoadingCard } from '../../components/LoadingCard/LoadingCard';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from '../../router/router';

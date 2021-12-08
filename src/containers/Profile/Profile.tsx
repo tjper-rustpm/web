@@ -1,4 +1,4 @@
-import Card from '../../components/Card/Card';
+import { Card } from '../../styles/Card';
 
 interface ProfileProps {
   className?: string;
