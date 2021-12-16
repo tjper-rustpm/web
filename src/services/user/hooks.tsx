@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs, ForgotPasswordArgs } from './types';
+import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs, ForgotPasswordArgs, ChangePasswordArgs } from './types';
 
 export function useMe(): UseQueryResult<User, Error> {
   return useQuery('me', async () => {
