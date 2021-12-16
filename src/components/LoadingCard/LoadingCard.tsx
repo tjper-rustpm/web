@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { AbsoluteCenter } from '../../styles/Center';
 import { Icon } from '../../styles/Icon';
 
-import { Card } from '../../styles/Card';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Check } from '@styled-icons/bootstrap/Check';
 import { ErrorCircle } from '@styled-icons/boxicons-regular/ErrorCircle';
@@ -54,7 +52,7 @@ interface StyledCardProps {
   readonly loading?: boolean;
 }
 
-const StyledCard = styled<StyledCardProps>(Card)`
+const StyledCard = styled.div<StyledCardProps>`
   width: 40rem;
   padding: 3rem;
 
