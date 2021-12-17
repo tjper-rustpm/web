@@ -51,7 +51,7 @@ export default function ChangePassword({ className }: ChangePasswordProps): JSX.
     }),
     onSubmit: async (values) => {
       changePassword.mutate(
-        { hash: router.query.hash, password: values.password },
+        { hash: router.query.hash as string, password: values.password },
         {
           onSuccess: () => {
             toast.success('Password has been changed.');
