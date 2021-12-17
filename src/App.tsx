@@ -1,7 +1,4 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
-
-import Footer from './components/Footer/Footer';
 
 import SignIn from './containers/SignIn/SignIn';
 import SignUp from './containers/SignUp/SignUp';
@@ -12,6 +9,7 @@ import ForgotPassword from './containers/ForgotPassword/ForgotPassword';
 import ChangePassword from './containers/ChangePassword/ChangePassword';
 
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -21,22 +19,6 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { StylesProvider } from '@material-ui/core/styles';
 import { Toaster } from 'react-hot-toast';
-
-const Container = styled.div`
-  background-color: ${(props): string => props.theme.colors.bravo};
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 10rem 0;
-`;
-const StyledFooter = styled(Footer)`
-  margin-top: 6rem;
-`;
-
-const StyledServers = styled(Servers)`
-  width: 97vw;
-  margin: 0 auto;
-`;
 
 const queryClient = new QueryClient();
 
@@ -48,7 +30,7 @@ function App(): JSX.Element {
           <QueryClientProvider client={queryClient}>
             <Toaster position="bottom-center" reverseOrder={false} />
             <Header />
-            <Container>
+            <div className="bg-white pt-32">
               <div>
                 <Switch>
                   <Route path="/signup">
@@ -70,15 +52,15 @@ function App(): JSX.Element {
                     <ChangePassword />
                   </Route>
                   <Route path="/servers">
-                    <StyledServers />
+                    <Servers />
                   </Route>
                   <Route path="*">
                     <Redirect to="/servers" />
                   </Route>
                 </Switch>
               </div>
-            </Container>
-            <StyledFooter />
+            </div>
+            <Footer />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </StylesProvider>
