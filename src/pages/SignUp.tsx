@@ -1,7 +1,7 @@
-import { Button } from '../../components/Button';
-import { Card } from '../../components/Card';
-import { Divider } from '../../components/Divider';
-import { InputField } from '../../components/InputField';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
+import { Divider } from '../components/Divider';
+import { InputField } from '../components/InputField';
 
 import { LockOpenIcon, UserCircleIcon } from '@heroicons/react/outline';
 
@@ -9,11 +9,11 @@ import { Link } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
-import { useCreateUser } from '../../services/user/hooks';
-import { useRouter } from '../../router/router';
+import { useCreateUser } from '../services/user/hooks';
+import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
-const SignUp = (): JSX.Element => {
+export const SignUp = (): JSX.Element => {
   const router = useRouter();
   const createUser = useCreateUser();
 
@@ -93,5 +93,3 @@ const SignUp = (): JSX.Element => {
     </Card>
   );
 };
-
-export default SignUp;
