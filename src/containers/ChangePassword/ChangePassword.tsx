@@ -1,5 +1,5 @@
 import Button from '../../components/Button/Button';
-import { Card } from '../../styles/Card';
+import { Card } from '../../components/Card';
 import PasswordField from '../../components/PasswordField/PasswordField';
 import { Password as PasswordIcon } from '@styled-icons/material/Password';
 
@@ -15,11 +15,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-interface ChangePasswordProps {
-  className?: string;
-}
-
-export default function ChangePassword({ className }: ChangePasswordProps): JSX.Element {
+export default function ChangePassword(): JSX.Element {
   const changePassword = useChangePassword();
 
   const router = useRouter<{ hash: string }>();
@@ -64,7 +60,7 @@ export default function ChangePassword({ className }: ChangePasswordProps): JSX.
     },
   });
   return (
-    <Card className={className}>
+    <Card>
       <form onSubmit={formik.handleSubmit}>
         <div>
           <h4>Change Password</h4>

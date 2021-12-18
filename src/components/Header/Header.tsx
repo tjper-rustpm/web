@@ -37,9 +37,9 @@ function Header(): JSX.Element {
     </React.Fragment>
   );
 
-  const buttonClasses = 'w-full w-48 max-w-xs hover:bg-slate-100';
+  const buttonClasses = 'w-full w-48 max-w-xs hover:bg-slate-50';
   return (
-    <header className="fixed w-full p-3 flex items-center shadow-xl">
+    <header className="fixed w-full p-3 flex items-center bg-neutral-100 shadow-2xl">
       <Link className="h-10 mr-auto" to="/servers">
         <Logo />
       </Link>

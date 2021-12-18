@@ -12,7 +12,7 @@ import { CalendarEvent } from '@styled-icons/bootstrap/CalendarEvent';
 import { Games } from '@styled-icons/fluentui-system-regular/Games';
 
 import Button from '../../components/Button/Button';
-import { Card } from '../../styles/Card';
+import { Card } from '../../components/Card';
 import Schedule from '../../components/Schedule/Schedule';
 import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
 import Tooltip from '../../components/Tooltip/Tooltip';
@@ -20,30 +20,23 @@ import Tooltip from '../../components/Tooltip/Tooltip';
 import { Server, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
 
-type ServersProps = {
-  /**
-   * @param className - Styling to apply.
-   */
-  className?: string;
-};
-
 /**
  * Servers is a component responsible for Rustpm's servers.
  */
-const Servers = ({ className }: ServersProps): JSX.Element => {
+const Servers = (): JSX.Element => {
   const { data, isLoading, error } = useServers();
 
   if (isLoading) {
-    return <Wrapper className={className}>Loading ...</Wrapper>;
+    return <Wrapper>Loading ...</Wrapper>;
   }
   if (error) {
-    return <Wrapper className={className}>Error ...</Wrapper>;
+    return <Wrapper>Error ...</Wrapper>;
   }
   return (
-    <Wrapper className={className}>
+    <Wrapper>
       {data &&
         data.map((server: Server) => (
-          <ServerCard key={server.id} className="server">
+          <ServerCard key={server.id}>
             <ServerNameplate className="server__server-nameplate" server={server} />
             <Schedule className="server__schedule" schedule={server.definition.schedule} />
             <Button className="server__join" color="green" size="compact">

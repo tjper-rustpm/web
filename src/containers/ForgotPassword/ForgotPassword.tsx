@@ -1,4 +1,4 @@
-import { Card } from '../../styles/Card';
+import { Card } from '../../components/Card';
 import TextField from '../../components/TextField/TextField';
 import Button from '../../components/Button/Button';
 
@@ -9,11 +9,7 @@ import * as yup from 'yup';
 import { useForgotPassword } from '../../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
-interface ForgotPasswordProps {
-  className?: string;
-}
-
-export default function ForgotPassword({ className }: ForgotPasswordProps): JSX.Element {
+export default function ForgotPassword(): JSX.Element {
   const forgotPassword = useForgotPassword();
 
   const formik = useFormik<{ email: string }>({
@@ -35,7 +31,7 @@ export default function ForgotPassword({ className }: ForgotPasswordProps): JSX.
     },
   });
   return (
-    <Card className={className}>
+    <Card>
       <form onSubmit={formik.handleSubmit}>
         <div className="signup__header">
           <h4>Forgot Password</h4>

@@ -1,190 +1,110 @@
-import styled from 'styled-components';
 import * as yup from 'yup';
 
-import { StyledIconBase } from '@styled-icons/styled-icon';
-import { PersonCircle } from '@styled-icons/bootstrap/PersonCircle';
+import { LockOpenIcon, UserCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
 
-import Button from '../../components/Button/Button';
-import { Card } from '../../styles/Card';
-import PasswordField from '../../components/PasswordField/PasswordField';
-import TextField from '../../components/TextField/TextField';
+import { Button } from '../../components/Button';
+import { Card } from '../../components/Card';
+import { Divider } from '../../components/Divider';
+import { InputField } from '../../components/InputField';
 
 import { useLoginUser } from '../../services/user/hooks';
 import { User } from '../../services/user/types';
 
-import { useFormik } from 'formik';
+import { Form, Formik } from 'formik';
+import { Link } from 'react-router-dom';
+
 import { useRouter } from '../../router/router';
 import { toast } from 'react-hot-toast';
 
-interface FormValues {
-  email: string;
-  password: string;
-}
-
-type SignInProps = {
-  className?: string;
-};
-
-const SignIn = ({ className }: SignInProps): JSX.Element => {
+const SignIn = (): JSX.Element => {
   const router = useRouter();
   const loginUser = useLoginUser();
 
-  const formik = useFormik<FormValues>({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: yup.object().shape({
-      email: yup.string().email('enter a valid email').required('email is required'),
-      password: yup
-        .string()
-        .min(8)
-        .max(64)
-        .matches(/[a-z]+/, 'at least one lower-case letter is required')
-        .matches(/[A-Z]+/, 'at least one upper-case letter is required')
-        .matches(/[\d]+/, 'at least one number is required')
-        .required('password is required'),
-    }),
-    onSubmit: async (values) => {
-      loginUser.mutate(
-        { email: values.email, password: values.password },
-        {
-          onSuccess: (data: User) => {
-            toast.success('Successfully logged-in!');
-            if (!data.verifiedAt) {
-              toast.error('Please verify your email.');
-            }
-            router.push('/servers');
-          },
-          onError: (error: Error) => {
-            toast.error(error.message);
-          },
-        },
-      );
-    },
-  });
   return (
-    <StyledSignIn className={className}>
-      <form className="signin__form" onSubmit={formik.handleSubmit}>
-        <Header className="signin__header">
-          <h4 className="signin__header--title">Login</h4>
-          <PersonCircle className="signin__header--icon" />
-        </Header>
-        <TextField
-          className="signin__email"
-          id="email"
-          name="email"
-          label="email"
-          value={formik.values.email}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <PasswordField
-          className="signin__password"
-          id="password"
-          name="password"
-          label="password"
-          value={formik.values.password}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-        <Button
-          className="signin__submit"
-          type="submit"
-          color="green"
-          disabled={!formik.dirty || !formik.isValid || loginUser.isLoading}
-          loading={loginUser.isLoading && !formik.isValidating}
-        >
-          Login
-        </Button>
-        <Footer>
-          <span className="signin__create-account--title">Need to create an account?</span>
-          <Button
-            className="signin__create-account--link"
-            type="button"
-            color="green"
-            onClick={(): void => {
-              router.push('/signup');
-            }}
-          >
-            Sign Up
-          </Button>
-        </Footer>
-        <Footer>
-          <span>Forgot your password?</span>
-          <Button
-            type="button"
-            color="green"
-            onClick={(): void => {
-              router.push('/forgot-password');
-            }}
-          >
-            Forgot Password
-          </Button>
-        </Footer>
-      </form>
-    </StyledSignIn>
+    <Card>
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        validationSchema={yup.object().shape({
+          email: yup.string().email('enter a valid email').required('email is required'),
+          password: yup
+            .string()
+            .min(8)
+            .max(64)
+            .matches(/[a-z]+/, 'at least one lower-case letter is required')
+            .matches(/[A-Z]+/, 'at least one upper-case letter is required')
+            .matches(/[\d]+/, 'at least one number is required')
+            .required('password is required'),
+        })}
+        onSubmit={async (values) => {
+          loginUser.mutate(
+            { email: values.email, password: values.password },
+            {
+              onSuccess: (data: User) => {
+                toast.success('Successfully logged-in!');
+                if (!data.verifiedAt) {
+                  toast.error('Please verify your email.');
+                }
+                router.push('/servers');
+              },
+              onError: (error: Error) => {
+                toast.error(error.message);
+              },
+            },
+          );
+        }}
+      >
+        <Form className="mb-6">
+          <div className="inline-flex items-center mb-8">
+            <h2 className="mr-3 text-3xl">Login</h2>
+            <LockOpenIcon className="w-7" />
+          </div>
+          <div className="mb-4">
+            <InputField name="email" label="Email" type="text" />
+            <InputField name="password" label="Password" type="password" />
+          </div>
+          <div>
+            <Button>
+              <div className="inline-flex items-center">
+                <LockOpenIcon className="w-4 h-4 mr-2" />
+                Login
+              </div>
+            </Button>
+          </div>
+        </Form>
+      </Formik>
+      <Divider />
+      <div className="flex items-center w-full">
+        <span className="mr-4">Need to create an account?</span>
+        <div className="grow">
+          <Link to="/signup">
+            <Button>
+              <div className="inline-flex items-center">
+                <UserCircleIcon className="w-4 h-4 mr-2" />
+                Sign Up
+              </div>
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <Divider />
+      <div className="flex items-center w-full">
+        <span className="mr-4">Forgot your password?</span>
+        <div className="grow">
+          <Link to="/forgot-password">
+            <Button>
+              <div className="inline-flex items-center">
+                <QuestionMarkCircleIcon className="w-4 h-4 mr-2" />
+                Forgot Password
+              </div>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </Card>
   );
 };
 
 export default SignIn;
-
-const StyledSignIn = styled(Card)`
-  width: 92%;
-  margin: auto;
-
-  & > .signin__form {
-    .signin__email {
-      margin-bottom: 2rem;
-    }
-    .signin__password {
-      margin-bottom: 4rem;
-    }
-    .signin__submit {
-      margin: auto;
-      margin-bottom: 3rem;
-      & .MuiButtonBase-root {
-        background-color: ${(props): string => props.theme.colors.golf.light};
-      }
-    }
-  }
-`;
-
-const Header = styled.div`
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 2.2rem;
-
-  & > .signin__header--title {
-    margin-right: 2rem;
-  }
-  ${StyledIconBase} {
-    height: 40%;
-  }
-`;
-
-const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 80%;
-  margin: auto;
-
-  font-size: 1.6rem;
-  padding: 3rem;
-  border-top: 0.1rem solid ${(props): string => props.theme.colors.charlie};
-
-  & > .signin__create-account--title {
-    margin-right: 3rem;
-  }
-  & > .signin__create-account--link {
-    flex-grow: 1;
-    & > .MuiButtonBase-root {
-      padding: 1rem;
-    }
-  }
-`;

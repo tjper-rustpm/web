@@ -1,9 +1,5 @@
-import { Card } from '../../styles/Card';
+import { Card } from '../../components/Card';
 
-interface ProfileProps {
-  className?: string;
-}
-
-export default function Profile({ className }: ProfileProps): JSX.Element {
-  return <Card className={className}>Profile</Card>;
+export default function Profile(): JSX.Element {
+  return <Card>Profile</Card>;
 }
