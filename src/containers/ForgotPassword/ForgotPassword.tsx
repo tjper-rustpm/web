@@ -1,62 +1,54 @@
 import { Card } from '../../components/Card';
-import TextField from '../../components/TextField/TextField';
-import Button from '../../components/Button/Button';
+import { InputField } from '../../components/InputField';
+import { Button } from '../../components/Button';
 
-import { Help } from '@styled-icons/entypo/Help';
+import { MailIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
 
-import { useFormik } from 'formik';
+import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+
 import { useForgotPassword } from '../../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
 export default function ForgotPassword(): JSX.Element {
   const forgotPassword = useForgotPassword();
 
-  const formik = useFormik<{ email: string }>({
-    initialValues: {
-      email: '',
-    },
-    validationSchema: yup.object().shape({
-      email: yup.string().email('enter a valid email').required('email is required'),
-    }),
-    onSubmit: async (values) => {
-      forgotPassword.mutate(values, {
-        onSuccess: () => {
-          toast.success('An email to reset your password has been sent.');
-        },
-        onError: (error: Error) => {
-          toast.error(error.message);
-        },
-      });
-    },
-  });
   return (
     <Card>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="signup__header">
-          <h4>Forgot Password</h4>
-          <Help />
-        </div>
-        <TextField
-          id="email"
-          name="email"
-          label="email"
-          value={formik.values.email}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <Button
-          className="signup__submit"
-          type="submit"
-          color="green"
-          disabled={!formik.dirty || !formik.isValid || forgotPassword.isLoading}
-          loading={forgotPassword.isLoading && !formik.isValidating}
-        >
-          Sign Up
-        </Button>
-      </form>
+      <Formik
+        initialValues={{
+          email: '',
+        }}
+        validationSchema={yup.object().shape({
+          email: yup.string().email('enter a valid email').required('email is required'),
+        })}
+        onSubmit={async (values) => {
+          forgotPassword.mutate(values, {
+            onSuccess: () => {
+              toast.success('An email to reset your password has been sent.');
+            },
+            onError: (error: Error) => {
+              toast.error(error.message);
+            },
+          });
+        }}
+      >
+        <Form>
+          <div className="inline-flex items-center mb-8">
+            <h2 className="mr-3 text-3xl">Reset Password</h2>
+            <QuestionMarkCircleIcon className="w-7" />
+          </div>
+          <div className="mb-4">
+            <InputField name="email" label="Email" type="text" />
+          </div>
+          <Button>
+            <div className="inline-flex items-center">
+              <MailIcon className="w-4 h-4 mr-2" />
+              Reset Password
+            </div>
+          </Button>
+        </Form>
+      </Formik>
     </Card>
   );
 }
