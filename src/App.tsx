@@ -1,12 +1,12 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import SignIn from './containers/SignIn/SignIn';
 import Servers from './containers/Servers/Servers';
 import Profile from './containers/Profile/Profile';
 import VerifyEmail from './containers/VerifyEmail/VerifyEmail';
 import ForgotPassword from './containers/ForgotPassword/ForgotPassword';
 import ChangePassword from './containers/ChangePassword/ChangePassword';
 
+import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 
 import Header from './components/Header/Header';

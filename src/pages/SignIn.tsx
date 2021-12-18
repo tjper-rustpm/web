@@ -2,21 +2,21 @@ import * as yup from 'yup';
 
 import { LockOpenIcon, UserCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
 
-import { Button } from '../../components/Button';
-import { Card } from '../../components/Card';
-import { Divider } from '../../components/Divider';
-import { InputField } from '../../components/InputField';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
+import { Divider } from '../components/Divider';
+import { InputField } from '../components/InputField';
 
-import { useLoginUser } from '../../services/user/hooks';
-import { User } from '../../services/user/types';
+import { useLoginUser } from '../services/user/hooks';
+import { User } from '../services/user/types';
 
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { useRouter } from '../../router/router';
+import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
-const SignIn = (): JSX.Element => {
+export const SignIn = (): JSX.Element => {
   const router = useRouter();
   const loginUser = useLoginUser();
 
@@ -106,5 +106,3 @@ const SignIn = (): JSX.Element => {
     </Card>
   );
 };
-
-export default SignIn;
