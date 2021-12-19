@@ -2,12 +2,12 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Servers from './containers/Servers/Servers';
 import Profile from './containers/Profile/Profile';
-import { ResetPassword } from './containers/ChangePassword/ChangePassword';
 
 import { ForgotPassword } from './pages/ForgotPassword';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { VerifyEmail } from './pages/VerifyEmail';
+import { ResetPassword } from './pages/ResetPassword';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';

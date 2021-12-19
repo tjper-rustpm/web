@@ -1,14 +1,14 @@
-import { Card } from '../../components/Card';
-import { Button } from '../../components/Button';
-import { InputField } from '../../components/InputField';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { InputField } from '../components/InputField';
 
 import { FingerPrintIcon } from '@heroicons/react/outline';
 
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 
-import { useChangePassword } from '../../services/user/hooks';
-import { useRouter } from '../../router/router';
+import { useChangePassword } from '../services/user/hooks';
+import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
 export function ResetPassword(): JSX.Element {
@@ -16,9 +16,9 @@ export function ResetPassword(): JSX.Element {
 
   const router = useRouter<{ hash: string }>();
 
-  // if (!router.query.hash) {
-  //   router.push('/servers');
-  // }
+  if (!router.query.hash) {
+    router.push('/servers');
+  }
 
   return (
     <Card>

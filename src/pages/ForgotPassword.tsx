@@ -35,7 +35,7 @@ export function ForgotPassword(): JSX.Element {
       >
         <Form>
           <div className="inline-flex items-center mb-8">
-            <h2 className="mr-3 text-3xl">Reset Password</h2>
+            <h2 className="mr-3 text-3xl">Forgot Password</h2>
             <QuestionMarkCircleIcon className="w-7" />
           </div>
           <div className="mb-4">
@@ -44,7 +44,7 @@ export function ForgotPassword(): JSX.Element {
           <Button>
             <div className="inline-flex items-center">
               <MailIcon className="w-4 h-4 mr-2" />
-              Reset Password
+              Request Password Reset
             </div>
           </Button>
         </Form>
