@@ -2,7 +2,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Servers from './containers/Servers/Servers';
 import Profile from './containers/Profile/Profile';
-import ChangePassword from './containers/ChangePassword/ChangePassword';
+import { ResetPassword } from './containers/ChangePassword/ChangePassword';
 
 import { ForgotPassword } from './pages/ForgotPassword';
 import { SignIn } from './pages/SignIn';
@@ -49,8 +49,8 @@ function App(): JSX.Element {
                   <Route path="/forgot-password">
                     <ForgotPassword />
                   </Route>
-                  <Route path="/change-password">
-                    <ChangePassword />
+                  <Route path="/reset-password">
+                    <ResetPassword />
                   </Route>
                   <Route path="/servers">
                     <Servers />
