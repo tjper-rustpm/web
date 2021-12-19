@@ -1,16 +1,16 @@
-import { Card } from '../../components/Card';
-import { InputField } from '../../components/InputField';
-import { Button } from '../../components/Button';
+import { Card } from '../components/Card';
+import { InputField } from '../components/InputField';
+import { Button } from '../components/Button';
 
 import { MailIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
 
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 
-import { useForgotPassword } from '../../services/user/hooks';
+import { useForgotPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
-export default function ForgotPassword(): JSX.Element {
+export function ForgotPassword(): JSX.Element {
   const forgotPassword = useForgotPassword();
 
   return (
