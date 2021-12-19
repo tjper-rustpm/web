@@ -1,16 +1,16 @@
-import { Card } from '../../components/Card';
-import { Spinner } from '../../components/Spinner';
+import { Card } from '../components/Card';
+import { Spinner } from '../components/Spinner';
 
 import { ExclamationIcon, CheckIcon } from '@heroicons/react/solid';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from '../../router/router';
+import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
-import { useVerifyEmail } from '../../services/user/hooks';
-import { VerifyEmailArgs } from '../../services/user/types';
+import { useVerifyEmail } from '../services/user/hooks';
+import { VerifyEmailArgs } from '../services/user/types';
 
-const VerifyEmail = (): JSX.Element => {
+export const VerifyEmail = (): JSX.Element => {
   const router = useRouter<VerifyEmailArgs>();
   const verifyEmail = useVerifyEmail();
 
