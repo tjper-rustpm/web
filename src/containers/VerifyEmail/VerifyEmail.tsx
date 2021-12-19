@@ -1,4 +1,7 @@
-import { LoadingCard } from '../../components/LoadingCard/LoadingCard';
+import { Card } from '../../components/Card';
+import { Spinner } from '../../components/Spinner';
+
+import { ExclamationIcon, CheckIcon } from '@heroicons/react/solid';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from '../../router/router';
@@ -7,16 +10,11 @@ import { toast } from 'react-hot-toast';
 import { useVerifyEmail } from '../../services/user/hooks';
 import { VerifyEmailArgs } from '../../services/user/types';
 
-interface VerifyEmailProps {
-  className?: string;
-}
-
-const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
+const VerifyEmail = (): JSX.Element => {
   const router = useRouter<VerifyEmailArgs>();
   const verifyEmail = useVerifyEmail();
 
-  const [text, setText] = useState<string>('Verifying ...');
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('success');
 
   if (!router.query.hash) {
     router.push('/servers');
@@ -28,7 +26,6 @@ const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
         { hash: router.query.hash },
         {
           onSuccess: () => {
-            setText('Verified! Returning to home.');
             setStatus('success');
             setTimeout(() => {
               toast.success('Email verified!');
@@ -36,7 +33,6 @@ const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
             }, 2000);
           },
           onError: () => {
-            setText('Unable to verify. Returning to home.');
             setStatus('error');
             setTimeout(() => {
               router.push('/servers');
@@ -47,7 +43,24 @@ const VerifyEmail = ({ className }: VerifyEmailProps): JSX.Element => {
     }
   }, [router.query.hash]);
 
-  return <LoadingCard className={className} text={text} status={status} />;
+  return (
+    <Card>
+      <div className="my-4">
+        {status === 'loading' && (
+          <div className="m-auto w-12 h-12">
+            <Spinner />
+          </div>
+        )}
+        {status === 'success' && <CheckIcon className="m-auto w-14 h-14 text-emerald-400" />}
+        {status === 'error' && <ExclamationIcon className="animate-bounce m-auto w-14 h-14 text-yellow-400" />}
+        <p className="my-6 text-xl text-center">
+          {status === 'loading' && 'Verifying your email.'}
+          {status === 'success' && 'Verified! Returning to home.'}
+          {status === 'error' && 'Unable to verify. Returning to home.'}
+        </p>
+      </div>
+    </Card>
+  );
 };
 
 export default VerifyEmail;
