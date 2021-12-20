@@ -13,5 +13,7 @@ interface CardProps {
 }
 
 export const Card = ({ children }: CardProps): JSX.Element => {
-  return <div className="p-5 bg-neutral-50 shadow-xl rounded-md w-4/6 m-auto border-slate-200 border">{children}</div>;
+  return (
+    <div className="p-5 bg-neutral-50 shadow-xl rounded-md w-11/12 m-auto border-slate-200 border">{children}</div>
+  );
 };
