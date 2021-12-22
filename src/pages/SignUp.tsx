@@ -57,24 +57,26 @@ export const SignUp = (): JSX.Element => {
           );
         }}
       >
-        <Form className="mb-6">
-          <div className="flex items-center mb-8">
-            <h2 className="mr-3 text-3xl">Sign Up</h2>
-            <UserCircleIcon className="w-7" />
-          </div>
-
-          <div className="mb-4">
-            <InputField name="email" label="Email" type="text" />
-            <InputField name="password" label="Password" type="password" />
-            <InputField name="confirmPassword" label="Confirm Password" type="password" />
-          </div>
-          <Button slate>
-            <div className="flex items-center w-max m-auto">
-              <UserCircleIcon className="w-5 mr-2" />
-              Sign Up
+        {({ isSubmitting }: { isSubmitting: boolean }) => (
+          <Form className="mb-6">
+            <div className="flex items-center mb-8">
+              <h2 className="mr-3 text-3xl">Sign Up</h2>
+              <UserCircleIcon className="w-7" />
             </div>
-          </Button>
-        </Form>
+
+            <div className="mb-4">
+              <InputField name="email" label="Email" type="text" />
+              <InputField name="password" label="Password" type="password" />
+              <InputField name="confirmPassword" label="Confirm Password" type="password" />
+            </div>
+            <Button slate loading={isSubmitting} type="submit">
+              <div className="flex items-center w-max m-auto">
+                <UserCircleIcon className="w-5 mr-2" />
+                Sign Up
+              </div>
+            </Button>
+          </Form>
+        )}
       </Formik>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
