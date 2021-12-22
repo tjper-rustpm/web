@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
-import { Card } from '../components/Card';
 import { Authentication } from '../components/Authentication';
+import { Card } from '../components/Card';
+import { Divider } from '../components/Divider';
 import { Subscriptions } from '../components/Subscriptions';
 import { Transition } from '@headlessui/react';
 
@@ -15,6 +16,11 @@ function classNames(...classes: string[]): string {
 export function Profile(): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
 
+  let listWidth = 'w-14';
+  if (open) {
+    listWidth = 'w-56';
+  }
+
   const tabs = [
     { icon: <FingerPrintIcon className="w-8 h-8" />, name: 'Authentication' },
     { icon: <CreditCardIcon className="w-8 h-8" />, name: 'Subscriptions' },
@@ -23,14 +29,30 @@ export function Profile(): JSX.Element {
   return (
     <Card>
       <Tab.Group vertical>
-        <div className="flex">
-          <div>
-            <div>
-              <button onClick={() => setOpen(!open)}>
-                <MenuIcon className="w-9 h-9" />
-              </button>
+        <div className="flex relative">
+          <div
+            className={`absolute z-10 h-full bg-zinc-50 text-left text-xl transition-width ease-in-out duration-200 ${listWidth}`}
+          >
+            <button className="inline-flex items-center" onClick={() => setOpen(!open)}>
+              <div className="flex flex-col w-11 h-11 mr-4 bg-zinc-100 rounded-full">
+                <MenuIcon className="justify-center m-auto w-8 h-8" />
+              </div>
+              <Transition
+                show={open}
+                enter="transition-opacity ease-in-out duration-400"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity ease-in-out duration-50"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <span>Menu</span>
+              </Transition>
+            </button>
+            <div className="pr-2">
+              <Divider />
             </div>
-            <Tab.List className="flex flex-col text-xl space-y-2">
+            <Tab.List className="flex flex-col space-y-2">
               {tabs.map((value, index): JSX.Element => {
                 return (
                   <Tab as={Fragment} key={index}>
@@ -38,22 +60,20 @@ export function Profile(): JSX.Element {
                       <button
                         className={classNames(
                           selected ? 'bg-zinc-100 border-slate-600' : '',
-                          `inline-flex items-center py-3 px-2 text-left rounded-sm border-r-8 transition-width ease-in-out duration-200 ${
-                            open ? 'w-56' : 'w-16'
-                          }`,
+                          'inline-flex items-center py-3 px-2 rounded-sm border-r-8 ',
                         )}
                       >
-                        <span className="mr-4">{value.icon}</span>
+                        <div className="mr-4">{value.icon}</div>
                         <Transition
                           show={open}
-                          enter="transition-opacity ease-linear duration-300"
+                          enter="transition-opacity ease-in-out duration-400"
                           enterFrom="opacity-0"
                           enterTo="opacity-100"
-                          leave="transition-opacity ease-linear duration-100"
+                          leave="transition-opacity ease-in-out duration-50"
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <span>{value.name}</span>
+                          <div>{value.name}</div>
                         </Transition>
                       </button>
                     )}
@@ -62,7 +82,7 @@ export function Profile(): JSX.Element {
               })}
             </Tab.List>
           </div>
-          <Tab.Panels className="grow ml-6">
+          <Tab.Panels className="grow ml-20">
             <Tab.Panel>
               <Authentication />
             </Tab.Panel>
