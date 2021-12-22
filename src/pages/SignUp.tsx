@@ -68,7 +68,7 @@ export const SignUp = (): JSX.Element => {
             <InputField name="password" label="Password" type="password" />
             <InputField name="confirmPassword" label="Confirm Password" type="password" />
           </div>
-          <Button>
+          <Button slate>
             <div className="inline-flex items-center">
               <UserCircleIcon className="w-4 h-4 mr-2" />
               Sign Up

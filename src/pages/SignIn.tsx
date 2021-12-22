@@ -66,10 +66,10 @@ export const SignIn = (): JSX.Element => {
             <InputField name="password" label="Password" type="password" />
           </div>
           <div>
-            <Button>
+            <Button slate>
               <div className="inline-flex items-center">
                 <LockOpenIcon className="w-4 h-4 mr-2" />
-                Login
+                Log In
               </div>
             </Button>
           </div>
