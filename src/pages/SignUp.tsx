@@ -58,7 +58,7 @@ export const SignUp = (): JSX.Element => {
         }}
       >
         <Form className="mb-6">
-          <div className="inline-flex items-center mb-8">
+          <div className="flex items-center mb-8">
             <h2 className="mr-3 text-3xl">Sign Up</h2>
             <UserCircleIcon className="w-7" />
           </div>
@@ -69,21 +69,21 @@ export const SignUp = (): JSX.Element => {
             <InputField name="confirmPassword" label="Confirm Password" type="password" />
           </div>
           <Button slate>
-            <div className="inline-flex items-center">
-              <UserCircleIcon className="w-4 h-4 mr-2" />
+            <div className="flex items-center w-max m-auto">
+              <UserCircleIcon className="w-5 mr-2" />
               Sign Up
             </div>
           </Button>
         </Form>
       </Formik>
       <Divider />
-      <div className="inline-flex items-center w-full">
+      <div className="flex flex-wrap items-center w-full">
         <span className="mr-4">Already have an account?</span>
         <div className="grow">
           <Link to="/login">
             <Button>
-              <div className="inline-flex items-center">
-                <LockOpenIcon className="w-4 h-4 mr-2" />
+              <div className="flex items-center w-max m-auto">
+                <LockOpenIcon className="w-5 mr-2" />
                 Login
               </div>
             </Button>

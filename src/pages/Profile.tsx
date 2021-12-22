@@ -33,10 +33,12 @@ export function Profile(): JSX.Element {
           <div
             className={`absolute z-10 h-full bg-zinc-50 text-left text-xl transition-width ease-in-out duration-200 ${listWidth}`}
           >
-            <button className="inline-flex items-center" onClick={() => setOpen(!open)}>
-              <div className="flex flex-col w-11 h-11 mr-4 bg-zinc-100 rounded-full">
-                <MenuIcon className="justify-center m-auto w-8 h-8" />
-              </div>
+            <div className="flex items-center">
+              <button className="mr-4" onClick={() => setOpen(!open)}>
+                <div className="flex flex-col w-11 h-11 bg-zinc-100 rounded-full">
+                  <MenuIcon className="justify-center m-auto w-8 h-8" />
+                </div>
+              </button>
               <Transition
                 show={open}
                 enter="transition-opacity ease-in-out duration-400"
@@ -48,7 +50,7 @@ export function Profile(): JSX.Element {
               >
                 <span>Menu</span>
               </Transition>
-            </button>
+            </div>
             <div className="pr-2">
               <Divider />
             </div>

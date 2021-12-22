@@ -43,12 +43,12 @@ function Header(): JSX.Element {
           <div className="inline-flex items-center ml-8 space-x-3">
             <Link to="/login">
               <Button compact slate>
-                <div className="px-3">Log In</div>
+                <div className="text-sm">Log In</div>
               </Button>
             </Link>
             <Link to="/signup">
               <Button compact>
-                <div className="px-3">Sign Up</div>
+                <div className="text-sm">Sign Up</div>
               </Button>
             </Link>
           </div>
