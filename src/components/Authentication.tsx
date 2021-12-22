@@ -50,7 +50,7 @@ export function Authentication(): JSX.Element {
               <InputField name="newPassword" label="New Password" type="password" />
               <InputField name="confirmNewPassword" label="Confirm New Password" type="password" />
             </div>
-            <Button>Change Password</Button>
+            <Button slate>Change Password</Button>
           </Form>
         </Formik>
       </div>
@@ -60,7 +60,7 @@ export function Authentication(): JSX.Element {
         <p className="my-4 text-md">
           Pressing the button below will logout all active sessions associated with this user.
         </p>
-        <Button>Logout</Button>
+        <Button slate>Logout</Button>
       </div>
     </div>
   );
