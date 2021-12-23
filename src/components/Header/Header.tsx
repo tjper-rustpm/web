@@ -18,7 +18,7 @@ function classNames(...classes: string[]): string {
 
 function Header(): JSX.Element {
   const router = useRouter();
-  const { data } = useMe();
+  const { data: user } = useMe();
   const logoutUser = useLogoutUser();
 
   const handleLogout = async (): Promise<boolean> => {
@@ -39,7 +39,7 @@ function Header(): JSX.Element {
             </a>
           </button>
         </div>
-        {!data && (
+        {!user && (
           <div className="inline-flex items-center ml-8 space-x-3">
             <Link to="/login">
               <Button compact slate>
@@ -55,12 +55,11 @@ function Header(): JSX.Element {
         )}
         <Menu as="div" className="relative h-full">
           <Menu.Button className="inline-flex items-center w-full h-full">
-            {data && (
+            {user ? (
               <Fragment>
-                <UserIcon className="h-8 mx-3" />
-                <div className="truncate">tjamesperry@hotmail.com</div>
+                <UserIcon className="h-8 mx-3" /> <div className="truncate">{user.email}</div>{' '}
               </Fragment>
-            )}
+            ) : null}
           </Menu.Button>
           <Transition
             enter="transition-opacity duration-200"

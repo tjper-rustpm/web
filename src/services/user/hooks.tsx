@@ -1,7 +1,15 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-import { User, LoginUserArgs, CreateUserArgs, VerifyEmailArgs, ForgotPasswordArgs, ChangePasswordArgs } from './types';
+import {
+  User,
+  LoginUserArgs,
+  CreateUserArgs,
+  VerifyEmailArgs,
+  ForgotPasswordArgs,
+  ChangePasswordArgs,
+  UpdateUserPasswordArgs,
+} from './types';
 
 export function useMe(): UseQueryResult<User, Error> {
   return useQuery('me', async () => {
@@ -78,5 +86,11 @@ export function useForgotPassword(): UseMutationResult<void, Error, ForgotPasswo
 export function useChangePassword(): UseMutationResult<void, Error, ChangePasswordArgs> {
   return useMutation<void, Error, ChangePasswordArgs>(async (args) => {
     await axios.post<void>('/user-api/v1/user/change-password', args);
+  });
+}
+
+export function useUpdateUserPassword(): UseMutationResult<User, Error, UpdateUserPasswordArgs> {
+  return useMutation<User, Error, UpdateUserPasswordArgs>(async (args) => {
+    return axios.post<User>('/user-api/v1/user/update-password', args).then((res) => res.data);
   });
 }

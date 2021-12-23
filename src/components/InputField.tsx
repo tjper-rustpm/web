@@ -37,7 +37,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
           type={props.type === 'password' && visible ? 'text' : props.type}
         />
         {props.type === 'password' && (
-          <button className="absolute top-3 right-4" onClick={() => setVisible(!visible)}>
+          <button className="absolute top-3 right-4" type="button" onClick={() => setVisible(!visible)}>
             {visible ? (
               <EyeOffIcon className="w-5 h-5 text-slate-700" />
             ) : (

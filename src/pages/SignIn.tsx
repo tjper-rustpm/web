@@ -38,7 +38,7 @@ export const SignIn = (): JSX.Element => {
             .matches(/[\d]+/, 'at least one number is required')
             .required('password is required'),
         })}
-        onSubmit={(values) => {
+        onSubmit={(values, formikHelpers) => {
           loginUser.mutate(
             { email: values.email, password: values.password },
             {
@@ -51,6 +51,9 @@ export const SignIn = (): JSX.Element => {
               },
               onError: (error: Error) => {
                 toast.error(error.message);
+              },
+              onSettled: () => {
+                formikHelpers.setSubmitting(false);
               },
             },
           );

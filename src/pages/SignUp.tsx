@@ -42,7 +42,7 @@ export const SignUp = (): JSX.Element => {
             })
             .required('password confirmation is required'),
         })}
-        onSubmit={async (values) => {
+        onSubmit={(values) => {
           createUser.mutate(
             { email: values.email, password: values.password },
             {

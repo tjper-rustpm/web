@@ -5,7 +5,11 @@ import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
+import { useUpdateUserPassword } from '../services/user/hooks';
+import { toast } from 'react-hot-toast';
+
 export function Authentication(): JSX.Element {
+  const updateUserPassword = useUpdateUserPassword();
   return (
     <div>
       <div>
@@ -35,23 +39,40 @@ export function Authentication(): JSX.Element {
             confirmNewPassword: yup
               .string()
               .test('passwords-match', 'passwords must match', function (value) {
-                return this.parent.password === value;
+                return this.parent.newPassword === value;
               })
               .required('password confirmation is required'),
           })}
-          onSubmit={async (values) => {
-            alert(`password changing old: ${values.currentPassword} new: ${values.newPassword}`);
+          onSubmit={(values, formikHelpers) => {
+            updateUserPassword.mutate(
+              { currentPassword: values.currentPassword, newPassword: values.newPassword },
+              {
+                onSuccess: () => {
+                  toast.success('Password updated!');
+                },
+                onError: (error: Error) => {
+                  toast.error(error.message);
+                },
+                onSettled: () => {
+                  formikHelpers.setSubmitting(false);
+                },
+              },
+            );
           }}
         >
-          <Form>
-            <h3 className="mb-4 text-2xl">Change Password</h3>
-            <div className="mb-4">
-              <InputField name="currentPassword" label="Current Password" type="password" />
-              <InputField name="newPassword" label="New Password" type="password" />
-              <InputField name="confirmNewPassword" label="Confirm New Password" type="password" />
-            </div>
-            <Button slate>Change Password</Button>
-          </Form>
+          {({ isSubmitting }: { isSubmitting: boolean }) => (
+            <Form>
+              <h3 className="mb-4 text-2xl">Change Password</h3>
+              <div className="mb-4">
+                <InputField name="currentPassword" label="Current Password" type="password" />
+                <InputField name="newPassword" label="New Password" type="password" />
+                <InputField name="confirmNewPassword" label="Confirm New Password" type="password" />
+              </div>
+              <Button slate loading={isSubmitting} type="submit">
+                Change Password
+              </Button>
+            </Form>
+          )}
         </Formik>
       </div>
       <Divider />

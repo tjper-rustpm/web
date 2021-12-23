@@ -30,3 +30,8 @@ export interface ChangePasswordArgs {
   hash: string;
   password: string;
 }
+
+export interface UpdateUserPasswordArgs {
+  currentPassword: string;
+  newPassword: string;
+}
