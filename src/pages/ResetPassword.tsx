@@ -57,17 +57,21 @@ export function ResetPassword(): JSX.Element {
           );
         }}
       >
-        <Form>
-          <div className="inline-flex items-center mb-8">
-            <h2 className="mr-3 text-3xl">Reset Password</h2>
-            <FingerPrintIcon className="w-7" />
-          </div>
-          <div className="mb-4">
-            <InputField name="password" label="Password" type="password" />
-            <InputField name="confirmPassword" label="Confirm Password" type="password" />
-          </div>
-          <Button>Reset</Button>
-        </Form>
+        {({ isSubmitting }: { isSubmitting: boolean }) => (
+          <Form>
+            <div className="inline-flex items-center mb-8">
+              <h2 className="mr-3 text-3xl">Reset Password</h2>
+              <FingerPrintIcon className="w-7" />
+            </div>
+            <div className="mb-4">
+              <InputField name="password" label="Password" type="password" />
+              <InputField name="confirmPassword" label="Confirm Password" type="password" />
+            </div>
+            <Button slate type="submit" loading={isSubmitting}>
+              Reset
+            </Button>
+          </Form>
+        )}
       </Formik>
     </Card>
   );

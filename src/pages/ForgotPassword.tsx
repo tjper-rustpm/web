@@ -33,21 +33,23 @@ export function ForgotPassword(): JSX.Element {
           });
         }}
       >
-        <Form>
-          <div className="inline-flex items-center mb-8">
-            <h2 className="mr-3 text-3xl">Forgot Password</h2>
-            <QuestionMarkCircleIcon className="w-7" />
-          </div>
-          <div className="mb-4">
-            <InputField name="email" label="Email" type="text" />
-          </div>
-          <Button>
-            <div className="inline-flex items-center">
-              <MailIcon className="w-4 h-4 mr-2" />
-              Request Password Reset
+        {({ isSubmitting }: { isSubmitting: boolean }) => (
+          <Form>
+            <div className="inline-flex items-center mb-8">
+              <h2 className="mr-3 text-3xl">Forgot Password</h2>
+              <QuestionMarkCircleIcon className="w-7" />
             </div>
-          </Button>
-        </Form>
+            <div className="mb-4">
+              <InputField name="email" label="Email" type="text" />
+            </div>
+            <Button slate type="submit" loading={isSubmitting}>
+              <div className="flex items-center w-max m-auto">
+                <MailIcon className="w-4 h-4 mr-2" />
+                Request Password Reset
+              </div>
+            </Button>
+          </Form>
+        )}
       </Formik>
     </Card>
   );
