@@ -5,11 +5,24 @@ import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
-import { useUpdateUserPassword } from '../services/user/hooks';
+import { useUpdateUserPassword, useLogoutAll } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
 export function Authentication(): JSX.Element {
   const updateUserPassword = useUpdateUserPassword();
+  const logoutAll = useLogoutAll();
+
+  const onLogoutAll = () => {
+    logoutAll.mutate(undefined, {
+      onSuccess: () => {
+        toast.success('All user sessions ended!');
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
+  };
+
   return (
     <div>
       <div>
@@ -81,7 +94,9 @@ export function Authentication(): JSX.Element {
         <p className="my-4 text-md">
           Pressing the button below will logout all active sessions associated with this user.
         </p>
-        <Button slate>Logout</Button>
+        <Button slate loading={logoutAll.isLoading} onClick={onLogoutAll}>
+          Logout
+        </Button>
       </div>
     </div>
   );

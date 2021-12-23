@@ -94,3 +94,19 @@ export function useUpdateUserPassword(): UseMutationResult<User, Error, UpdateUs
     return axios.post<User>('/user-api/v1/user/update-password', args).then((res) => res.data);
   });
 }
+
+export function useLogoutAll(): UseMutationResult<void, Error, void> {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error>(
+    async () => {
+      await axios.post<void>('/user-api/v1/user/logout-all');
+      return;
+    },
+    {
+      onSuccess: () => {
+        queryClient.resetQueries(['me']);
+      },
+    },
+  );
+}

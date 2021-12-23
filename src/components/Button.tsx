@@ -6,9 +6,10 @@ interface ButtonProps {
   slate?: boolean;
   loading?: boolean;
   type?: 'button' | 'reset' | 'submit';
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const Button = ({ children, compact, slate, loading, type }: ButtonProps): JSX.Element => {
+export const Button = ({ children, compact, slate, loading, ...rest }: ButtonProps): JSX.Element => {
   const height = compact ? 'h-10' : 'h-12';
   const margin = compact ? 'my-1' : 'my-2';
 
@@ -25,7 +26,7 @@ export const Button = ({ children, compact, slate, loading, type }: ButtonProps)
 
   const style = `w-full ${height} px-3 ${background} rounded-md border border-zinc-300 shadow-md ${margin} text-sm ${textColor} tracking-wider transition-all duration-75 active:border-slate-400 active:shadow-sm`;
   return (
-    <button className={style} type={type}>
+    <button className={style} {...rest}>
       {child}
     </button>
   );
