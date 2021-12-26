@@ -23,6 +23,7 @@ function Header(): JSX.Element {
 
   const handleLogout = async (): Promise<boolean> => {
     logoutUser.mutate();
+    router.push('/servers');
     return true;
   };
 

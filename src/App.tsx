@@ -12,6 +12,8 @@ import { Profile } from './pages/Profile';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+import { Authenticated } from './router/Authenticated';
+
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { light } from 'themes/light';
@@ -41,7 +43,9 @@ function App(): JSX.Element {
                     <SignIn />
                   </Route>
                   <Route path="/profile">
-                    <Profile />
+                    <Authenticated fallback="/servers">
+                      <Profile />
+                    </Authenticated>
                   </Route>
                   <Route path="/verify-email">
                     <VerifyEmail />

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Button } from '../components/Button';
 import { Divider } from '../components/Divider';
 import { InputField } from '../components/InputField';
@@ -5,17 +7,30 @@ import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
-import { useUpdateUserPassword, useLogoutAll } from '../services/user/hooks';
+import { useLogoutAll, useMe, useResendVerificationEmail, useUpdateUserPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
 export function Authentication(): JSX.Element {
+  const { data: user } = useMe();
   const updateUserPassword = useUpdateUserPassword();
   const logoutAll = useLogoutAll();
+  const resendVerificationEmail = useResendVerificationEmail();
 
   const onLogoutAll = () => {
     logoutAll.mutate(undefined, {
       onSuccess: () => {
         toast.success('All user sessions ended!');
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
+  };
+
+  const onResendVerificationEmail = () => {
+    resendVerificationEmail.mutate(undefined, {
+      onSuccess: () => {
+        toast.success('Verification email sent!');
       },
       onError: (error: Error) => {
         toast.error(error.message);
@@ -88,6 +103,21 @@ export function Authentication(): JSX.Element {
           )}
         </Formik>
       </div>
+      {user.verifiedAt == undefined ? (
+        <React.Fragment>
+          <Divider />
+          <div>
+            <h3 className="my-4 text-2xl">Resend Email Verification</h3>
+            <p className="my-4 text-md">
+              Pressing the button below will send an email to the user allowing them to verify they have access to the
+              email associated with the account.
+            </p>
+            <Button slate loading={resendVerificationEmail.isLoading} onClick={onResendVerificationEmail}>
+              Resend Email Verification
+            </Button>
+          </div>
+        </React.Fragment>
+      ) : null}
       <Divider />
       <div>
         <h3 className="my-4 text-2xl">Logout All Active Sessions</h3>
