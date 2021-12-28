@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useRouter } from './router';
-import { useMe } from '../services/user/hooks';
+import { useSession } from '../services/user/hooks';
 
 interface AuthenticatedProps {
   fallback: string;
@@ -10,9 +10,9 @@ interface AuthenticatedProps {
 
 export const Authenticated = ({ children, fallback }: AuthenticatedProps): JSX.Element => {
   const router = useRouter();
-  const { data: user } = useMe();
+  const { data: session } = useSession();
 
-  if (!user) {
+  if (!session) {
     router.push(fallback);
   }
   return <React.Fragment>{children}</React.Fragment>;

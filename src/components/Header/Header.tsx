@@ -10,7 +10,7 @@ import { User as UserIcon } from '@styled-icons/boxicons-solid/User';
 import { ReactComponent as DiscordLogo } from '../../images/Discord-Logo-Color.svg';
 
 import { useRouter } from '../../router/router';
-import { useLogoutUser, useMe } from '../../services/user/hooks';
+import { useLogoutUser, useSession } from '../../services/user/hooks';
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
@@ -18,7 +18,7 @@ function classNames(...classes: string[]): string {
 
 function Header(): JSX.Element {
   const router = useRouter();
-  const { data: user } = useMe();
+  const { data: session } = useSession();
   const logoutUser = useLogoutUser();
 
   const handleLogout = async (): Promise<boolean> => {
@@ -40,7 +40,7 @@ function Header(): JSX.Element {
             </a>
           </button>
         </div>
-        {!user && (
+        {!session && (
           <div className="inline-flex items-center ml-8 space-x-3">
             <Link to="/login">
               <Button compact slate>
@@ -56,9 +56,9 @@ function Header(): JSX.Element {
         )}
         <Menu as="div" className="relative h-full">
           <Menu.Button className="inline-flex items-center w-full h-full">
-            {user ? (
+            {session ? (
               <Fragment>
-                <UserIcon className="h-8 mx-3" /> <div className="truncate">{user.email}</div>{' '}
+                <UserIcon className="h-8 mx-3" /> <div className="truncate">{session.user.email}</div>{' '}
               </Fragment>
             ) : null}
           </Menu.Button>

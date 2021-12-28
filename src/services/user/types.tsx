@@ -1,7 +1,20 @@
 import { DateTime } from 'luxon';
 
+export interface Session {
+  id: string;
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+  absoluteExpiration: DateTime;
+  lastActivityAt: DateTime;
+  createdAt: DateTime;
+}
+
 export interface User {
   id: string;
+  role: string;
   email: string;
   verifiedAt: DateTime;
   updatedAt: DateTime;

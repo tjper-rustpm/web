@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import {
   User,
+  Session,
   LoginUserArgs,
   CreateUserArgs,
   VerifyEmailArgs,
@@ -11,9 +12,16 @@ import {
   UpdateUserPasswordArgs,
 } from './types';
 
-export function useMe(): UseQueryResult<User, Error> {
-  return useQuery('me', async () => {
-    const res = await axios.get<User>('/user-api/v1/user/me');
+export function useSession(): UseQueryResult<Session, Error> {
+  return useQuery('session', async () => {
+    const res = await axios.get<User>('/user-api/v1/user/session');
+    return res.data;
+  });
+}
+
+export function useUser(): UseQueryResult<User, Error> {
+  return useQuery('user', async () => {
+    const res = await axios.get<User>('/user-api/v1/user');
     return res.data;
   });
 }
@@ -28,7 +36,7 @@ export function useLogoutUser(): UseMutationResult<void, Error, void> {
     },
     {
       onSuccess: () => {
-        queryClient.resetQueries(['me']);
+        queryClient.resetQueries(['session', 'user']);
       },
     },
   );
@@ -49,8 +57,8 @@ export function useLoginUser(): UseMutationResult<User, Error, LoginUserArgs> {
       return res.data;
     },
     {
-      onSuccess: (data: User) => {
-        queryClient.setQueryData(['me'], data);
+      onSuccess: () => {
+        queryClient.invalidateQueries(['session', 'user']);
       },
     },
   );
@@ -65,7 +73,7 @@ export function useVerifyEmail(): UseMutationResult<void, Error, VerifyEmailArgs
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['me']);
+        queryClient.invalidateQueries(['user']);
       },
     },
   );
@@ -105,7 +113,7 @@ export function useLogoutAll(): UseMutationResult<void, Error, void> {
     },
     {
       onSuccess: () => {
-        queryClient.resetQueries(['me']);
+        queryClient.resetQueries(['session', 'user']);
       },
     },
   );

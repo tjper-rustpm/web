@@ -7,11 +7,11 @@ import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
-import { useLogoutAll, useMe, useResendVerificationEmail, useUpdateUserPassword } from '../services/user/hooks';
+import { useLogoutAll, useUser, useResendVerificationEmail, useUpdateUserPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
 
 export function Authentication(): JSX.Element {
-  const { data: user } = useMe();
+  const { data: user } = useUser();
   const updateUserPassword = useUpdateUserPassword();
   const logoutAll = useLogoutAll();
   const resendVerificationEmail = useResendVerificationEmail();
@@ -90,20 +90,20 @@ export function Authentication(): JSX.Element {
         >
           {({ isSubmitting }: { isSubmitting: boolean }) => (
             <Form>
-              <h3 className="mb-4 text-2xl">Change Password</h3>
+              <h3 className="mb-4 text-2xl">Update Password</h3>
               <div className="mb-4">
                 <InputField name="currentPassword" label="Current Password" type="password" />
                 <InputField name="newPassword" label="New Password" type="password" />
                 <InputField name="confirmNewPassword" label="Confirm New Password" type="password" />
               </div>
               <Button slate loading={isSubmitting} type="submit">
-                Change Password
+                Update Password
               </Button>
             </Form>
           )}
         </Formik>
       </div>
-      {user.verifiedAt == undefined ? (
+      {user && user.verifiedAt == undefined ? (
         <React.Fragment>
           <Divider />
           <div>
