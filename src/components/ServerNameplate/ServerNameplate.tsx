@@ -33,7 +33,7 @@ const ServerNameplate = ({ server }: ServerNameplateProps): JSX.Element => {
     <figure
       className={`${
         BackgroundImage[server.background]
-      } bg-contain bg-no-repeat aspect-[2/1] grid grid-cols-5 rounded-sm shadow-lg shadow-slate-900 p-4 max-w-xl text-white`}
+      } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-5 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
     >
       <span className="col-start-1 col-span-4">
         <h3 className="text-4xl">{server.name}</h3>

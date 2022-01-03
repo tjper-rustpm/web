@@ -1,18 +1,11 @@
 import { VipCrown } from '@styled-icons/remix-line/VipCrown';
 import { Mouse2 } from '@styled-icons/bootstrap/Mouse2';
-import { Map } from '@styled-icons/bootstrap/Map';
-import { Globe } from '@styled-icons/entypo/Globe';
-import { UserGroup } from '@styled-icons/heroicons-solid/UserGroup';
-import { CalendarDay } from '@styled-icons/bootstrap/CalendarDay';
-import { CalendarWeek } from '@styled-icons/bootstrap/CalendarWeek';
-import { CalendarEvent } from '@styled-icons/bootstrap/CalendarEvent';
-import { Games } from '@styled-icons/fluentui-system-regular/Games';
 
-import Button from '../../components/Button/Button';
-import { Card } from '../../components/Card';
+import { CalendarIcon, GlobeIcon, MapIcon, ScaleIcon, UserGroupIcon } from '@heroicons/react/outline';
+
 import Schedule from '../../components/Schedule/Schedule';
 import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
-import Tooltip from '../../components/Tooltip/Tooltip';
+import { Card } from '../../components/Card';
 
 import { Server, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
@@ -30,29 +23,28 @@ const Servers = (): JSX.Element => {
     return <div>Error ...</div>;
   }
   return (
-    <div>
+    <div className="space-y-16">
       {data &&
         data.map((server: Server) => (
           <Card key={server.id}>
-            <ServerNameplate className="" server={server} />
-            <Schedule className="" schedule={server.events} />
-            <Button className="" color="green" size="compact">
-              <Mouse2 className="" />
-              <span className="">Join</span>
-            </Button>
-            <Button className="" color="green" size="compact">
-              <VipCrown className="" />
-              <span className="">Membership</span>
-            </Button>
-            <div className="">
-              {server.tags.map((tag: Tag) => (
-                <Tooltip key={tag.id} title={tag.description} placement="top">
-                  <div className="">
-                    <span className="">{TagIconComponent[tag.icon]}</span>
-                    <span className="">{tag.value}</span>
+            <div className="space-y-8">
+              <ServerNameplate server={server} />
+              <p className="border-t-2 border-slate-300 pt-6 mx-8 text-md text-slate-900 antialiased font-sans indent-8">
+                {server.description}
+              </p>
+              <Schedule schedule={server.events} />
+              <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4">
+                {server.tags.map((tag: Tag) => (
+                  <div
+                    key={tag.id}
+                    className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500
+                  "
+                  >
+                    <div className="h-5">{TagIconComponent[tag.icon]}</div>
+                    <div>{tag.value}</div>
                   </div>
-                </Tooltip>
-              ))}
+                ))}
+              </div>
             </div>
           </Card>
         ))}
@@ -63,13 +55,13 @@ const Servers = (): JSX.Element => {
 export default Servers;
 
 const TagIconComponent: Record<string, JSX.Element> = {
-  USER_GROUP: <UserGroup />,
-  MAP: <Map />,
-  GLOBE: <Globe />,
-  CALENDAR_DAY: <CalendarDay />,
-  CALENDAR_WEEK: <CalendarWeek />,
-  CALENDAR_EVENT: <CalendarEvent />,
-  GAMES: <Games />,
+  userGroup: <UserGroupIcon className="h-full" />,
+  map: <MapIcon className="h-full" />,
+  globe: <GlobeIcon className="h-full" />,
+  calendarDay: <CalendarIcon className="h-full" />,
+  calendarWeek: <CalendarIcon className="h-full" />,
+  calendarEvent: <CalendarIcon className="h-full" />,
+  games: <ScaleIcon className="h-full" />,
 };
 
 // const ServerCard = styled(Card)`
