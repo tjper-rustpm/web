@@ -38,7 +38,7 @@ const Servers = (): JSX.Element => {
         data.map((server: Server) => (
           <ServerCard key={server.id}>
             <ServerNameplate className="server__server-nameplate" server={server} />
-            <Schedule className="server__schedule" schedule={server.definition.schedule} />
+            <Schedule className="server__schedule" schedule={server.events} />
             <Button className="server__join" color="green" size="compact">
               <Mouse2 className="server__join-icon" />
               <span className="server__join-title">Join</span>
@@ -48,7 +48,7 @@ const Servers = (): JSX.Element => {
               <span className="server__membership-title">Membership</span>
             </Button>
             <div className="server__tags">
-              {server.definition.tags.map((tag: Tag) => (
+              {server.tags.map((tag: Tag) => (
                 <Tooltip key={tag.id} title={tag.description} placement="top">
                   <div className="server__tag">
                     <span className="server__tag-icon">{TagIconComponent[tag.icon]}</span>

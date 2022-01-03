@@ -1,10 +1,11 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import axios from 'axios';
 
-import { Server } from './types';
+import { AnyServer } from './types';
 
-export function useServers(): UseQueryResult<Server[], Error> {
-  return useQuery('servers', () => {
-    axios.get('/server-api/v1/servers').then((res) => res.data);
+export function useServers(): UseQueryResult<AnyServer[], Error> {
+  return useQuery('servers', async () => {
+    const res = await axios.get<AnyServer[]>('/server-api/v1/servers');
+    return res.data;
   });
 }

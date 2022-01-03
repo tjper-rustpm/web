@@ -1,30 +1,19 @@
 import { DateTime } from 'luxon';
 
-export type Server = LiveServer | DormantServer;
+export type AnyServer = LiveServer | DormantServer;
 
-export interface LiveServer {
-  __typename: 'LiveServer';
-  id: string;
-  associationID: string;
+export type LiveServer = Server & {
   activePlayers: number;
   queuedPlayers: number;
-  definition: Definition;
-  updatedAt: DateTime;
-  createdAt: DateTime;
-}
+};
 
-export interface DormantServer {
-  __typename: 'DormantServer';
-  id: string;
-  definition: Definition;
+export type DormantServer = Server & {
   startsAt: DateTime;
-  updatedAt: DateTime;
-  createdAt: DateTime;
-}
+};
 
-export interface Definition {
+export interface Server {
   id: string;
-  instanceID: string;
+  kind: 'dormant' | 'live';
   instanceKind: string;
   allocationID: string;
   elasticIP: string;
@@ -39,29 +28,28 @@ export interface Definition {
   mapSeed: number;
   mapSize: number;
   maxPlayers: number;
-  mapWipeFrequency: string;
-  blueprintWipeFrequency: string;
   schedule: Event[];
   tags: Tag[];
+  createdAt: DateTime;
 }
 
-export declare type EventType = 'START' | 'STOP';
+export declare type EventType = 'start' | 'stop';
 
 export interface Event {
   id: string;
-  day: number;
+  weekday: number;
   hour: number;
   kind: EventType;
 }
 
 export declare type TagIcon =
-  | 'USER_GROUP'
-  | 'MAP'
-  | 'GLOBE'
-  | 'CALENDAR_DAY'
-  | 'CALENDAR_WEEK'
-  | 'CALENDAR_EVENT'
-  | 'GAMES';
+  | 'userGroup'
+  | 'map'
+  | 'globe'
+  | 'calendarDay'
+  | 'calendarWeek'
+  | 'calendarEvent'
+  | 'games';
 
 export interface Tag {
   id: string;
@@ -73,13 +61,13 @@ export interface Tag {
 // Background is a union type of string literals communicating the backgrounds
 // available to the ServerNameplate.
 export declare type Background =
-  | 'AIRPORT'
-  | 'BEACH_LIGHTHOUSE'
-  | 'BIG_OIL_NIGHT'
-  | 'FOREST'
-  | 'ISLAND_LIGHTHOUSE'
-  | 'JUNKYARD'
-  | 'MOUNTAIN_NIGHT'
-  | 'OXUM'
-  | 'SEWER_NIGHT'
-  | 'TOWER_NIGHT';
+  | 'airport'
+  | 'beachLighthouse'
+  | 'bigOilNight'
+  | 'forest'
+  | 'islandLighthouse'
+  | 'junkyard'
+  | 'mountainNight'
+  | 'oxum'
+  | 'sewerNight'
+  | 'towerNight';

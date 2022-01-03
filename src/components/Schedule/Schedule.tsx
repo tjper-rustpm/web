@@ -17,8 +17,8 @@ const Schedule = ({ className, schedule }: ScheduleProps): JSX.Element => {
   schedule.forEach((event: Event): void => {
     const offsetHour = (24 + (event.hour + Math.floor(dt.offset / 60))) % 24;
 
-    scheduleHash.set(`${event.day}-${offsetHour}`, event);
-    if (event.kind === 'START' && offsetHour < startHour) {
+    scheduleHash.set(`${event.weekday + 1}-${offsetHour}`, event);
+    if (event.kind === 'start' && offsetHour < startHour) {
       startHour = offsetHour;
     }
   });
@@ -30,9 +30,9 @@ const Schedule = ({ className, schedule }: ScheduleProps): JSX.Element => {
       {daysOfWeek.map((day: number) =>
         adjustedHourInDay.map((hour: number) => {
           const key = `${day}-${hour}`;
-          if (scheduleHash.has(key) && scheduleHash.get(key).kind === 'START') {
+          if (scheduleHash.has(key) && scheduleHash.get(key).kind === 'start') {
             active = true;
-          } else if (scheduleHash.has(key) && scheduleHash.get(key).kind === 'STOP') {
+          } else if (scheduleHash.has(key) && scheduleHash.get(key).kind === 'stop') {
             active = false;
           }
 

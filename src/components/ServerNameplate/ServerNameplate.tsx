@@ -38,7 +38,7 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
   let activePlayersComponent: JSX.Element | null = null;
   let queuedPlayersComponent: JSX.Element | null = null;
   let countComponent: JSX.Element | null = null;
-  if (server.__typename === 'LiveServer') {
+  if (server.kind === 'live') {
     count = useCount({
       initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
     });
@@ -46,7 +46,7 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
     ipComponent = (
       <span className="server-nameplate__ip">
         <Tooltip title="IP Address" aria-label="ip-address" placement="left">
-          <h4>{server.definition.elasticIP}</h4>
+          <h4>{server.elasticIP}</h4>
         </Tooltip>
       </span>
     );
@@ -78,7 +78,7 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
         </Tooltip>
       </div>
     );
-  } else if (server.__typename === 'DormantServer') {
+  } else if (server.kind === 'dormant') {
     count = useCount({
       direction: '-',
       initial: DateTime.fromISO(server.startsAt.toString()).diffNow(),
@@ -93,10 +93,10 @@ const ServerNameplate = ({ className, server }: ServerNameplateProps): JSX.Eleme
   }
 
   return (
-    <Figure className={className} background={server.definition.background}>
+    <Figure className={className} background={server.background}>
       <span className="server-nameplate__name">
         <Tooltip title="Server Name" aria-label="server-name" placement="left">
-          <h3>{server.definition.name}</h3>
+          <h3>{server.name}</h3>
         </Tooltip>
       </span>
       {ipComponent}
@@ -130,16 +130,16 @@ const useCount = ({ direction = '+', rate = 1000, initial }: CountDownArgs): Dur
 };
 
 const BackgroundImage: Record<Background, string> = {
-  AIRPORT: airport,
-  BEACH_LIGHTHOUSE: beachLighthouse,
-  BIG_OIL_NIGHT: bigOilNight,
-  FOREST: forest,
-  ISLAND_LIGHTHOUSE: islandLighthouse,
-  JUNKYARD: junkyard,
-  MOUNTAIN_NIGHT: mountainNight,
-  OXUM: oxum,
-  SEWER_NIGHT: sewerNight,
-  TOWER_NIGHT: towerNight,
+  airport: airport,
+  beachLighthouse: beachLighthouse,
+  bigOilNight: bigOilNight,
+  forest: forest,
+  islandLighthouse: islandLighthouse,
+  junkyard: junkyard,
+  mountainNight: mountainNight,
+  oxum: oxum,
+  sewerNight: sewerNight,
+  towerNight: towerNight,
 };
 
 // FigureProps are styling related props for the ServerNameplate's figure.
@@ -157,7 +157,7 @@ const Figure = styled.figure<FigureProps>`
 
   font-weight: 600;
   color: ${(props): string => props.theme.colors.bravo};
-  background-image: url(${(props): string => BackgroundImage[props.background]});
+  background-image: url(${(props) => BackgroundImage[props.background]});
   background-size: cover;
   box-shadow: 0.1vw 0.1vw 1rem 0 ${(props): string => props.theme.shadows.light};
 
