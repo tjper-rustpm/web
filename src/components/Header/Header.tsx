@@ -7,7 +7,7 @@ import { Button } from '../Button';
 import { Menu, Transition } from '@headlessui/react';
 import Logo from '../../components/Logo/Logo';
 import { User as UserIcon } from '@styled-icons/boxicons-solid/User';
-import { ReactComponent as DiscordLogo } from '../../images/Discord-Logo-Color.svg';
+import { ReactComponent as DiscordLogo } from '../../imgs/Discord-Logo-Color.svg';
 
 import { useRouter } from '../../router/router';
 import { useLogoutUser, useSession } from '../../services/user/hooks';
