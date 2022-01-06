@@ -28,7 +28,7 @@ function Header(): JSX.Element {
   };
 
   return (
-    <header className="fixed w-full p-3 flex items-center bg-neutral-50 shadow-2xl">
+    <header className="fixed w-full p-3 flex items-center bg-neutral-50 shadow-2xl z-50">
       <Link className="h-10 mr-auto" to="/servers">
         <Logo />
       </Link>

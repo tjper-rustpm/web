@@ -1,32 +1,34 @@
 import { useEffect, useState, Fragment } from 'react';
 import { DateTime, Duration } from 'luxon';
 
+import { Tooltip } from '../Tooltip';
+
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
 
-import { Server } from '../../services/server/types';
+import { AnyServer, Background } from '../../services/server/types';
 
 // ServerNameplateProps is used to pass critical and variable information to
 // ServerNameplate component.
 type ServerNameplateProps = {
-  server: Server;
+  server: AnyServer;
 };
 
 // ServerNameplate displays critical server information. ServerNameplate
 // expects ServerNameplateProps to be passed.
 const ServerNameplate = ({ server }: ServerNameplateProps): JSX.Element => {
-  let count: Duration;
+  let count = useCount({
+    initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
+  });
+  let countTooltip = 'Countdown';
 
-  if (server.kind === 'live') {
-    count = useCount({
-      initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
-    });
-  } else if (server.kind === 'dormant') {
+  if (server.kind === 'dormant') {
     count = useCount({
       direction: '-',
       initial: DateTime.fromISO(server.startsAt.toString()).diffNow(),
     });
+    countTooltip = 'Uptime';
   }
 
   return (
@@ -37,26 +39,40 @@ const ServerNameplate = ({ server }: ServerNameplateProps): JSX.Element => {
     >
       <span className="col-start-1 col-span-4">
         <h3 className="text-4xl">{server.name}</h3>
-        {server.kind === 'live' ? <h4>{server.elasticIP}</h4> : null}
+        {server.kind === 'live' ? (
+          <div className="w-min">
+            <Tooltip content={<h5>IP Address</h5>} position="bottom">
+              <h4>{server.elasticIP}</h4>
+            </Tooltip>
+          </div>
+        ) : null}
       </span>
       {server.kind === 'live' ? (
         <Fragment>
-          <div className="col-start-5 justify-self-end text-red-700">
-            <FiberManualRecordIcon />
+          <div className="col-start-5 justify-self-end flex relative w-4 h-4">
+            <span className="animate-pulse w-full h-full bg-red-500 rounded-full" />
           </div>
-          <div className="self-end space-y-2">
-            <div className="flex justify-items-center space-x-2">
-              <GroupIcon />
-              <span>{server.activePlayers}</span>
-            </div>
-            <div className="flex justify-items-center space-x-2">
-              <LinearScaleIcon />
-              <span>{server.queuedPlayers}</span>
-            </div>
+          <div className="self-end space-y-2 w-min">
+            <Tooltip content={<p className="w-20">Active Players</p>}>
+              <div className="flex items-center space-x-2">
+                <GroupIcon />
+                <span>{server.activePlayers}</span>
+              </div>
+            </Tooltip>
+            <Tooltip content={<p className="w-24">Queued Players</p>}>
+              <div className="flex items-center space-x-2">
+                <LinearScaleIcon />
+                <span>{server.queuedPlayers}</span>
+              </div>
+            </Tooltip>
           </div>
         </Fragment>
       ) : null}
-      <div className="col-start-5 justify-self-end self-end text-2xl">{count.toFormat('hh:mm:ss')}</div>
+      <div className="col-start-5 justify-self-end self-end text-2xl">
+        <Tooltip content={countTooltip} position="top">
+          {count.toFormat('hh:mm:ss')}
+        </Tooltip>
+      </div>
     </figure>
   );
 };

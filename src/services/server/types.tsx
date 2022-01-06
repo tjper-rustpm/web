@@ -3,17 +3,18 @@ import { DateTime } from 'luxon';
 export type AnyServer = LiveServer | DormantServer;
 
 export type LiveServer = Server & {
+  kind: 'live';
   activePlayers: number;
   queuedPlayers: number;
 };
 
 export type DormantServer = Server & {
+  kind: 'dormant';
   startsAt: DateTime;
 };
 
 export interface Server {
   id: string;
-  kind: 'dormant' | 'live';
   instanceKind: string;
   allocationID: string;
   elasticIP: string;
@@ -28,7 +29,7 @@ export interface Server {
   mapSeed: number;
   mapSize: number;
   maxPlayers: number;
-  schedule: Event[];
+  events: Event[];
   tags: Tag[];
   createdAt: DateTime;
 }
