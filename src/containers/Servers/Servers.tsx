@@ -1,7 +1,16 @@
-import { CalendarIcon, GlobeIcon, MapIcon, ScaleIcon, UserGroupIcon } from '@heroicons/react/outline';
+import {
+  CalendarIcon,
+  GlobeIcon,
+  MapIcon,
+  PlayIcon,
+  ScaleIcon,
+  StarIcon,
+  UserGroupIcon,
+} from '@heroicons/react/outline';
 
 import Schedule from '../../components/Schedule/Schedule';
 
+import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { DormantServerNameplate } from '../../components/DormantServerNameplate';
 import { LiveServerNameplate } from '../../components/LiveServerNameplate';
@@ -25,21 +34,49 @@ const Servers = (): JSX.Element => {
 
   const servers = data.map((server: AnyServer) => {
     let nameplate: JSX.Element;
+    let buttons: JSX.Element;
+
     switch (server.kind) {
       case 'live':
         nameplate = <LiveServerNameplate server={server} />;
+        buttons = (
+          <div className="flex space-x-4 w-11/12 m-auto">
+            <Button>
+              <span className="flex items-center justify-center space-x-2">
+                <PlayIcon className="h-6" />
+                <span>Join</span>
+              </span>
+            </Button>
+            <Button>
+              <span className="flex items-center justify-center space-x-2">
+                <StarIcon className="h-6" />
+                <span>Subscribe</span>
+              </span>
+            </Button>
+          </div>
+        );
         break;
       case 'dormant':
         nameplate = <DormantServerNameplate server={server} />;
+        buttons = (
+          <div className="w-11/12 m-auto">
+            <Button>
+              <span className="flex items-center justify-center space-x-2">
+                <StarIcon className="h-4" />
+                <span>Subscribe</span>
+              </span>
+            </Button>
+          </div>
+        );
         break;
     }
     return (
       <Card key={server.id} variant="compact">
         <div className="space-y-8">
-          {nameplate}
-          <p className="border-t-2 border-slate-300 pt-6 mx-8 text-md text-slate-900 antialiased font-sans indent-8">
-            {server.description}
-          </p>
+          <div className="space-y-4">
+            {nameplate}
+            {buttons}
+          </div>
           <Schedule schedule={server.events} />
           <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
@@ -61,7 +98,7 @@ const Servers = (): JSX.Element => {
     );
   });
 
-  return <div className="space-y-16">{servers}</div>;
+  return <div className="m-auto w-5/6 3xl:w-1/2 flex flex-wrap gap-y-16">{servers}</div>;
 };
 
 export default Servers;

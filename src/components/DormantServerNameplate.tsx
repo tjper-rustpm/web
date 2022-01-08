@@ -20,12 +20,12 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
     <figure
       className={`${
         BackgroundImage[server.background]
-      } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-5 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
+      } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-2 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
     >
-      <span className="col-start-1 col-span-4">
+      <span className="col-start-1 col-span-full">
         <h3 className="text-4xl">{server.name}</h3>
       </span>
-      <div className="col-start-5 justify-self-end self-end text-2xl">
+      <div className="col-start-2 justify-self-end self-end text-2xl">
         <Tooltip content={countTooltip} position="top">
           {count.toFormat('hh:mm:ss')}
         </Tooltip>

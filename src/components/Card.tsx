@@ -4,11 +4,11 @@ interface CardProps {
 }
 
 export const Card = ({ children, variant = 'standard' }: CardProps): JSX.Element => {
-  let style = 'bg-neutral-50 shadow-xl rounded-md w-[26rem] m-auto border-slate-200 border';
+  let style = 'm-auto bg-neutral-50 shadow-xl rounded-md max-w-lg border-slate-200 border';
 
   switch (variant) {
     case 'compact':
-      style = `${style} p-2`;
+      style = `${style} p-3`;
       break;
     case 'standard':
       style = `${style} p-5`;
