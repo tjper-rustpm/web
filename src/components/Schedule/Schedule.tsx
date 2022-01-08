@@ -54,7 +54,7 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
         </Tooltip>
       </div>
       <div className="border-b mt-2 mb-6" />
-      <div className="grid grid-cols-26 grid-rows-9 gap-1 aspect-[24/7] text-xs">
+      <div className="grid grid-cols-26 grid-rows-9 gap-y-1.5 text-xs">
         {yAxis.map((day: number) =>
           xAxis.map((hour: number) => {
             const key = `${day}-${hour}`;
