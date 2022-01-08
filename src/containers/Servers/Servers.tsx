@@ -1,9 +1,10 @@
 import { CalendarIcon, GlobeIcon, MapIcon, ScaleIcon, UserGroupIcon } from '@heroicons/react/outline';
 
 import Schedule from '../../components/Schedule/Schedule';
-import ServerNameplate from '../../components/ServerNameplate/ServerNameplate';
 
 import { Card } from '../../components/Card';
+import { DormantServerNameplate } from '../../components/DormantServerNameplate';
+import { LiveServerNameplate } from '../../components/LiveServerNameplate';
 import { Tooltip } from '../../components/Tooltip';
 
 import { AnyServer, Tag } from '../../services/server/types';
@@ -21,37 +22,46 @@ const Servers = (): JSX.Element => {
   if (error) {
     return <div>Error ...</div>;
   }
-  return (
-    <div className="space-y-16">
-      {data &&
-        data.map((server: AnyServer) => (
-          <Card key={server.id}>
-            <div className="space-y-8">
-              <ServerNameplate server={server} />
-              <p className="border-t-2 border-slate-300 pt-6 mx-8 text-md text-slate-900 antialiased font-sans indent-8">
-                {server.description}
-              </p>
-              <Schedule schedule={server.events} />
-              <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4">
-                {server.tags.map((tag: Tag) => (
-                  <div key={tag.id}>
-                    <Tooltip content={<h5>{tag.description}</h5>} position="top">
-                      <div
-                        className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500
+
+  const servers = data.map((server: AnyServer) => {
+    let nameplate: JSX.Element;
+    switch (server.kind) {
+      case 'live':
+        nameplate = <LiveServerNameplate server={server} />;
+        break;
+      case 'dormant':
+        nameplate = <DormantServerNameplate server={server} />;
+        break;
+    }
+    return (
+      <Card key={server.id} variant="compact">
+        <div className="space-y-8">
+          {nameplate}
+          <p className="border-t-2 border-slate-300 pt-6 mx-8 text-md text-slate-900 antialiased font-sans indent-8">
+            {server.description}
+          </p>
+          <Schedule schedule={server.events} />
+          <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
+            {server.tags.map((tag: Tag) => (
+              <div key={tag.id}>
+                <Tooltip content={<h5>{tag.description}</h5>} position="top">
+                  <div
+                    className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500
                   "
-                      >
-                        <div className="h-5">{TagIconComponent[tag.icon]}</div>
-                        <div>{tag.value}</div>
-                      </div>
-                    </Tooltip>
+                  >
+                    <div className="h-5">{TagIconComponent[tag.icon]}</div>
+                    <div>{tag.value}</div>
                   </div>
-                ))}
+                </Tooltip>
               </div>
-            </div>
-          </Card>
-        ))}
-    </div>
-  );
+            ))}
+          </div>
+        </div>
+      </Card>
+    );
+  });
+
+  return <div className="space-y-16">{servers}</div>;
 };
 
 export default Servers;
