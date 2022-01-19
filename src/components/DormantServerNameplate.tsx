@@ -14,7 +14,6 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
     direction: '-',
     initial: DateTime.fromISO(server.startsAt.toString()).diffNow(),
   });
-  const countTooltip = 'Uptime';
 
   return (
     <figure
@@ -26,7 +25,7 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
         <h3 className="text-4xl">{server.name}</h3>
       </span>
       <div className="col-start-2 justify-self-end self-end text-2xl">
-        <Tooltip content={countTooltip} position="top">
+        <Tooltip content="Countdown" position="top">
           {count.toFormat('hh:mm:ss')}
         </Tooltip>
       </div>

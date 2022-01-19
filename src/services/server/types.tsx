@@ -34,13 +34,12 @@ export interface Server {
   createdAt: DateTime;
 }
 
-export declare type EventType = 'start' | 'stop';
+export declare type EventKind = 'start' | 'stop' | 'mapWipe' | 'fullWipe';
 
 export interface Event {
   id: string;
-  weekday: number;
-  hour: number;
-  kind: EventType;
+  at: DateTime;
+  kind: EventKind;
 }
 
 export declare type TagIcon =

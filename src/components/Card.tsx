@@ -1,6 +1,6 @@
 interface CardProps {
   children: React.ReactNode;
-  variant: 'compact' | 'standard';
+  variant?: 'compact' | 'standard';
 }
 
 export const Card = ({ children, variant = 'standard' }: CardProps): JSX.Element => {

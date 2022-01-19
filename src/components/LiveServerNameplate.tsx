@@ -16,7 +16,6 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
   const count = useCount({
     initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
   });
-  const countTooltip = 'Countdown';
 
   return (
     <figure
@@ -50,7 +49,7 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
         </Tooltip>
       </div>
       <div className="col-start-5 justify-self-end self-end text-2xl">
-        <Tooltip content={countTooltip} position="top">
+        <Tooltip content="Uptime" position="top">
           {count.toFormat('hh:mm:ss')}
         </Tooltip>
       </div>

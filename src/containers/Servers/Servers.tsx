@@ -25,7 +25,7 @@ import { useServers } from '../../services/server/hooks';
 const Servers = (): JSX.Element => {
   const { data, isLoading, error } = useServers();
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return <div>Loading ...</div>;
   }
   if (error) {
@@ -41,16 +41,16 @@ const Servers = (): JSX.Element => {
         nameplate = <LiveServerNameplate server={server} />;
         buttons = (
           <div className="flex space-x-4 w-11/12 m-auto">
-            <Button>
+            <Button slate>
               <span className="flex items-center justify-center space-x-2">
                 <PlayIcon className="h-6" />
                 <span>Join</span>
               </span>
             </Button>
-            <Button>
+            <Button slate>
               <span className="flex items-center justify-center space-x-2">
                 <StarIcon className="h-6" />
-                <span>Subscribe</span>
+                <span>VIP</span>
               </span>
             </Button>
           </div>
@@ -60,10 +60,10 @@ const Servers = (): JSX.Element => {
         nameplate = <DormantServerNameplate server={server} />;
         buttons = (
           <div className="w-11/12 m-auto">
-            <Button>
+            <Button slate>
               <span className="flex items-center justify-center space-x-2">
-                <StarIcon className="h-4" />
-                <span>Subscribe</span>
+                <StarIcon className="h-6" />
+                <span>VIP</span>
               </span>
             </Button>
           </div>
@@ -72,20 +72,15 @@ const Servers = (): JSX.Element => {
     }
     return (
       <Card key={server.id} variant="compact">
-        <div className="space-y-8">
-          <div className="space-y-4">
-            {nameplate}
-            {buttons}
-          </div>
+        <div className="space-y-6">
+          {nameplate}
+          {buttons}
           <Schedule schedule={server.events} />
           <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
               <div key={tag.id}>
                 <Tooltip content={<h5>{tag.description}</h5>} position="top">
-                  <div
-                    className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500
-                  "
-                  >
+                  <div className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500">
                     <div className="h-5">{TagIconComponent[tag.icon]}</div>
                     <div>{tag.value}</div>
                   </div>
@@ -98,7 +93,7 @@ const Servers = (): JSX.Element => {
     );
   });
 
-  return <div className="m-auto w-5/6 3xl:w-1/2 flex flex-wrap gap-y-16">{servers}</div>;
+  return <div className="m-auto md:w-5/6 3xl:w-1/2 flex flex-wrap gap-y-16">{servers}</div>;
 };
 
 export default Servers;
