@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-// import { DateTime } from 'luxon';
 
 import { Link } from 'react-router-dom';
 
@@ -29,30 +28,18 @@ function Header(): JSX.Element {
     return true;
   };
 
-  // session = {
-  //   id: 'session-id-123',
-  //   user: {
-  //     id: 'user-id-123',
-  //     email: 'user-email-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@email.org',
-  //     role: 'admin',
-  //   },
-  //   absoluteExpiration: DateTime.now(),
-  //   lastActivityAt: DateTime.now(),
-  //   createdAt: DateTime.now(),
-  // };
-
   return (
-    <header className="fixed w-full p-3 bg-neutral-50 shadow-2xl z-50">
-      <div className="flex items-center justify-evenly mb-2 border-b-2">
+    <header className="fixed w-full p-3 bg-neutral-50 shadow-2xl z-50 md:flex md:justify-between md:p-2">
+      <div className="flex items-center justify-evenly mb-2 border-b-2 md:border-b-0 md:mb-0 md:space-x-8">
         <div className="flex items-center space-x-4">
           <Link to="/servers">
             <Logo />
           </Link>
-          <div className="">
+          <div>
             <Tooltip
               position="bottom"
               content={
-                <p className="w-80 font-sans text-xl text-center">
+                <p className="w-80 font-sans text-lg text-center">
                   Rustpm is under active development; issues may occur. Please report any problems in Discord.
                 </p>
               }
@@ -70,7 +57,7 @@ function Header(): JSX.Element {
         </div>
       </div>
       {!session && (
-        <div className="flex items-center justify-evenly">
+        <div className="flex items-center justify-evenly md:space-x-4">
           <Link to="/login">
             <Button compact slate>
               <div className="text-lg w-24">Log In</div>
@@ -84,50 +71,52 @@ function Header(): JSX.Element {
         </div>
       )}
       {session ? (
-        <Menu as="div" className="relative">
-          <Menu.Button className="flex items-center mx-auto">
-            <Fragment>
-              <UserIcon className="h-8 mx-3" /> <div className="max-w-xs truncate">{session.user.email}</div>{' '}
-            </Fragment>
-          </Menu.Button>
-          <Transition
-            enter="transition-opacity duration-200"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity duration-150"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Menu.Items className="absolute top-14 w-full pt-2 rounded-sm shadow-lg bg-white divide-y">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={classNames(
-                      active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
-                      'block w-full px-4 py-2 text-md',
-                    )}
-                    onClick={() => router.push('/profile')}
-                  >
-                    Profile
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={classNames(
-                      active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
-                      'block w-full px-4 py-2 text-md',
-                    )}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+        <div className="md:flex md:items-center">
+          <Menu as="div" className="relative">
+            <Menu.Button className="flex items-center mx-auto">
+              <Fragment>
+                <UserIcon className="h-8 mx-3" /> <div className="max-w-xs truncate">{session.user.email}</div>{' '}
+              </Fragment>
+            </Menu.Button>
+            <Transition
+              enter="transition-opacity duration-200"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Menu.Items className="absolute top-14 w-full pt-2 rounded-sm shadow-lg bg-white divide-y">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={classNames(
+                        active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
+                        'block w-full px-4 py-2 text-md',
+                      )}
+                      onClick={() => router.push('/profile')}
+                    >
+                      Profile
+                    </button>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={classNames(
+                        active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
+                        'block w-full px-4 py-2 text-md',
+                      )}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       ) : null}
     </header>
   );

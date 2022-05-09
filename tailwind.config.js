@@ -1,9 +1,6 @@
 module.exports = {
   content: ['./src/**/*.tsx'],
   theme: {
-    screens: {
-      tiny: '500',
-    },
     extend: {
       transitionProperty: {
         width: 'width',
