@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
+// import { DateTime } from 'luxon';
 
 import { Link } from 'react-router-dom';
 
 import { Button } from '../Button';
+import { Tooltip } from '../Tooltip';
 
 import { Menu, Transition } from '@headlessui/react';
 import Logo from '../../components/Logo/Logo';
@@ -27,40 +29,66 @@ function Header(): JSX.Element {
     return true;
   };
 
+  // session = {
+  //   id: 'session-id-123',
+  //   user: {
+  //     id: 'user-id-123',
+  //     email: 'user-email-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@email.org',
+  //     role: 'admin',
+  //   },
+  //   absoluteExpiration: DateTime.now(),
+  //   lastActivityAt: DateTime.now(),
+  //   createdAt: DateTime.now(),
+  // };
+
   return (
-    <header className="fixed w-full p-3 flex items-center bg-neutral-50 shadow-2xl z-50">
-      <Link className="h-10 mr-auto" to="/servers">
-        <Logo />
-      </Link>
-      <div className="inline-flex">
-        <div className="invisible md:visible">
-          <button className="w-full h-full">
+    <header className="fixed w-full p-3 bg-neutral-50 shadow-2xl z-50">
+      <div className="flex items-center justify-evenly mb-2 border-b-2">
+        <div className="flex items-center space-x-4">
+          <Link to="/servers">
+            <Logo />
+          </Link>
+          <div className="">
+            <Tooltip
+              position="bottom"
+              content={
+                <p className="w-80 font-sans text-xl text-center">
+                  Rustpm is under active development; issues may occur. Please report any problems in Discord.
+                </p>
+              }
+            >
+              <h3 className="text-lg border-4 border-zinc-300 px-2">Beta</h3>
+            </Tooltip>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <button>
             <a href="https://discord.com/invite/z9CR45E3gx">
               <DiscordLogo className="h-8 mx-auto" title="discord" />
             </a>
           </button>
         </div>
-        {!session && (
-          <div className="inline-flex items-center ml-8 space-x-3">
-            <Link to="/login">
-              <Button compact slate>
-                <div className="text-sm">Log In</div>
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button compact>
-                <div className="text-sm">Sign Up</div>
-              </Button>
-            </Link>
-          </div>
-        )}
-        <Menu as="div" className="relative h-full">
-          <Menu.Button className="inline-flex items-center w-full h-full">
-            {session ? (
-              <Fragment>
-                <UserIcon className="h-8 mx-3" /> <div className="truncate">{session.user.email}</div>{' '}
-              </Fragment>
-            ) : null}
+      </div>
+      {!session && (
+        <div className="flex items-center justify-evenly">
+          <Link to="/login">
+            <Button compact slate>
+              <div className="text-lg w-24">Log In</div>
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button compact>
+              <div className="text-lg w-20">Sign Up</div>
+            </Button>
+          </Link>
+        </div>
+      )}
+      {session ? (
+        <Menu as="div" className="relative">
+          <Menu.Button className="flex items-center mx-auto">
+            <Fragment>
+              <UserIcon className="h-8 mx-3" /> <div className="max-w-xs truncate">{session.user.email}</div>{' '}
+            </Fragment>
           </Menu.Button>
           <Transition
             enter="transition-opacity duration-200"
@@ -70,7 +98,7 @@ function Header(): JSX.Element {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Menu.Items className="absolute top-10 w-full pt-2 rounded-sm shadow-lg bg-white divide-y">
+            <Menu.Items className="absolute top-14 w-full pt-2 rounded-sm shadow-lg bg-white divide-y">
               <Menu.Item>
                 {({ active }) => (
                   <button
@@ -100,7 +128,7 @@ function Header(): JSX.Element {
             </Menu.Items>
           </Transition>
         </Menu>
-      </div>
+      ) : null}
     </header>
   );
 }

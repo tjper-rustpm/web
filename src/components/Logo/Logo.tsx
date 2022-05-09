@@ -1,15 +1,20 @@
-import styled from 'styled-components';
-import logo from './logo.png';
+interface LogoProps {
+  compact?: boolean;
+}
+const Logo = ({ compact }: LogoProps): JSX.Element => {
+  const textSize = compact ? 'text-4xl' : 'text-5xl';
+  const paddingBottom = compact ? 'pb-1.5' : 'pb-2';
 
-const Img = styled.img`
-  height: 100%;
-`;
-
-type LogoProps = {
-  className?: string;
-};
-const Logo = ({ className }: LogoProps): JSX.Element => {
-  return <Img className={className} src={logo} alt="Logo" />;
+  return (
+    <h1 className={`${textSize} flex justify-center items-center tracking-wide`}>
+      <span className="align-middle">RU</span>
+      <span className={`text-red-500 align-bottom px-0.5 ${paddingBottom}`}>:</span>
+      <span className="">ST</span>
+      <span className={`text-red-500 align-bottom px-0.5 ${paddingBottom}`}>:</span>
+      <span className="">PM</span>
+      <span className="text-red-500 pl-0.5">!</span>
+    </h1>
+  );
 };
 
 export default Logo;

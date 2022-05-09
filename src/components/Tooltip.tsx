@@ -1,4 +1,5 @@
 import { useCallback, useState, CSSProperties } from 'react';
+
 import { Transition } from '@headlessui/react';
 
 interface TooltipProps {
@@ -81,7 +82,7 @@ export const Tooltip = (props: TooltipProps): JSX.Element => {
           ref={tooltipRef}
           style={tooltipStyle}
           className={
-            'absolute rounded-md p-3 bg-slate-50 border shadow-xl border-slate-200 shadow-slate-500 text-xs text-slate-700 w-max z-40'
+            'absolute rounded-md p-3 bg-slate-50 border shadow-xl border-slate-200 shadow-slate-500 text-xs text-slate-700 z-40'
           }
         >
           {content}

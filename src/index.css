@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Oxanium', sans-serif;
+  font-family: 'Bebas Neue', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
