@@ -45,7 +45,7 @@ export const SignIn = (): JSX.Element => {
               onSuccess: (data: User) => {
                 toast.success('Successfully logged-in!');
                 if (!data.verifiedAt) {
-                  toast.error('Please verify your email.');
+                  toast('Please verify your email.', { icon: '⚠️' });
                 }
                 router.push('/servers');
               },
