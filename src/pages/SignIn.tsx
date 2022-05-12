@@ -81,7 +81,7 @@ export const SignIn = (): JSX.Element => {
       </Formik>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
-        <span className="mr-4 text-sm">Need to create an account?</span>
+        <span className="mr-4 text-md">Need to create an account?</span>
         <div className="grow">
           <Link to="/signup">
             <Button>
@@ -95,7 +95,7 @@ export const SignIn = (): JSX.Element => {
       </div>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
-        <span className="mr-4 text-sm">Forgot your password?</span>
+        <span className="mr-4 text-md">Forgot your password?</span>
         <div className="grow">
           <Link to="/forgot-password">
             <Button>

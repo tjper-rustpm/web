@@ -23,7 +23,7 @@ export const Button = ({ children, compact, slate, loading, ...rest }: ButtonPro
     children
   );
 
-  const style = `w-full ${height} px-3 ${background} rounded-md border border-zinc-300 shadow-md text-sm ${textColor} tracking-wider transition-all duration-75 active:border-slate-400 active:shadow-sm`;
+  const style = `w-full ${height} px-3 ${background} rounded-md border border-zinc-300 shadow-md text-lg ${textColor} tracking-wider transition-all duration-75 active:border-slate-400 active:shadow-sm`;
   return (
     <button className={style} {...rest}>
       {child}

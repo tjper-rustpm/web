@@ -14,7 +14,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
   return (
     <div>
       <div className="inline-flex items-center my-2">
-        <label className="text-slate-700 text-md font-bold mx-2" htmlFor={label.toLowerCase()}>
+        <label className="text-slate-700 text-xl mx-2" htmlFor={label.toLowerCase()}>
           {label}
         </label>
         <Transition
@@ -31,7 +31,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
       </div>
       <div className="relative w-full">
         <input
-          className="shadow w-full rounded-md h-11 px-3 mb-3 text-slate-400 border-slate-200 border"
+          className="shadow w-full rounded-md h-11 px-3 mb-3 font-sans text-slate-400 border-slate-200 border"
           {...field}
           placeholder={props.placeholder}
           type={props.type === 'password' && visible ? 'text' : props.type}
@@ -57,7 +57,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
       >
         <div className="inline-flex items-center ml-2 mb-3">
           <ExclamationIcon className="mr-2 w-5 h-5 text-red-400" />
-          <p className="text-sm text-red-500">{meta.error}</p>
+          <p className="text-md text-red-500">{meta.error}</p>
         </div>
       </Transition>
     </div>

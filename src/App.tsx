@@ -32,9 +32,11 @@ function App(): JSX.Element {
         <StylesProvider injectFirst>
           <QueryClientProvider client={queryClient}>
             <Toaster position="bottom-center" reverseOrder={false} />
-            <Header />
-            <div className="bg-white pt-32">
+            <div className="flex flex-col h-screen justify-between">
               <div>
+                <Header />
+              </div>
+              <div className="mb-auto pt-64 md:pt-48">
                 <Switch>
                   <Route path="/signup">
                     <SignUp />
@@ -64,8 +66,10 @@ function App(): JSX.Element {
                   </Route>
                 </Switch>
               </div>
+              <div>
+                <Footer />
+              </div>
             </div>
-            <Footer />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </StylesProvider>

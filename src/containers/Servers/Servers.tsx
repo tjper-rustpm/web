@@ -15,6 +15,7 @@ import { Card } from '../../components/Card';
 import { DormantServerNameplate } from '../../components/DormantServerNameplate';
 import { LiveServerNameplate } from '../../components/LiveServerNameplate';
 import { Tooltip } from '../../components/Tooltip';
+import { Spinner } from '../../components/Spinner';
 
 import { AnyServer, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
@@ -26,7 +27,11 @@ const Servers = (): JSX.Element => {
   const { data, isLoading, error } = useServers();
 
   if (isLoading || !data) {
-    return <div>Loading ...</div>;
+    return (
+      <div className="h-16 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Spinner />
+      </div>
+    );
   }
   if (error) {
     return <div>Error ...</div>;
