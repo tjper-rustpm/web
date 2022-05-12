@@ -27,7 +27,7 @@ export function Profile(): JSX.Element {
   ];
 
   return (
-    <Card>
+    <Card size="4xl">
       <Tab.Group vertical>
         <div className="flex relative">
           <div
