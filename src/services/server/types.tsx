@@ -31,6 +31,14 @@ export interface Server {
   maxPlayers: number;
   events: Event[];
   tags: Tag[];
+  subscriptions: Subscriptions;
+  createdAt: DateTime;
+}
+
+export interface Subscriptions {
+  id: string;
+  activeSubscriptions: number;
+  subscriptionLimit: number;
   createdAt: DateTime;
 }
 
