@@ -44,11 +44,9 @@ function App(): JSX.Element {
                   <Route path="/login">
                     <SignIn />
                   </Route>
-                  <Route path="/profile">
-                    <Authenticated fallback="/servers">
-                      <Profile />
-                    </Authenticated>
-                  </Route>
+                  <Authenticated path="/profile">
+                    <Profile />
+                  </Authenticated>
                   <Route path="/verify-email">
                     <VerifyEmail />
                   </Route>

@@ -2,6 +2,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Divider } from '../components/Divider';
 import { InputField } from '../components/InputField';
+import { Typography } from '../components/Typography';
 
 import { LockOpenIcon, UserCircleIcon } from '@heroicons/react/outline';
 
@@ -60,10 +61,9 @@ export const SignUp = (): JSX.Element => {
         {({ isSubmitting }: { isSubmitting: boolean }) => (
           <Form className="mb-6">
             <div className="flex items-center mb-8">
-              <h2 className="mr-3 text-3xl">Sign Up</h2>
-              <UserCircleIcon className="w-7" />
+              <Typography size="4xl">Sign Up</Typography>
+              <UserCircleIcon className="ml-4 w-7" />
             </div>
-
             <div className="mb-4">
               <InputField name="email" label="Email" type="text" />
               <InputField name="password" label="Password" type="password" />
@@ -72,7 +72,7 @@ export const SignUp = (): JSX.Element => {
             <Button slate loading={isSubmitting} type="submit">
               <div className="flex items-center w-max m-auto">
                 <UserCircleIcon className="w-5 mr-2" />
-                Sign Up
+                <Typography>Sign Up</Typography>
               </div>
             </Button>
           </Form>
@@ -86,7 +86,7 @@ export const SignUp = (): JSX.Element => {
             <Button>
               <div className="flex items-center w-max m-auto">
                 <LockOpenIcon className="w-5 mr-2" />
-                Login
+                <Typography>Login</Typography>
               </div>
             </Button>
           </Link>

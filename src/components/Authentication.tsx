@@ -108,7 +108,7 @@ export function Authentication(): JSX.Element {
           <Divider />
           <div>
             <h3 className="my-4 text-2xl">Resend Email Verification</h3>
-            <p className="my-4 text-md">
+            <p className="font-sans my-4 text-md">
               Pressing the button below will send an email to the user allowing them to verify they have access to the
               email associated with the account.
             </p>
@@ -121,7 +121,7 @@ export function Authentication(): JSX.Element {
       <Divider />
       <div>
         <h3 className="my-4 text-2xl">Logout All Active Sessions</h3>
-        <p className="my-4 text-md">
+        <p className="font-sans my-4 text-md">
           Pressing the button below will logout all active sessions associated with this user.
         </p>
         <Button slate loading={logoutAll.isLoading} onClick={onLogoutAll}>

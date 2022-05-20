@@ -36,7 +36,8 @@ export function useLogoutUser(): UseMutationResult<void, Error, void> {
     },
     {
       onSuccess: () => {
-        queryClient.resetQueries(['session', 'user']);
+        queryClient.invalidateQueries('session');
+        queryClient.invalidateQueries('user');
       },
     },
   );
@@ -58,7 +59,8 @@ export function useLoginUser(): UseMutationResult<User, Error, LoginUserArgs> {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['session', 'user']);
+        queryClient.invalidateQueries('session');
+        queryClient.invalidateQueries('user');
       },
     },
   );
@@ -73,7 +75,7 @@ export function useVerifyEmail(): UseMutationResult<void, Error, VerifyEmailArgs
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['user']);
+        queryClient.invalidateQueries('user');
       },
     },
   );
@@ -113,7 +115,8 @@ export function useLogoutAll(): UseMutationResult<void, Error, void> {
     },
     {
       onSuccess: () => {
-        queryClient.resetQueries(['session', 'user']);
+        queryClient.invalidateQueries('session');
+        queryClient.invalidateQueries('user');
       },
     },
   );

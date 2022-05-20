@@ -1,19 +1,15 @@
-import React from 'react';
+import { Route } from 'react-router-dom';
 
-import { useRouter } from './router';
+import { SignIn } from '../pages/SignIn';
 import { useSession } from '../services/user/hooks';
 
 interface AuthenticatedProps {
-  fallback: string;
+  path: string;
   children: JSX.Element;
 }
 
-export const Authenticated = ({ children, fallback }: AuthenticatedProps): JSX.Element => {
-  const router = useRouter();
+export const Authenticated = ({ children, ...rest }: AuthenticatedProps): JSX.Element => {
   const { data: session } = useSession();
 
-  if (!session) {
-    router.push(fallback);
-  }
-  return <React.Fragment>{children}</React.Fragment>;
+  return <Route {...rest}>{session ? children : <SignIn />}</Route>;
 };

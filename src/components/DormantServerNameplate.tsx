@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { Tooltip } from './Tooltip';
+import { Typography } from './Typography';
 
 import { useCount } from '../hooks/useCount';
 import { DormantServer, Background } from '../services/server/types';
@@ -22,11 +23,11 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
       } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-2 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
     >
       <span className="col-start-1 col-span-full">
-        <h3 className="text-4xl">{server.name}</h3>
+        <Typography size="4xl">{server.name}</Typography>
       </span>
       <div className="col-start-2 justify-self-end self-end text-2xl">
         <Tooltip content="Countdown" position="top">
-          {count.toFormat('hh:mm:ss')}
+          <Typography size="2xl">{count.toFormat('hh:mm:ss')}</Typography>
         </Tooltip>
       </div>
     </figure>

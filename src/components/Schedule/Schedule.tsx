@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { Tooltip } from '../Tooltip';
+import { Typography } from '../Typography';
 
 import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
 
@@ -34,7 +35,7 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
   const xAxis = ['hour', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
   const legend = (
-    <div className="w-22 space-y-2">
+    <div className="w-20 space-y-2 font-sans">
       <div className="flex items-center align-center space-x-1">
         <span className="bg-green-200 border rounded-md shadow-md w-5 h-5" />
         <span>Now</span>
@@ -61,7 +62,7 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
   return (
     <div className="my-2 bg-slate-100 shadow-lg shadow-slate-300 p-3 border border-slate-200 rounded-md max-w-xl">
       <div className="flex items-center space-x-2">
-        <h5 className="text-2xl">Schedule</h5>
+        <Typography size="2xl">Schedule</Typography>
         <Tooltip content={legend}>
           <QuestionMarkCircleIcon className="h-5" />
         </Tooltip>
@@ -101,11 +102,11 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
               style = 'col-span-2 row-span-2';
             }
             if (y === 'day' && x !== 'hour' && typeof x === 'number') {
-              style = 'self-end row-span-2 font-thin -translate-y-3 -rotate-[55deg] w-max';
+              style = 'font-sans font-bold self-end row-span-2 -translate-x-2 -translate-y-3 -rotate-[55deg] w-max';
               text = x % 2 === 0 ? readableHour(x) : null;
             }
             if (x === 'hour' && y !== 'day' && typeof y === 'number') {
-              style = 'place-self-start col-span-2 font-thin';
+              style = 'font-sans font-bold place-self-start col-span-2';
               text = ShortWeekdayName[y];
             }
 

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { Tooltip } from './Tooltip';
+import { Typography } from './Typography';
 
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
@@ -24,10 +25,10 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
       } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-5 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
     >
       <span className="col-start-1 col-span-4">
-        <h3 className="text-4xl">{server.name}</h3>
+        <Typography size="4xl">{server.name}</Typography>
         <div className="w-min">
           <Tooltip content={<h5>IP Address</h5>} position="bottom">
-            <h4>{server.elasticIP}</h4>
+            <Typography size="xl">{server.elasticIP}</Typography>
           </Tooltip>
         </div>
       </span>
@@ -38,19 +39,19 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
         <Tooltip content={<p className="w-20">Active Players</p>}>
           <div className="flex items-center space-x-2">
             <GroupIcon />
-            <span>{server.activePlayers}</span>
+            <Typography size="lg">{server.activePlayers}</Typography>
           </div>
         </Tooltip>
         <Tooltip content={<p className="w-24">Queued Players</p>}>
           <div className="flex items-center space-x-2">
             <LinearScaleIcon />
-            <span>{server.queuedPlayers}</span>
+            <Typography size="lg">{server.queuedPlayers}</Typography>
           </div>
         </Tooltip>
       </div>
       <div className="col-start-5 justify-self-end self-end text-2xl">
         <Tooltip content="Uptime" position="top">
-          {count.toFormat('hh:mm:ss')}
+          <Typography size="2xl">{count.toFormat('hh:mm:ss')}</Typography>
         </Tooltip>
       </div>
     </figure>

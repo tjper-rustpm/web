@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Divider } from '../components/Divider';
 import { InputField } from '../components/InputField';
+import { Typography } from '../components/Typography';
 
 import { useLoginUser } from '../services/user/hooks';
 import { User } from '../services/user/types';
@@ -62,8 +63,8 @@ export const SignIn = (): JSX.Element => {
         {({ isSubmitting }: { isSubmitting: boolean }) => (
           <Form className="mb-6">
             <div className="flex items-center mb-8">
-              <h2 className="mr-3 text-3xl">Login</h2>
-              <LockOpenIcon className="w-7" />
+              <Typography size="4xl">Login</Typography>
+              <LockOpenIcon className="ml-4 w-7" />
             </div>
             <div className="mb-4">
               <InputField name="email" label="Email" type="text" />
@@ -72,7 +73,8 @@ export const SignIn = (): JSX.Element => {
             <div>
               <Button slate loading={isSubmitting} type="submit">
                 <div className="flex items-center w-max m-auto">
-                  <LockOpenIcon className="w-5 mr-2" /> Log In
+                  <LockOpenIcon className="w-5 mr-2" />
+                  <Typography>Log In</Typography>
                 </div>
               </Button>
             </div>
@@ -81,13 +83,13 @@ export const SignIn = (): JSX.Element => {
       </Formik>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
-        <span className="mr-4 text-md">Need to create an account?</span>
+        <span className="mr-4 font-sans text-md">Need to create an account?</span>
         <div className="grow">
           <Link to="/signup">
             <Button>
               <div className="flex items-center w-max m-auto">
                 <UserCircleIcon className="w-5 mr-2" />
-                Sign Up
+                <Typography>Sign Up</Typography>
               </div>
             </Button>
           </Link>
@@ -95,13 +97,13 @@ export const SignIn = (): JSX.Element => {
       </div>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
-        <span className="mr-4 text-md">Forgot your password?</span>
+        <span className="mr-4 font-sans text-md">Forgot your password?</span>
         <div className="grow">
           <Link to="/forgot-password">
             <Button>
               <div className="flex items-center w-max m-auto">
                 <QuestionMarkCircleIcon className="w-5 mr-2" />
-                Forgot Password
+                <Typography>Forgot Password</Typography>
               </div>
             </Button>
           </Link>

@@ -1,5 +1,6 @@
 import {
   CalendarIcon,
+  ExclamationIcon,
   GlobeIcon,
   MapIcon,
   PlayIcon,
@@ -16,6 +17,7 @@ import { DormantServerNameplate } from '../../components/DormantServerNameplate'
 import { LiveServerNameplate } from '../../components/LiveServerNameplate';
 import { Tooltip } from '../../components/Tooltip';
 import { Spinner } from '../../components/Spinner';
+import { Typography } from '../../components/Typography';
 
 import { AnyServer, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
@@ -34,7 +36,18 @@ const Servers = (): JSX.Element => {
     );
   }
   if (error) {
-    return <div>Error ...</div>;
+    return (
+      <Card>
+        <div className="flex items-center mb-6">
+          <ExclamationIcon className="h-10 text-red-400 mr-3" />
+          <Typography size="4xl">Error!</Typography>
+        </div>
+        <p className="font-sans">
+          An unexpected error has occurred and is being followed up on by our team. We apologize for this inconvenience,
+          in the meantime, please try again. If the issue persists please check our Discord for more details.
+        </p>
+      </Card>
+    );
   }
 
   const servers = data.map((server: AnyServer) => {
@@ -49,13 +62,13 @@ const Servers = (): JSX.Element => {
             <Button slate>
               <span className="flex items-center justify-center space-x-2">
                 <PlayIcon className="h-6" />
-                <span>Join</span>
+                <Typography size="xl">Join</Typography>
               </span>
             </Button>
             <Button slate>
               <span className="flex items-center justify-center space-x-2">
                 <StarIcon className="h-6" />
-                <span>VIP</span>
+                <Typography size="xl">VIP</Typography>
               </span>
             </Button>
           </div>
@@ -68,7 +81,7 @@ const Servers = (): JSX.Element => {
             <Button slate>
               <span className="flex items-center justify-center space-x-2">
                 <StarIcon className="h-6" />
-                <span>VIP</span>
+                <Typography size="xl">VIP</Typography>
               </span>
             </Button>
           </div>
@@ -81,13 +94,13 @@ const Servers = (): JSX.Element => {
           {nameplate}
           {buttons}
           <Schedule schedule={server.events} />
-          <div className="inline-flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
               <div key={tag.id}>
                 <Tooltip content={<h5>{tag.description}</h5>} position="top">
-                  <div className="flex items-center px-4 py-2 space-x-3 bg-slate-600 text-white rounded-3xl h-8 shadow-lg shadow-slate-500">
+                  <div className="flex items-center px-4 py-2 space-x-3 bg-slate-600 font-thin text-lg text-white rounded-3xl h-8 shadow-lg shadow-slate-500">
                     <div className="h-5">{TagIconComponent[tag.icon]}</div>
-                    <div>{tag.value}</div>
+                    <div className="pt-0.5">{tag.value}</div>
                   </div>
                 </Tooltip>
               </div>

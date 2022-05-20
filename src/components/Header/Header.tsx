@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
+import { Typography } from '../Typography';
 
 import { Menu, Transition } from '@headlessui/react';
 import Logo from '../../components/Logo/Logo';
@@ -29,7 +30,7 @@ function Header(): JSX.Element {
   };
 
   return (
-    <header className="fixed w-full p-3 bg-neutral-50 shadow-2xl z-50 md:flex md:justify-between md:p-2">
+    <header className="fixed w-full p-2 bg-neutral-50 shadow-2xl z-50 md:flex md:justify-between md:px-4">
       <div className="flex items-center justify-evenly mb-2 border-b-2 md:border-b-0 md:mb-0 md:space-x-8">
         <div className="flex items-center space-x-4">
           <Link to="/servers">
@@ -39,12 +40,12 @@ function Header(): JSX.Element {
             <Tooltip
               position="bottom"
               content={
-                <p className="w-80 font-sans text-lg text-center">
+                <p className="w-60 font-sans text-base text-center">
                   Rustpm is under active development; issues may occur. Please report any problems in Discord.
                 </p>
               }
             >
-              <h3 className="text-lg border-4 border-zinc-300 px-2">Beta</h3>
+              <h3 className="text-lg border-4 border-zinc-300 pt-0.5 px-2">Beta</h3>
             </Tooltip>
           </div>
         </div>
@@ -75,7 +76,10 @@ function Header(): JSX.Element {
           <Menu as="div" className="relative">
             <Menu.Button className="flex items-center mx-auto">
               <Fragment>
-                <UserIcon className="h-8 mx-3" /> <div className="max-w-xs truncate">{session.user.email}</div>{' '}
+                <UserIcon className="h-8 mx-3" />
+                <span className="truncate w-32">
+                  <Typography>{session.user.email}</Typography>
+                </span>
               </Fragment>
             </Menu.Button>
             <Transition
@@ -92,7 +96,7 @@ function Header(): JSX.Element {
                     <button
                       className={classNames(
                         active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
-                        'block w-full px-4 py-2 text-md',
+                        'block w-full px-4 py-2 text-lg',
                       )}
                       onClick={() => router.push('/profile')}
                     >
@@ -105,7 +109,7 @@ function Header(): JSX.Element {
                     <button
                       className={classNames(
                         active ? 'bg-neutral-50 text-gray-900' : 'text-gray-700',
-                        'block w-full px-4 py-2 text-md',
+                        'block w-full px-4 py-2 text-lg',
                       )}
                       onClick={handleLogout}
                     >

@@ -1,3 +1,5 @@
+import { Typography } from '../Typography';
+
 interface LogoProps {
   compact?: boolean;
 }
@@ -7,12 +9,12 @@ const Logo = ({ compact }: LogoProps): JSX.Element => {
 
   return (
     <h1 className={`${textSize} flex justify-center items-center tracking-wide`}>
-      <span className="align-middle">RU</span>
+      <Typography size="5xl">RU</Typography>
       <span className={`text-red-500 align-bottom px-0.5 ${paddingBottom}`}>:</span>
-      <span className="">ST</span>
+      <Typography size="5xl">ST</Typography>
       <span className={`text-red-500 align-bottom px-0.5 ${paddingBottom}`}>:</span>
-      <span className="">PM</span>
-      <span className="text-red-500 pl-0.5">!</span>
+      <Typography size="5xl">PM</Typography>
+      <span className="text-red-500 pl-0.5 pt-1">!</span>
     </h1>
   );
 };
