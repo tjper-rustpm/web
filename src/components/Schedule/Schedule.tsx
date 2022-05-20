@@ -125,13 +125,13 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
 export default Schedule;
 
 const ShortWeekdayName: Record<number, string> = {
-  0: 'Sun',
-  1: 'Mon',
-  2: 'Tue',
-  3: 'Wed',
-  4: 'Thur',
-  5: 'Fri',
-  6: 'Sat',
+  0: 'Mon',
+  1: 'Tue',
+  2: 'Wed',
+  3: 'Thur',
+  4: 'Fri',
+  5: 'Sat',
+  6: 'Sun',
 };
 
 const readableHour = (hour: number): string => {
