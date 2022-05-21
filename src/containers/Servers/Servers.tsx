@@ -52,47 +52,43 @@ const Servers = (): JSX.Element => {
 
   const servers = data.map((server: AnyServer) => {
     let nameplate: JSX.Element;
-    let buttons: JSX.Element;
+    const buttons: JSX.Element[] = [];
+
+    if (server.subscriptions?.activeSubscriptions < server.subscriptions?.subscriptionLimit) {
+      buttons.push(
+        <Button slate>
+          <span className="flex items-center justify-center space-x-2">
+            <StarIcon className="h-6" />
+            <Typography size="xl">VIP</Typography>
+          </span>
+        </Button>,
+      );
+    }
 
     switch (server.kind) {
       case 'live':
         nameplate = <LiveServerNameplate server={server} />;
-        buttons = (
-          <div className="flex space-x-4 w-11/12 m-auto">
-            <Button slate>
-              <span className="flex items-center justify-center space-x-2">
-                <PlayIcon className="h-6" />
-                <Typography size="xl">Join</Typography>
-              </span>
-            </Button>
-            <Button slate>
-              <span className="flex items-center justify-center space-x-2">
-                <StarIcon className="h-6" />
-                <Typography size="xl">VIP</Typography>
-              </span>
-            </Button>
-          </div>
+
+        buttons.push(
+          <Button slate>
+            <span className="flex items-center justify-center space-x-2">
+              <PlayIcon className="h-6" />
+              <Typography size="xl">Join</Typography>
+            </span>
+          </Button>,
         );
+
         break;
       case 'dormant':
         nameplate = <DormantServerNameplate server={server} />;
-        buttons = (
-          <div className="w-11/12 m-auto">
-            <Button slate>
-              <span className="flex items-center justify-center space-x-2">
-                <StarIcon className="h-6" />
-                <Typography size="xl">VIP</Typography>
-              </span>
-            </Button>
-          </div>
-        );
         break;
     }
+
     return (
       <Card key={server.id} variant="compact">
         <div className="space-y-6">
           {nameplate}
-          {buttons}
+          <div className="flex space-x-4 w-11/12 m-auto">{buttons}</div>
           <Schedule schedule={server.events} />
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
