@@ -1,13 +1,15 @@
 import { Fragment, useState } from 'react';
+
 import { Authentication } from '../components/Authentication';
 import { Card } from '../components/Card';
 import { Divider } from '../components/Divider';
 import { Subscriptions } from '../components/Subscriptions';
-import { Transition } from '@headlessui/react';
+import { Typography } from '../components/Typography';
 
 import { CreditCardIcon, FingerPrintIcon, MenuIcon } from '@heroicons/react/outline';
 
 import { Tab } from '@headlessui/react';
+import { Transition } from '@headlessui/react';
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
@@ -48,7 +50,7 @@ export function Profile(): JSX.Element {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <span>Menu</span>
+                <Typography size="2xl">Menu</Typography>
               </Transition>
             </div>
             <div className="pr-2">
@@ -75,7 +77,7 @@ export function Profile(): JSX.Element {
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <div>{value.name}</div>
+                          <Typography size="xl">{value.name}</Typography>
                         </Transition>
                       </button>
                     )}

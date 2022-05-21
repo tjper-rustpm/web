@@ -1,11 +1,10 @@
-import { useQuery, UseQueryResult } from 'react-query';
+import { useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
-import { Server } from './types';
+import { StripeBillingDashboardArgs } from './types';
 
-export function useServers(): UseQueryResult<Server[], Error> {
-  return useQuery('servers', async () => {
-    const res = await axios.get<Server[]>('/payment-api/v1/servers');
-    return res.data;
+export function useStripeBillingDashboard(): UseMutationResult<void, Error, StripeBillingDashboardArgs> {
+  return useMutation<void, Error, StripeBillingDashboardArgs>(async (args) => {
+    await axios.post<void>('/payment-api/v1/billing', args);
   });
 }

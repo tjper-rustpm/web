@@ -1,8 +1,5 @@
-import { DateTime } from 'luxon';
+import  DateTime } from 'luxon';
 
-export interface Server {
-  id: string;
-  activeSubscriptions: number;
-  subscriptionLimit: number;
-  createdAt: DateTime;
+export interface StripeBillingDashboardArgs {
+  returnUrl: string
 }

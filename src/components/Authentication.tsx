@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '../components/Button';
 import { Divider } from '../components/Divider';
 import { InputField } from '../components/InputField';
+import { Typography } from '../components/Typography';
 
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -90,7 +91,7 @@ export function Authentication(): JSX.Element {
         >
           {({ isSubmitting }: { isSubmitting: boolean }) => (
             <Form>
-              <h3 className="mb-4 text-2xl">Update Password</h3>
+              <Typography size="2xl">Update Password</Typography>
               <div className="mb-4">
                 <InputField name="currentPassword" label="Current Password" type="password" />
                 <InputField name="newPassword" label="New Password" type="password" />
