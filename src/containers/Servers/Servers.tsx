@@ -1,13 +1,4 @@
-import {
-  CalendarIcon,
-  ExclamationIcon,
-  GlobeIcon,
-  MapIcon,
-  PlayIcon,
-  ScaleIcon,
-  StarIcon,
-  UserGroupIcon,
-} from '@heroicons/react/outline';
+import { Link } from 'react-router-dom';
 
 import Schedule from '../../components/Schedule/Schedule';
 
@@ -21,6 +12,17 @@ import { Typography } from '../../components/Typography';
 
 import { AnyServer, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
+
+import {
+  CalendarIcon,
+  ExclamationIcon,
+  GlobeIcon,
+  MapIcon,
+  PlayIcon,
+  ScaleIcon,
+  StarIcon,
+  UserGroupIcon,
+} from '@heroicons/react/outline';
 
 /**
  * Servers is a component responsible for Rustpm's servers.
@@ -56,12 +58,14 @@ const Servers = (): JSX.Element => {
 
     if (server.subscriptions?.activeSubscriptions < server.subscriptions?.subscriptionLimit) {
       buttons.push(
-        <Button slate>
-          <span className="flex items-center justify-center space-x-2">
-            <StarIcon className="h-6" />
-            <Typography size="xl">VIP</Typography>
-          </span>
-        </Button>,
+        <Link to={`../vip/${server.subscriptions.id}`} className="w-full">
+          <Button slate>
+            <span className="flex items-center justify-center space-x-2">
+              <StarIcon className="h-6" />
+              <Typography size="xl">VIP</Typography>
+            </span>
+          </Button>
+        </Link>,
       );
     }
 

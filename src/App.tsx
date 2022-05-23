@@ -8,6 +8,7 @@ import { SignUp } from './pages/SignUp';
 import { VerifyEmail } from './pages/VerifyEmail';
 import { ResetPassword } from './pages/ResetPassword';
 import { Profile } from './pages/Profile';
+import { Vip } from './pages/Vip';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -58,6 +59,9 @@ function App(): JSX.Element {
                   </Route>
                   <Route path="/servers">
                     <Servers />
+                  </Route>
+                  <Route path="/vip/:serverID">
+                    <Vip />
                   </Route>
                   <Route path="*">
                     <Redirect to="/servers" />
