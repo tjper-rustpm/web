@@ -2,6 +2,7 @@ import { Button } from '../components/Button';
 import { Typography } from '../components/Typography';
 
 import { useStripeBillingDashboard } from '../services/payment/hooks';
+import { Redirect as PaymentRedirect } from '../services/payment/types';
 import { toast } from 'react-hot-toast';
 
 export function Subscriptions(): JSX.Element {
@@ -9,10 +10,11 @@ export function Subscriptions(): JSX.Element {
 
   const onStripeBillingDashboard = () => {
     stripeBillingDashboard.mutate(
-      { returnUrl: 'https://localhost:8000/profile' },
+      { returnUrl: 'http://localhost:8000/profile' },
       {
-        onSuccess: () => {
+        onSuccess: (data: PaymentRedirect) => {
           toast.success('Navigating to Stripe Dashboard.');
+          window.location.href = data.url;
         },
         onError: (error: Error) => {
           toast.error(error.message);
