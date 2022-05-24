@@ -2,6 +2,7 @@ import { Spinner } from './Spinner';
 
 interface ButtonProps {
   children: React.ReactNode;
+  disabled?: boolean;
   compact?: boolean;
   slate?: boolean;
   loading?: boolean;
@@ -9,7 +10,9 @@ interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const Button = ({ children, compact, slate, loading, ...rest }: ButtonProps): JSX.Element => {
+export const Button = (props: ButtonProps): JSX.Element => {
+  const { children, disabled = false, compact, slate, loading, ...rest } = props;
+
   const height = compact ? 'h-10' : 'h-12';
 
   const background = slate ? 'bg-slate-600' : 'bg-zinc-200';
@@ -23,9 +26,9 @@ export const Button = ({ children, compact, slate, loading, ...rest }: ButtonPro
     children
   );
 
-  const style = `w-full ${height} px-3 ${background} rounded-md border border-zinc-300 shadow-md text-lg ${textColor} tracking-wider transition-all duration-75 active:border-slate-400 active:shadow-sm`;
+  const style = `w-full ${height} px-3 ${background} rounded-md border border-zinc-300 shadow-md text-lg ${textColor} tracking-wider transition-all duration-75 active:border-slate-400 active:shadow-sm disabled:bg-slate-400 disabled:shadow-sm disabled:border-zinc-300 disabled:transition-none`;
   return (
-    <button className={style} {...rest}>
+    <button disabled={disabled} className={style} {...rest}>
       {child}
     </button>
   );

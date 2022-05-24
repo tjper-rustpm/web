@@ -9,12 +9,14 @@ import { Typography } from '../components/Typography';
 
 import { Redirect } from 'react-router-dom';
 import { useRouter } from '../router/router';
+
+import { useSession } from '../services/user/hooks';
 import { useStripeCheckout } from '../services/payment/hooks';
 import { Redirect as PaymentRedirect } from '../services/payment/types';
 import { useServers } from '../services/server/hooks';
 import { AnyServer } from '../services/server/types';
 
-import { ExclamationIcon, StarIcon } from '@heroicons/react/outline';
+import { ExclamationIcon, StarIcon } from '@heroicons/react/solid';
 import { ReactComponent as PoweredByStripe } from '../imgs/stripe/white.svg';
 
 import * as yup from 'yup';
@@ -24,13 +26,15 @@ import { toast } from 'react-hot-toast';
 export const Vip = (): JSX.Element => {
   const router = useRouter<VipQueryArgs>();
   const checkout = useStripeCheckout();
+
+  const { data: session } = useSession();
   const { data, isLoading, error } = useServers();
 
   if (!router.query.serverID) {
     return <Redirect to="/servers" />;
   }
 
-  if (isLoading || !data) {
+  if (!data || isLoading) {
     return (
       <div className="h-16 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Spinner />
@@ -106,28 +110,32 @@ export const Vip = (): JSX.Element => {
             <div className="flex items-center mb-6 justify-between">
               <div className="flex items-center">
                 <Typography size="4xl">VIP</Typography>
-                <StarIcon className="ml-4 w-7" />
+                <StarIcon className="ml-4 w-7 text-red-500" />
               </div>
               <div>
                 <Typography size="3xl">$10 / Month</Typography>
               </div>
             </div>
             {nameplate}
-            <p className="font-sans text-center text-md mt-10 mb-2 px-8">
-              Becoming a VIP of {server.name} allows you to bypass the player queue when joining.
-            </p>
+            <div className="font-sans text-center text-md mt-10 mb-2 px-8">
+              <p className="mb-6">{server.description}</p>
+              <p>Becoming a VIP of {server.name} allows you to bypass the player queue when joining.</p>
+            </div>
             <Divider />
             <div className="mb-4">
               <InputField name="steamId" label="Steam ID" type="text" />
             </div>
             <div>
-              <Button slate loading={isSubmitting} type="submit">
+              <Button disabled={!session} slate loading={isSubmitting} type="submit">
                 <div className="flex items-center space-x-3 w-max m-auto">
                   <Typography>Checkout</Typography>
                   <PoweredByStripe className="w-28" />
                 </div>
               </Button>
             </div>
+            {!session && (
+              <p className="font-sans font-bold text-center text-md mt-4">Sign up or Log in before becoming a VIP.</p>
+            )}
           </Form>
         )}
       </Formik>
