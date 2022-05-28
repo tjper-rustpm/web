@@ -5,8 +5,12 @@ import { Typography } from './Typography';
 
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
+import { StarIcon } from '@heroicons/react/solid';
 
 import { useCount } from '../hooks/useCount';
+import { useSubscriptions } from '../services/payment/hooks';
+import { Subscription } from '../services/payment/types';
+import { useSession } from '../services/user/hooks';
 import { LiveServer, Background } from '../services/server/types';
 
 type LiveServerNameplateProps = {
@@ -14,9 +18,16 @@ type LiveServerNameplateProps = {
 };
 
 export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.Element => {
+  const { data: session } = useSession();
+  const { data: subscriptions } = useSubscriptions();
+
   const count = useCount({
     initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
   });
+
+  const subscription = subscriptions?.find(
+    (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
+  );
 
   return (
     <figure
@@ -25,7 +36,10 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
       } bg-cover bg-no-repeat aspect-[2/1] grid grid-cols-5 rounded-sm shadow-lg shadow-slate-500 p-4 max-w-xl text-white`}
     >
       <span className="col-start-1 col-span-4">
-        <Typography size="4xl">{server.name}</Typography>
+        <div>
+          <Typography size="4xl">{server.name}</Typography>
+          {session && subscription && <StarIcon className="ml-4 w-7 text-red-500" />}
+        </div>
         <div className="w-min">
           <Tooltip content={<h5>IP Address</h5>} position="bottom">
             <Typography size="xl">{server.elasticIP}</Typography>
