@@ -4,7 +4,7 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  node: circleci/node@4.7
+  node: circleci/node@5.0.2
   aws-ecr: circleci/aws-ecr@7.2.0
 
 # Invoke jobs via workflows
@@ -12,8 +12,14 @@ orbs:
 workflows:
   lint-test:
     jobs:
-      - node/run:
-          npm-run: lint
+      - lint:
+        executor: node/default
+        steps:
+          - checkout
+          - node/install-packages:
+              cache-path: ~/project/node_modules
+              override-ci-command: npm install
+          - run: npm run lint
       - node/test:
           version: '16.10'
           pkg-manager: npm
