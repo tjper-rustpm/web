@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import '@fontsource/bebas-neue';
 import './index.css';
 
 ReactDOM.render(
