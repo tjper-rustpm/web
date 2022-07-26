@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Servers from './containers/Servers/Servers';
@@ -27,6 +28,10 @@ import { Toaster } from 'react-hot-toast';
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
+  useEffect(() => {
+    document.title = 'Rustpm';
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={light}>
