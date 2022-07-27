@@ -117,7 +117,7 @@ export const Vip = (): JSX.Element => {
               </div>
             </div>
             {nameplate}
-            <div className="font-sans text-center text-md mt-10 mb-2 px-8">
+            <div className="font-sans indent-6 text-md mt-10 mb-2 px-8">
               <p className="mb-6">{server.description}</p>
               <p>Becoming a VIP of {server.name} allows you to bypass the player queue when joining.</p>
             </div>
