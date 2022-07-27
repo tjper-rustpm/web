@@ -134,7 +134,7 @@ export const Vip = (): JSX.Element => {
               </Button>
             </div>
             {!session && (
-              <p className="font-sans font-bold text-center text-md mt-4">Sign up or Log in before becoming a VIP.</p>
+              <p className="font-sans font-bold text-center text-md mt-4">Sign up and log in before becoming a VIP.</p>
             )}
           </Form>
         )}
