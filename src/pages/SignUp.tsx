@@ -80,7 +80,7 @@ export const SignUp = (): JSX.Element => {
       </Formik>
       <Divider />
       <div className="flex flex-wrap items-center w-full">
-        <span className="mr-4">Already have an account?</span>
+        <span className="mr-4 font-sans text-md">Already have an account?</span>
         <div className="grow">
           <Link to="/login">
             <Button>
