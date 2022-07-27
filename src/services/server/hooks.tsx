@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from 'react-query';
-import axios from 'axios';
+import { client } from '../../axios/axios';
 
 import { AnyServer, Subscriptions } from './types';
 
 export function useServers(): UseQueryResult<AnyServer[], Error> {
   return useQuery('servers', async () => {
-    const getServers = axios.get<AnyServer[]>('/server-api/v1/servers');
-    const getSubscriptions = axios.get<Subscriptions[]>('/payment-api/v1/servers');
+    const getServers = client.get<AnyServer[]>('/server-api/v1/servers');
+    const getSubscriptions = client.get<Subscriptions[]>('/payment-api/v1/servers');
 
     const res = await Promise.all([getServers, getSubscriptions]);
     const [serversDetails, subscriptionsDetails] = res;

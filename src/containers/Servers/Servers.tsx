@@ -97,7 +97,7 @@ const Servers = (): JSX.Element => {
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
               <div key={tag.id}>
-                <Tooltip content={<p className="font-sans">{tag.description}</p>} position="top">
+                <Tooltip content={<p className="font-sans text-md min-w-max">{tag.description}</p>} position="top">
                   <div className="flex items-center pl-3 pr-4 space-x-3 bg-slate-600 font-thin text-lg text-white rounded-3xl h-8 shadow-lg shadow-slate-500">
                     <div className="h-5">{TagIconComponent[tag.icon]}</div>
                     <Typography size="xl">{tag.value}</Typography>

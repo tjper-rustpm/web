@@ -8,7 +8,7 @@ module.exports = {
       backgroundImage: {
         'airport-nameplate': "url('/src/imgs/nameplates/airport.webp')",
         'beach-lighthouse-nameplate': "url('/src/imgs/nameplates/beachLighthouse.webp')",
-        'bil-oil-night-nameplate': "url('/src/imgs/nameplates/bigOilNight.webp')",
+        'big-oil-night-nameplate': "url('/src/imgs/nameplates/bigOilNight.webp')",
         'forest-nameplate': "url('/src/imgs/nameplates/forest.webp')",
         'island-lighthouse-nameplate': "url('/src/imgs/nameplates/islandLighthouse.webp')",
         'junkyard-nameplate': "url('/src/imgs/nameplates/junkyard.webp')",
