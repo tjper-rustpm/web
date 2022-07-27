@@ -39,7 +39,7 @@ export interface ForgotPasswordArgs {
   email: string;
 }
 
-export interface ChangePasswordArgs {
+export interface ResetPasswordArgs {
   hash: string;
   password: string;
 }

@@ -7,12 +7,12 @@ import { FingerPrintIcon } from '@heroicons/react/outline';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 
-import { useChangePassword } from '../services/user/hooks';
+import { useResetPassword } from '../services/user/hooks';
 import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
 export function ResetPassword(): JSX.Element {
-  const changePassword = useChangePassword();
+  const resetPassword = useResetPassword();
 
   const router = useRouter<{ hash: string }>();
 
@@ -44,11 +44,11 @@ export function ResetPassword(): JSX.Element {
             .required('password confirmation is required'),
         })}
         onSubmit={async (values) => {
-          changePassword.mutate(
+          resetPassword.mutate(
             { hash: router.query.hash as string, password: values.password },
             {
               onSuccess: () => {
-                toast.success('Password has been changed.');
+                toast.success('Password has been updated.');
               },
               onError: (error: Error) => {
                 toast.error(error.message);

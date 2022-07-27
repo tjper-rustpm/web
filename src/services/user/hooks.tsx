@@ -8,7 +8,7 @@ import {
   CreateUserArgs,
   VerifyEmailArgs,
   ForgotPasswordArgs,
-  ChangePasswordArgs,
+  ResetPasswordArgs,
   UpdateUserPasswordArgs,
 } from './types';
 
@@ -93,9 +93,9 @@ export function useForgotPassword(): UseMutationResult<void, Error, ForgotPasswo
   });
 }
 
-export function useChangePassword(): UseMutationResult<void, Error, ChangePasswordArgs> {
-  return useMutation<void, Error, ChangePasswordArgs>(async (args) => {
-    await client.post<void>('/user-api/v1/user/change-password', args);
+export function useResetPassword(): UseMutationResult<void, Error, ResetPasswordArgs> {
+  return useMutation<void, Error, ResetPasswordArgs>(async (args) => {
+    await client.post<void>('/user-api/v1/user/reset-password', args);
   });
 }
 
