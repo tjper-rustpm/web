@@ -37,7 +37,11 @@ function App(): JSX.Element {
       <ThemeProvider theme={light}>
         <StylesProvider injectFirst>
           <QueryClientProvider client={queryClient}>
-            <Toaster position="bottom-center" reverseOrder={false} />
+            <Toaster
+              position="bottom-center"
+              reverseOrder={false}
+              toastOptions={{ duration: 5000, className: 'text-xl p-2' }}
+            />
             <div className="flex flex-col h-screen justify-between">
               <div>
                 <Header />
