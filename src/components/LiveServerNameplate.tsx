@@ -19,7 +19,12 @@ type LiveServerNameplateProps = {
 
 export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.Element => {
   const { data: session } = useSession();
-  const { data: subscriptions } = useSubscriptions();
+
+  let subscriptions: Subscription[] | undefined;
+  if (session) {
+    const { data } = useSubscriptions();
+    subscriptions = data;
+  }
 
   const count = useCount({
     initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),

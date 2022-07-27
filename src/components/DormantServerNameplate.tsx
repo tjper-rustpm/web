@@ -17,7 +17,12 @@ type DormantServerNameplateProps = {
 
 export const DormantServerNameplate = ({ server }: DormantServerNameplateProps): JSX.Element => {
   const { data: session } = useSession();
-  const { data: subscriptions } = useSubscriptions();
+
+  let subscriptions: Subscription[] | undefined;
+  if (session) {
+    const { data } = useSubscriptions();
+    subscriptions = data;
+  }
 
   const count = useCount({
     direction: '-',
