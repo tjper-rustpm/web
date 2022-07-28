@@ -92,7 +92,13 @@ const Servers = (): JSX.Element => {
       <Card key={server.id} variant="compact">
         <div className="space-y-6">
           {nameplate}
-          <div className="flex space-x-4 w-11/12 m-auto">{buttons}</div>
+          <div className="flex space-x-4 w-11/12 m-auto">
+            {buttons.map((button: JSX.Element, index: number) => (
+              <span key={index.toString()} className="w-full">
+                {button}
+              </span>
+            ))}
+          </div>
           <Schedule schedule={server.events} />
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
