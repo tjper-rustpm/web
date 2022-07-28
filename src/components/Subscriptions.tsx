@@ -13,7 +13,7 @@ export function Subscriptions(): JSX.Element {
 
   const onStripeBillingDashboard = () => {
     stripeBillingDashboard.mutate(
-      { returnUrl: 'http://localhost:8000/profile' },
+      { returnUrl: `${window.location.origin}/profile` },
       {
         onSuccess: (data: PaymentRedirect) => {
           toast.success('Navigating to Stripe Dashboard.');

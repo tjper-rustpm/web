@@ -87,8 +87,8 @@ export const Vip = (): JSX.Element => {
             {
               serverId: router.query.serverID as string,
               steamId: values.steamId,
-              cancelUrl: 'http://localhost:8000/servers',
-              successUrl: 'http://localhost:8000/servers',
+              cancelUrl: `${window.location.origin}/servers`,
+              successUrl: `${window.location.origin}/servers`,
               priceId: 'price_1KLJWjCEcXRU8XL2TVKcLGUO',
             },
             {
