@@ -43,7 +43,7 @@ export const SignUp = (): JSX.Element => {
             })
             .required('password confirmation is required'),
         })}
-        onSubmit={(values) => {
+        onSubmit={(values, formikHelpers) => {
           createUser.mutate(
             { email: values.email, password: values.password },
             {
@@ -51,8 +51,11 @@ export const SignUp = (): JSX.Element => {
                 toast.success('User account created!');
                 router.push('/login');
               },
-              onError: (error: Error) => {
-                toast.error(error.message);
+              onError: () => {
+                toast('Unable to sign-up, please try again');
+              },
+              onSettled: () => {
+                formikHelpers.setSubmitting(false);
               },
             },
           );

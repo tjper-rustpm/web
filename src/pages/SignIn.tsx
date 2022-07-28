@@ -46,12 +46,12 @@ export const SignIn = (): JSX.Element => {
               onSuccess: (data: User) => {
                 toast.success('Successfully logged-in!');
                 if (!data.verifiedAt) {
-                  toast('Please verify your email.', { icon: '⚠️' });
+                  toast('Please verify your email.');
                 }
                 router.push('/servers');
               },
-              onError: (error: Error) => {
-                toast.error(error.message);
+              onError: () => {
+                toast('Unable to log-in, please try again.');
               },
               onSettled: () => {
                 formikHelpers.setSubmitting(false);

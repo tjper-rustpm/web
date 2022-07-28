@@ -22,6 +22,7 @@ import { ReactComponent as PoweredByStripe } from '../imgs/stripe/white.svg';
 import * as yup from 'yup';
 import { Form, Formik } from 'formik';
 import { toast } from 'react-hot-toast';
+import { oops } from '../errors/errors';
 
 export const Vip = (): JSX.Element => {
   const router = useRouter<VipQueryArgs>();
@@ -95,8 +96,8 @@ export const Vip = (): JSX.Element => {
                 toast.success('Navigating to Stripe checkout.');
                 window.location.href = data.url;
               },
-              onError: (error: Error) => {
-                toast.error(error.message);
+              onError: () => {
+                oops();
               },
               onSettled: () => {
                 formikHelpers.setSubmitting(false);

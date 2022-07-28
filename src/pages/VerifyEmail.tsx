@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
 
+import { oops } from '../errors/errors';
 import { useVerifyEmail } from '../services/user/hooks';
 import { VerifyEmailArgs } from '../services/user/types';
 
@@ -27,16 +28,14 @@ export const VerifyEmail = (): JSX.Element => {
         {
           onSuccess: () => {
             setStatus('success');
+            toast.success('Email verified! Rerouting to home.');
             setTimeout(() => {
-              toast.success('Email verified!');
               router.push('/servers');
-            }, 2000);
+            }, 3000);
           },
           onError: () => {
             setStatus('error');
-            setTimeout(() => {
-              router.push('/servers');
-            }, 2000);
+            oops('/servers');
           },
         },
       );

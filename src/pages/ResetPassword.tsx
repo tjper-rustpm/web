@@ -7,6 +7,7 @@ import { FingerPrintIcon } from '@heroicons/react/outline';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 
+import { oops } from '../errors/errors';
 import { useResetPassword } from '../services/user/hooks';
 import { useRouter } from '../router/router';
 import { toast } from 'react-hot-toast';
@@ -48,10 +49,13 @@ export function ResetPassword(): JSX.Element {
             { hash: router.query.hash as string, password: values.password },
             {
               onSuccess: () => {
-                toast.success('Password has been updated.');
+                toast.success('Password has been updated. Rerouting to home.');
+                setTimeout(() => {
+                  router.push('/servers');
+                }, 3000);
               },
-              onError: (error: Error) => {
-                toast.error(error.message);
+              onError: () => {
+                oops('/servers');
               },
             },
           );

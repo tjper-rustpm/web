@@ -40,7 +40,7 @@ function App(): JSX.Element {
             <Toaster
               position="bottom-center"
               reverseOrder={false}
-              toastOptions={{ duration: 5000, className: 'text-xl p-2' }}
+              toastOptions={{ duration: 5000, className: 'w-max text-2xl px-6 py-2' }}
             />
             <div className="flex flex-col h-screen justify-between">
               <div>

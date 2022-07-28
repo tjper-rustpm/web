@@ -10,6 +10,7 @@ import * as yup from 'yup';
 
 import { useLogoutAll, useUser, useResendVerificationEmail, useUpdateUserPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
+import { oops } from '../errors/errors';
 
 export function Authentication(): JSX.Element {
   const { data: user } = useUser();
@@ -22,8 +23,8 @@ export function Authentication(): JSX.Element {
       onSuccess: () => {
         toast.success('All user sessions ended!');
       },
-      onError: (error: Error) => {
-        toast.error(error.message);
+      onError: () => {
+        oops();
       },
     });
   };
@@ -33,8 +34,8 @@ export function Authentication(): JSX.Element {
       onSuccess: () => {
         toast.success('Verification email sent!');
       },
-      onError: (error: Error) => {
-        toast.error(error.message);
+      onError: () => {
+        oops();
       },
     });
   };
@@ -79,8 +80,8 @@ export function Authentication(): JSX.Element {
                 onSuccess: () => {
                   toast.success('Password updated!');
                 },
-                onError: (error: Error) => {
-                  toast.error(error.message);
+                onError: () => {
+                  oops();
                 },
                 onSettled: () => {
                   formikHelpers.setSubmitting(false);

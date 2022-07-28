@@ -9,6 +9,7 @@ import * as yup from 'yup';
 
 import { useForgotPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
+import { oops } from '../errors/errors';
 
 export function ForgotPassword(): JSX.Element {
   const forgotPassword = useForgotPassword();
@@ -27,8 +28,8 @@ export function ForgotPassword(): JSX.Element {
             onSuccess: () => {
               toast.success('An email to reset your password has been sent.');
             },
-            onError: (error: Error) => {
-              toast.error(error.message);
+            onError: () => {
+              oops();
             },
           });
         }}

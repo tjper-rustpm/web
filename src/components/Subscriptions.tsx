@@ -4,6 +4,7 @@ import { Typography } from '../components/Typography';
 import { useStripeBillingDashboard, useSubscriptions } from '../services/payment/hooks';
 import { Redirect as PaymentRedirect } from '../services/payment/types';
 import { toast } from 'react-hot-toast';
+import { oops } from '../errors/errors';
 
 export function Subscriptions(): JSX.Element {
   const { data: subscriptions } = useSubscriptions();
@@ -18,8 +19,8 @@ export function Subscriptions(): JSX.Element {
           toast.success('Navigating to Stripe Dashboard.');
           window.location.href = data.url;
         },
-        onError: (error: Error) => {
-          toast.error(error.message);
+        onError: () => {
+          oops();
         },
       },
     );
