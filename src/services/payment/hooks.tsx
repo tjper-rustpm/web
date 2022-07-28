@@ -4,8 +4,8 @@ import { client } from '../../axios/axios';
 import { Redirect, StripeBillingDashboardArgs, StripeCheckoutArgs, Subscription } from './types';
 
 export function useSubscriptions(): UseQueryResult<Subscription[], Error> {
-  return useQuery('subscriptions', async () => {
-    const res = await client.get<Subscription[]>('/payment-api/v1/subscriptions');
+  return useQuery('subscriptions', async ({ signal }) => {
+    const res = await client.get<Subscription[]>('/payment-api/v1/subscriptions', { signal });
     return res.data;
   });
 }

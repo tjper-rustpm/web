@@ -13,15 +13,15 @@ import {
 } from './types';
 
 export function useSession(): UseQueryResult<Session, Error> {
-  return useQuery('session', async () => {
-    const res = await client.get<User>('/user-api/v1/user/session');
+  return useQuery('session', async ({ signal }) => {
+    const res = await client.get<User>('/user-api/v1/user/session', { signal });
     return res.data;
   });
 }
 
 export function useUser(): UseQueryResult<User, Error> {
-  return useQuery('user', async () => {
-    const res = await client.get<User>('/user-api/v1/user');
+  return useQuery('user', async ({ signal }) => {
+    const res = await client.get<User>('/user-api/v1/user', { signal });
     return res.data;
   });
 }
