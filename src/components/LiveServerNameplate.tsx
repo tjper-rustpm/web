@@ -2,12 +2,12 @@ import { DateTime } from 'luxon';
 
 import { Tooltip } from './Tooltip';
 import { Typography } from './Typography';
+import { Clock } from './Clock';
 
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
 import { StarIcon } from '@heroicons/react/solid';
 
-import { useCount } from '../hooks/useCount';
 import { useSubscriptions } from '../services/payment/hooks';
 import { Subscription } from '../services/payment/types';
 import { useSession } from '../services/user/hooks';
@@ -25,10 +25,6 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
     const { data } = useSubscriptions();
     subscriptions = data;
   }
-
-  const count = useCount({
-    initial: DateTime.fromISO(server.createdAt.toString()).diffNow().negate(),
-  });
 
   const subscription = subscriptions?.find(
     (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
@@ -71,9 +67,11 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
           </Tooltip>
         </div>
         <div className="col-start-5 justify-self-end self-end text-2xl">
-          <Tooltip content={<p className="font-sans text-md min-w-max">Uptime</p>} position="top">
-            <Typography size="2xl">{count.toFormat('hh:mm:ss')}</Typography>
-          </Tooltip>
+          <Clock
+            initial={DateTime.fromISO(server.createdAt.toString()).diffNow().negate()}
+            direction="+"
+            tooltip="Uptime"
+          />
         </div>
       </div>
     </figure>

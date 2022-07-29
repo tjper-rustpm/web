@@ -1,9 +1,8 @@
 import { DateTime } from 'luxon';
 
-import { Tooltip } from './Tooltip';
 import { Typography } from './Typography';
+import { Clock } from './Clock';
 
-import { useCount } from '../hooks/useCount';
 import { useSubscriptions } from '../services/payment/hooks';
 import { Subscription } from '../services/payment/types';
 import { useSession } from '../services/user/hooks';
@@ -24,11 +23,6 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
     subscriptions = data;
   }
 
-  const count = useCount({
-    direction: '-',
-    initial: DateTime.fromISO(server.startsAt.toString()).diffNow(),
-  });
-
   const subscription = subscriptions?.find(
     (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
   );
@@ -46,9 +40,7 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
           {session && subscription && <StarIcon className="ml-4 w-7 text-red-500" />}
         </span>
         <div className="col-start-2 justify-self-end self-end text-2xl">
-          <Tooltip content={<p className="font-sans text-md min-w-max">Countdown</p>} position="top">
-            <Typography size="2xl">{count.toFormat('hh:mm:ss')}</Typography>
-          </Tooltip>
+          <Clock initial={DateTime.fromISO(server.startsAt.toString()).diffNow()} direction="-" tooltip="Countdown" />
         </div>
       </div>
     </figure>
