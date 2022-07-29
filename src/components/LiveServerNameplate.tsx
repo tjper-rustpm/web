@@ -1,15 +1,13 @@
 import { DateTime } from 'luxon';
 
+import { Clock } from './Clock';
 import { Tooltip } from './Tooltip';
 import { Typography } from './Typography';
-import { Clock } from './Clock';
+import { SubscriptionStar } from './SubscriptionStar';
 
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
-import { StarIcon } from '@heroicons/react/solid';
 
-import { useSubscriptions } from '../services/payment/hooks';
-import { Subscription } from '../services/payment/types';
 import { useSession } from '../services/user/hooks';
 import { LiveServer, Background } from '../services/server/types';
 
@@ -19,16 +17,6 @@ type LiveServerNameplateProps = {
 
 export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.Element => {
   const { data: session } = useSession();
-
-  let subscriptions: Subscription[] | undefined;
-  if (session) {
-    const { data } = useSubscriptions();
-    subscriptions = data;
-  }
-
-  const subscription = subscriptions?.find(
-    (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
-  );
 
   return (
     <figure className="relative">
@@ -41,7 +29,7 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
         <span className="col-start-1 col-span-4">
           <div>
             <Typography size="4xl">{server.name}</Typography>
-            {session && subscription && <StarIcon className="ml-4 w-7 text-red-500" />}
+            {session && <SubscriptionStar serverId={server.id} />}
           </div>
           <div className="w-min">
             <Tooltip content={<p className="font-sans text-md min-w-max">IP Address</p>} position="bottom">

@@ -1,14 +1,11 @@
 import { DateTime } from 'luxon';
 
-import { Typography } from './Typography';
 import { Clock } from './Clock';
+import { Typography } from './Typography';
+import { SubscriptionStar } from './SubscriptionStar';
 
-import { useSubscriptions } from '../services/payment/hooks';
-import { Subscription } from '../services/payment/types';
 import { useSession } from '../services/user/hooks';
 import { DormantServer, Background } from '../services/server/types';
-
-import { StarIcon } from '@heroicons/react/solid';
 
 type DormantServerNameplateProps = {
   server: DormantServer;
@@ -16,16 +13,6 @@ type DormantServerNameplateProps = {
 
 export const DormantServerNameplate = ({ server }: DormantServerNameplateProps): JSX.Element => {
   const { data: session } = useSession();
-
-  let subscriptions: Subscription[] | undefined;
-  if (session) {
-    const { data } = useSubscriptions();
-    subscriptions = data;
-  }
-
-  const subscription = subscriptions?.find(
-    (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
-  );
 
   return (
     <figure className="relative">
@@ -37,7 +24,7 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
       <div className="absolute inset-0 p-4 w-full h-full grid grid-cols-2 text-white">
         <span className="col-start-1 col-span-full">
           <Typography size="4xl">{server.name}</Typography>
-          {session && subscription && <StarIcon className="ml-4 w-7 text-red-500" />}
+          {session && <SubscriptionStar serverId={server.id} />}
         </span>
         <div className="col-start-2 justify-self-end self-end text-2xl">
           <Clock initial={DateTime.fromISO(server.startsAt.toString()).diffNow()} direction="-" tooltip="Countdown" />
