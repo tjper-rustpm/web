@@ -53,7 +53,7 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
     return { eventHash: eventHash, active: active };
   };
 
-  const res = useMemo(() => computeSchedule(schedule), schedule);
+  const res = useMemo(() => computeSchedule(schedule), [schedule]);
   const eventHash = res.eventHash;
   let active = res.active;
 
