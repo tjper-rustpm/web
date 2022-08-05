@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { DateTime } from 'luxon';
 import { Cron } from '../../cron/cron';
 
@@ -12,44 +13,51 @@ type ScheduleProps = {
   schedule: Event[];
 };
 const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
-  const events = schedule
-    .filter((scheduleEvent) => {
-      if (scheduleEvent.kind === 'start') {
-        return false;
+  const computeSchedule = (schedule: Event[]): { eventHash: Map<string, EventOccurrence>; active: boolean } => {
+    const events = schedule
+      .filter((scheduleEvent: Event) => {
+        if (scheduleEvent.kind === 'start') {
+          return false;
+        }
+        return true;
+      })
+      .map((scheduleEvent: Event) => {
+        const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
+        const start = DateTime.utc();
+        const end = DateTime.utc().plus({ weeks: 1 });
+
+        return cron.events(start, end).map((event) => {
+          return { kind: scheduleEvent.kind, at: event };
+        });
+      })
+      .flat();
+
+    events.sort((a: EventOccurrence, b: EventOccurrence) => {
+      const aEventAt = DateTime.fromISO(a.at.toString());
+      const bEventAt = DateTime.fromISO(b.at.toString());
+      return aEventAt.weekday * 24 + aEventAt.hour - (bEventAt.weekday * 24 + bEventAt.hour);
+    });
+
+    let active = false;
+    const eventHash = new Map();
+
+    events.forEach((event: EventOccurrence, index: number): void => {
+      if (index === 0 && event.kind === 'stop') {
+        active = true;
       }
-      return true;
-    })
-    .map((scheduleEvent) => {
-      const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
-      const start = DateTime.utc();
-      const end = DateTime.utc().plus({ weeks: 1 });
 
-      return cron.events(start, end).map((event) => {
-        return { kind: scheduleEvent.kind, at: event };
-      });
-    })
-    .flat();
+      const at = DateTime.fromISO(event.at.toString());
+      const key = `${at.weekday - 1}-${at.hour}`;
+      eventHash.set(key, event);
+    });
+    return { eventHash: eventHash, active: active };
+  };
 
-  events.sort((a: EventOccurrence, b: EventOccurrence) => {
-    const aEventAt = DateTime.fromISO(a.at.toString());
-    const bEventAt = DateTime.fromISO(b.at.toString());
-    return aEventAt.weekday * 24 + aEventAt.hour - (bEventAt.weekday * 24 + bEventAt.hour);
-  });
+  const res = useMemo(() => computeSchedule(schedule), schedule);
+  const eventHash = res.eventHash;
+  let active = res.active;
 
   const dt = DateTime.local();
-  let active = false;
-  const eventHash = new Map();
-
-  events.forEach((event: EventOccurrence, index: number): void => {
-    if (index === 0 && event.kind === 'stop') {
-      active = true;
-    }
-
-    const at = DateTime.fromISO(event.at.toString());
-    const key = `${at.weekday - 1}-${at.hour}`;
-    eventHash.set(key, event);
-  });
-
   const yAxis = ['day', 0, 1, 2, 3, 4, 5, 6];
   const xAxis = ['hour', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 

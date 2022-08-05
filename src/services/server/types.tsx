@@ -42,7 +42,7 @@ export interface Subscriptions {
   createdAt: DateTime;
 }
 
-export declare type EventKind = 'start' | 'stop' | 'mapWipe' | 'fullWipe';
+export declare type EventKind = 'live' | 'start' | 'stop' | 'mapWipe' | 'fullWipe';
 
 export interface Event {
   id: string;
