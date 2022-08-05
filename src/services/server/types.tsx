@@ -46,7 +46,8 @@ export declare type EventKind = 'start' | 'stop' | 'mapWipe' | 'fullWipe';
 
 export interface Event {
   id: string;
-  at: DateTime;
+  schedule: string;
+  weekday?: number;
   kind: EventKind;
 }
 

@@ -1,17 +1,36 @@
 import { DateTime } from 'luxon';
+import { Cron } from '../../cron/cron';
 
 import { Tooltip } from '../Tooltip';
 import { Typography } from '../Typography';
 
 import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
 
-import { Event } from '../../services/server/types';
+import { Event, EventKind } from '../../services/server/types';
 
 type ScheduleProps = {
   schedule: Event[];
 };
 const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
-  schedule.sort((a: Event, b: Event) => {
+  const events = schedule
+    .filter((scheduleEvent) => {
+      if (scheduleEvent.kind === 'start') {
+        return false;
+      }
+      return true;
+    })
+    .map((scheduleEvent) => {
+      const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
+      const start = DateTime.utc();
+      const end = DateTime.utc().plus({ weeks: 1 });
+
+      return cron.events(start, end).map((event) => {
+        return { kind: scheduleEvent.kind, at: event };
+      });
+    })
+    .flat();
+
+  events.sort((a: EventOccurrence, b: EventOccurrence) => {
     const aEventAt = DateTime.fromISO(a.at.toString());
     const bEventAt = DateTime.fromISO(b.at.toString());
     return aEventAt.weekday * 24 + aEventAt.hour - (bEventAt.weekday * 24 + bEventAt.hour);
@@ -19,16 +38,16 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
 
   const dt = DateTime.local();
   let active = false;
-  const scheduleHash = new Map();
+  const eventHash = new Map();
 
-  schedule.forEach((event: Event, index: number): void => {
+  events.forEach((event: EventOccurrence, index: number): void => {
     if (index === 0 && event.kind === 'stop') {
       active = true;
     }
 
     const at = DateTime.fromISO(event.at.toString());
     const key = `${at.weekday - 1}-${at.hour}`;
-    scheduleHash.set(key, event);
+    eventHash.set(key, event);
   });
 
   const yAxis = ['day', 0, 1, 2, 3, 4, 5, 6];
@@ -72,9 +91,9 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
         {yAxis.map((y: number | string) =>
           xAxis.map((x: number | string) => {
             const key = `${y}-${x}`;
-            const event = scheduleHash.has(key) ? scheduleHash.get(key) : null;
+            const event = eventHash.has(key) ? eventHash.get(key) : null;
 
-            if (event?.kind === 'start') {
+            if (event?.kind === 'live') {
               active = true;
             } else if (event?.kind === 'stop') {
               active = false;
@@ -138,3 +157,8 @@ const readableHour = (hour: number): string => {
   const suffix = hour > 11 ? 'pm' : 'am';
   return `${hour % 12 === 0 ? 12 : hour % 12} ${suffix}`;
 };
+
+interface EventOccurrence {
+  at: DateTime;
+  kind: EventKind;
+}
