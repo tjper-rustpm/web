@@ -51,7 +51,7 @@ function Header(): JSX.Element {
         </div>
         <div className="flex items-center">
           <button>
-            <a href="https://discord.com/invite/z9CR45E3gx">
+            <a href="https://discord.gg/fV49Gkvq5Y">
               <DiscordLogo className="h-8 mx-auto" title="discord" />
             </a>
           </button>
