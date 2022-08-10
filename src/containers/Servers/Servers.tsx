@@ -22,6 +22,8 @@ import {
   ScaleIcon,
   StarIcon,
   UserGroupIcon,
+  FingerPrintIcon,
+  ClockIcon,
 } from '@heroicons/react/outline';
 
 /**
@@ -130,4 +132,6 @@ const TagIconComponent: Record<string, JSX.Element> = {
   calendarWeek: <CalendarIcon className="h-full" />,
   calendarEvent: <CalendarIcon className="h-full" />,
   games: <ScaleIcon className="h-full" />,
+  fingerPrint: <FingerPrintIcon className="h-full" />,
+  clock: <ClockIcon className="h-full" />,
 };

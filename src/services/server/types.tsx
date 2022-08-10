@@ -58,7 +58,9 @@ export declare type TagIcon =
   | 'calendarDay'
   | 'calendarWeek'
   | 'calendarEvent'
-  | 'games';
+  | 'games'
+  | 'fingerPrint'
+  | 'clock';
 
 export interface Tag {
   id: string;
