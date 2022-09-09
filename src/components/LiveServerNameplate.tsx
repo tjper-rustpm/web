@@ -41,18 +41,22 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
           <span className="animate-pulse w-full h-full bg-red-500 rounded-full" />
         </div>
         <div className="self-end space-y-2 w-min">
-          <Tooltip content={<p className="font-sans text-md min-w-max">Active Players</p>}>
-            <div className="flex items-center space-x-2">
-              <GroupIcon />
-              <Typography size="lg">{server.activePlayers}</Typography>
-            </div>
-          </Tooltip>
-          <Tooltip content={<p className="font-sans text-md min-w-max">Queued Players</p>}>
-            <div className="flex items-center space-x-2">
-              <LinearScaleIcon />
-              <Typography size="lg">{server.queuedPlayers}</Typography>
-            </div>
-          </Tooltip>
+          {server.activePlayers > 0 && (
+            <Tooltip content={<p className="font-sans text-md min-w-max">Active Players</p>}>
+              <div className="flex items-center space-x-2">
+                <GroupIcon />
+                <Typography size="lg">{server.activePlayers}</Typography>
+              </div>
+            </Tooltip>
+          )}
+          {server.queuedPlayers > 0 && (
+            <Tooltip content={<p className="font-sans text-md min-w-max">Queued Players</p>}>
+              <div className="flex items-center space-x-2">
+                <LinearScaleIcon />
+                <Typography size="lg">{server.queuedPlayers}</Typography>
+              </div>
+            </Tooltip>
+          )}
         </div>
         <div className="col-start-5 justify-self-end self-end text-2xl">
           <Clock
