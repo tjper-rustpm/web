@@ -117,7 +117,7 @@ const Schedule = ({ schedule }: ScheduleProps): JSX.Element => {
               bg = now ? 'bg-rose-500' : 'bg-rose-400';
               border = now ? 'border-rose-400' : 'border-rose-300';
             } else if (active) {
-              bg = now ? 'bg-green-200' : 'bg-green-50';
+              bg = now ? 'bg-green-300' : 'bg-green-100';
             } else if (now) {
               bg = 'bg-green-200';
             }
