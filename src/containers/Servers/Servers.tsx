@@ -77,10 +77,12 @@ const Servers = (): JSX.Element => {
 
         buttons.push(
           <Button slate>
-            <span className="flex items-center justify-center space-x-2">
-              <PlayIcon className="h-6" />
-              <Typography size="xl">Join</Typography>
-            </span>
+            <a href={`steam://connect/${server.elasticIP}:28015`}>
+              <span className="flex items-center justify-center space-x-2">
+                <PlayIcon className="h-6" />
+                <Typography size="xl">Join</Typography>
+              </span>
+            </a>
           </Button>,
         );
 
