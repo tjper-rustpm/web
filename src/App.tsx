@@ -42,7 +42,7 @@ function App(): JSX.Element {
               reverseOrder={false}
               toastOptions={{ duration: 5000, className: 'w-max text-2xl px-6 py-2' }}
             />
-            <div className="bg-[url('imgs/backgrounds/trianglify.svg')] bg-no-repeat bg-center bg-cover bg-fixed flex flex-col h-screen justify-between">
+            <div className="flex flex-col h-screen justify-between">
               <div>
                 <Header />
               </div>
