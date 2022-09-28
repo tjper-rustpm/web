@@ -3,7 +3,7 @@ import { Typography } from '../components/Typography';
 
 export const About = (): JSX.Element => {
   return (
-    <div className="w-10/12 mx-auto">
+    <div className="w-10/12 max-w-screen-md mx-auto">
       <div className="flex-inline justify-start mb-10 px-4 md:hidden">
         <span className="mt-3 mr-4">
           <Typography size="4xl">Welcome to</Typography>
