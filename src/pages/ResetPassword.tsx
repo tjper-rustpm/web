@@ -55,7 +55,8 @@ export function ResetPassword(): JSX.Element {
                 }, 3000);
               },
               onError: () => {
-                oops('/servers');
+                oops();
+                router.push('/servers');
               },
             },
           );

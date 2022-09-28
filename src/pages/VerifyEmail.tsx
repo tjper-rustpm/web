@@ -35,7 +35,8 @@ export const VerifyEmail = (): JSX.Element => {
           },
           onError: () => {
             setStatus('error');
-            oops('/servers');
+            oops();
+            router.push('servers');
           },
         },
       );
