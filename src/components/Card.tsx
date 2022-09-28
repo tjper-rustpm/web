@@ -1,13 +1,31 @@
 interface CardProps {
   children: React.ReactNode;
   size?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  variant?: 'compact' | 'standard';
+  border?: boolean;
+  padding?: 'none' | 'compact' | 'standard';
+  background?: 'none' | 'trianglify';
 }
 
-export const Card = ({ children, variant = 'standard', size = 'lg' }: CardProps): JSX.Element => {
-  let style = 'm-auto bg-neutral-50 shadow-xl rounded-md border-slate-200 border';
+export const Card = ({
+  children,
+  background = 'none',
+  padding = 'standard',
+  size = 'lg',
+  border = true,
+}: CardProps): JSX.Element => {
+  let style = 'm-auto bg-neutral-50 shadow-xl rounded-md border-slate-200';
 
-  switch (variant) {
+  if (border) {
+    style = `${style} border`;
+  }
+
+  if (background === 'trianglify') {
+    style = `${style} bg-[url('imgs/backgrounds/trianglify.svg')] bg-cover bg-center`;
+  }
+
+  switch (padding) {
+    case 'none':
+      break;
     case 'compact':
       style = `${style} p-3`;
       break;

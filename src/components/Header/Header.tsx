@@ -1,15 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { Button } from '../Button';
-import { Tooltip } from '../Tooltip';
 import { Typography } from '../Typography';
 
 import { Menu, Transition } from '@headlessui/react';
 import Logo from '../../components/Logo/Logo';
 import { User as UserIcon } from '@styled-icons/boxicons-solid/User';
 import { ReactComponent as DiscordLogo } from '../../imgs/Discord-Logo-Color.svg';
+import { MenuIcon } from '@heroicons/react/outline';
 
 import { useRouter } from '../../router/router';
 import { useLogoutUser, useSession } from '../../services/user/hooks';
@@ -23,6 +23,12 @@ function Header(): JSX.Element {
   const { data: session } = useSession();
   const logoutUser = useLogoutUser();
 
+  const [navOpen, setNavOpen] = useState(false);
+
+  const handleNavToggle = () => {
+    setNavOpen((open: boolean) => !open);
+  };
+
   const handleLogout = async (): Promise<boolean> => {
     logoutUser.mutate();
     router.push('/servers');
@@ -31,23 +37,20 @@ function Header(): JSX.Element {
 
   return (
     <header className="fixed w-full p-2 bg-neutral-50 shadow-2xl z-50 md:flex md:justify-between md:px-4">
-      <div className="flex items-center justify-evenly mb-2 border-b-2 md:border-b-0 md:mb-0 md:space-x-8">
-        <div className="flex items-center space-x-4">
+      <div
+        className={`flex items-center justify-evenly mb-2 ${
+          navOpen ? '' : 'border-b-2'
+        } md:border-b-0 md:mb-0 md:space-x-8`}
+      >
+        <div className="md:hidden">
+          <button className="flex items-center" onClick={handleNavToggle}>
+            <MenuIcon className="h-10" />
+          </button>
+        </div>
+        <div className="flex items-center">
           <Link to="/servers">
             <Logo />
           </Link>
-          <div>
-            <Tooltip
-              position="bottom"
-              content={
-                <p className="w-60 font-sans text-base text-center">
-                  Rustpm is under active development; issues may occur. Please report any problems in Discord.
-                </p>
-              }
-            >
-              <h3 className="text-lg border-4 border-zinc-300 pt-0.5 px-2">Beta</h3>
-            </Tooltip>
-          </div>
         </div>
         <div className="flex items-center">
           <button>
@@ -57,6 +60,30 @@ function Header(): JSX.Element {
           </button>
         </div>
       </div>
+      <nav
+        className={`transition-opacity h-14 mb-4 border-b-2 items-center justify-evenly md:min-h-full md:mb-0 md:justify-center md:space-x-10 md:border-b-0 md:flex ${
+          navOpen ? 'flex' : 'hidden'
+        }`}
+      >
+        <span>
+          <NavLink
+            to="/about"
+            style={(isActive) => ({ borderBottom: isActive ? '2px solid' : 'none' })}
+            className="border-slate-600"
+          >
+            <Typography size="2xl">About</Typography>
+          </NavLink>
+        </span>
+        <span>
+          <NavLink
+            to="/servers"
+            style={(isActive) => ({ borderBottom: isActive ? '2px solid' : 'none' })}
+            className="border-slate-600"
+          >
+            <Typography size="2xl">Servers</Typography>
+          </NavLink>
+        </span>
+      </nav>
       {!session && (
         <div className="flex items-center justify-evenly md:space-x-4">
           <Link to="/login">

@@ -1,7 +1,10 @@
+export type TypographySize = 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '7xl' | '8xl';
+
 interface TypographyProps {
   children: React.ReactNode;
-  size?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
+  size?: TypographySize;
 }
+
 export const Typography = (props: TypographyProps): JSX.Element => {
   const { children, size = 'lg' } = props;
 
@@ -28,6 +31,12 @@ export const Typography = (props: TypographyProps): JSX.Element => {
       break;
     case '5xl':
       style = `${style} text-5xl pt-1`;
+      break;
+    case '7xl':
+      style = `${style} text-7xl pt-1`;
+      break;
+    case '8xl':
+      style = `${style} text-8xl pt-1`;
       break;
   }
 

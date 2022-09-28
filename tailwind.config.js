@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       transitionProperty: {
         width: 'width',
+        height: 'height',
       },
       backgroundImage: {
         'airport-nameplate': "url('/src/imgs/nameplates/airport.webp')",

@@ -93,7 +93,7 @@ const Servers = (): JSX.Element => {
     }
 
     return (
-      <Card key={server.id} variant="compact">
+      <Card key={server.id} padding="compact">
         <div className="space-y-6">
           {nameplate}
           <div className="flex space-x-4 w-11/12 m-auto">

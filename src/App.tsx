@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Servers from './containers/Servers/Servers';
 
+import { About } from './pages/About';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
@@ -68,6 +69,9 @@ function App(): JSX.Element {
                   </Route>
                   <Route path="/servers">
                     <Servers />
+                  </Route>
+                  <Route path="/about">
+                    <About />
                   </Route>
                   <Route path="/vip/:serverID">
                     <Vip />
