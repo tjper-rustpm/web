@@ -13,6 +13,7 @@ import { MenuIcon } from '@heroicons/react/outline';
 
 import { useRouter } from '../../router/router';
 import { useLogoutUser, useSession } from '../../services/user/hooks';
+import { DiscordLink } from '../../links/ext';
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
@@ -54,7 +55,7 @@ function Header(): JSX.Element {
         </div>
         <div className="flex items-center">
           <button>
-            <a href="https://discord.gg/wPEFqXYvQV">
+            <a href={DiscordLink}>
               <DiscordLogo className="h-8 mx-auto" title="discord" />
             </a>
           </button>

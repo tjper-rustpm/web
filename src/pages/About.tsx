@@ -1,5 +1,6 @@
 import Logo from '../components/Logo/Logo';
 import { Typography } from '../components/Typography';
+import { DiscordLink, RustLink } from '../links/ext';
 
 export const About = (): JSX.Element => {
   return (
@@ -23,16 +24,22 @@ export const About = (): JSX.Element => {
       <div className="text-md font-sans">
         <h4 className="text-xl font-medium mb-3">Scheduled Rust</h4>
         <p className="leading-7 mb-3">
-          We operate scheduled servers to make Rust more accessible for players who do not have time for the 24/7 grind
-          and still want a vanilla experience.
+          We operate scheduled servers to make{' '}
+          <a href={RustLink} className="underline font-semibold decoration-slate-400">
+            Rust
+          </a>{' '}
+          more accessible for players who do not have time for the 24/7 grind and still want a vanilla experience.
         </p>
         <p className="leading-7 mb-5">
           This translates to more online raids, more balanced progression, and more sleep.
         </p>
         <h4 className="text-xl font-medium mb-3">Community</h4>
         <p className="leading-7 mb-3">
-          Your feedback is valuable to us. Join our Discord; ask questions and let us know what servers and schedules
-          you&apos;d like to see.
+          Your feedback is valuable to us. Join our{' '}
+          <a href={DiscordLink} className="underline font-semibold decoration-slate-400">
+            Discord
+          </a>
+          ; ask questions and let us know what servers and schedules you&apos;d like to see.
         </p>
         <p className="leading-7 mb-3">
           If you&apos;re interested and qualified, submit an application to become a server admin. Do know, we take this
