@@ -96,7 +96,8 @@ export const Vip = (): JSX.Element => {
                 toast.success('Navigating to Stripe checkout.');
                 window.location.href = data.url;
               },
-              onError: () => {
+              onError: (error) => {
+                console.log(error);
                 oops();
               },
               onSettled: () => {
