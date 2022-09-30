@@ -31,20 +31,17 @@ export function Subscriptions(): JSX.Element {
       <Typography size="2xl">Subscriptions</Typography>
       {subscriptions ? (
         <>
-          (
           <p className="font-sans my-4 text-md">
             Rustpm uses Stripe to manage subscriptions. Press the button below to be routed to your Stripe billing
             dashboard.
           </p>
           <Button slate onClick={onStripeBillingDashboard}>
             Stripe Billing Dashboard
-          </Button>{' '}
-          )
+          </Button>
         </>
       ) : (
         <p className="font-sans my-4 text-md">
-          Rustpm uses Stripe to manage subscriptions. You currently do not have any active subscriptions. If you are
-          encountering any issue please visit our help desk in Discord.
+          Rustpm uses Stripe to manage subscriptions. You currently do not have any active subscriptions.
         </p>
       )}
     </div>
