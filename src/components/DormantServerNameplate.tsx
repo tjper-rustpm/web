@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { Clock } from './Clock';
 import { Typography } from './Typography';
 import { SubscriptionStar } from './SubscriptionStar';
+import { Tooltip } from './Tooltip';
 
 import { useSession } from '../services/user/hooks';
 import { DormantServer, Background } from '../services/server/types';
@@ -22,10 +23,16 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
         } bg-cover bg-no-repeat aspect-[2/1] rounded-sm shadow-lg shadow-slate-500`}
       />
       <div className="absolute inset-0 p-4 w-full h-full grid grid-cols-2 text-white">
-        <span className="col-start-1 col-span-full">
-          <Typography size="4xl">{server.name}</Typography>
-          {session && <SubscriptionStar serverId={server.id} />}
-        </span>
+        <div className="col-start-1 col-span-full">
+          <div className="flex items-center">
+            <Typography size="4xl">{server.name}</Typography>
+            {session && (
+              <Tooltip content={<p className="font-sans text-md min-w-max">VIP access</p>} position="bottom">
+                <SubscriptionStar serverId={server.id} />
+              </Tooltip>
+            )}
+          </div>
+        </div>
         <div className="col-start-2 justify-self-end self-end text-2xl">
           <Clock initial={DateTime.fromISO(server.startsAt.toString()).diffNow()} direction="-" tooltip="Countdown" />
         </div>

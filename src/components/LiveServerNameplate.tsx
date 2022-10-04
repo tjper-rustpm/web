@@ -26,17 +26,21 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
         } bg-cover bg-no-repeat aspect-[2/1] rounded-sm shadow-lg shadow-slate-500`}
       />
       <div className="absolute inset-0 p-4 w-full h-full grid grid-cols-2 text-white">
-        <span className="col-start-1 col-span-4">
-          <div>
+        <div className="col-start-1 col-span-4">
+          <div className="flex items-center">
             <Typography size="4xl">{server.name}</Typography>
-            {session && <SubscriptionStar serverId={server.id} />}
+            {session && (
+              <Tooltip content={<p className="font-sans text-md min-w-max">VIP access</p>} position="bottom">
+                <SubscriptionStar serverId={server.id} />
+              </Tooltip>
+            )}
           </div>
           <div className="w-min">
             <Tooltip content={<p className="font-sans text-md min-w-max">IP Address</p>} position="bottom">
               <Typography size="xl">{server.elasticIP}</Typography>
             </Tooltip>
           </div>
-        </span>
+        </div>
         <div className="col-start-5 justify-self-end flex relative w-4 h-4">
           <span className="animate-pulse w-full h-full bg-red-500 rounded-full" />
         </div>
