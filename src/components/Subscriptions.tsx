@@ -36,7 +36,7 @@ export function Subscriptions(): JSX.Element {
           ? ' Press the button below to be routed to your billing dashboard.'
           : ' You currently do not have any active subscriptions.'}
       </p>
-      <Button slate disabled={subscriptions && true} onClick={onStripeBillingDashboard}>
+      <Button slate disabled={!subscriptions} onClick={onStripeBillingDashboard}>
         <div className="flex items-center space-x-3 w-max m-auto">
           <Typography>Billing Dashboard</Typography>
           <PoweredByStripe className="w-28" />
