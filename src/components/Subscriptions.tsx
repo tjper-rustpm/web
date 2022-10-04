@@ -1,5 +1,6 @@
 import { Button } from '../components/Button';
 import { Typography } from '../components/Typography';
+import { ReactComponent as PoweredByStripe } from '../imgs/stripe/white.svg';
 
 import { useStripeBillingDashboard, useSubscriptions } from '../services/payment/hooks';
 import { Redirect as PaymentRedirect } from '../services/payment/types';
@@ -29,21 +30,18 @@ export function Subscriptions(): JSX.Element {
   return (
     <div className="h-60">
       <Typography size="2xl">Subscriptions</Typography>
-      {subscriptions ? (
-        <>
-          <p className="font-sans my-4 text-md">
-            Rustpm uses Stripe to manage subscriptions. Press the button below to be routed to your Stripe billing
-            dashboard.
-          </p>
-          <Button slate onClick={onStripeBillingDashboard}>
-            Stripe Billing Dashboard
-          </Button>
-        </>
-      ) : (
-        <p className="font-sans my-4 text-md">
-          Rustpm uses Stripe to manage subscriptions. You currently do not have any active subscriptions.
-        </p>
-      )}
+      <p className="font-sans my-4 text-md">
+        Rustpm uses Stripe to manage subscriptions.
+        {subscriptions
+          ? ' Press the button below to be routed to your billing dashboard.'
+          : ' You currently do not have any active subscriptions.'}
+      </p>
+      <Button slate disabled={subscriptions && true} onClick={onStripeBillingDashboard}>
+        <div className="flex items-center space-x-3 w-max m-auto">
+          <Typography>Billing Dashboard</Typography>
+          <PoweredByStripe className="w-28" />
+        </div>
+      </Button>
     </div>
   );
 }
