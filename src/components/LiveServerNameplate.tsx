@@ -27,7 +27,7 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
       />
       <div className="absolute inset-0 p-4 w-full h-full grid grid-cols-2 text-white">
         <div className="col-start-1 col-span-4">
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
             <Typography size="4xl">{server.name}</Typography>
             {session && (
               <Tooltip content={<p className="font-sans text-md min-w-max">VIP access</p>} position="bottom">

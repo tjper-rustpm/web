@@ -17,5 +17,5 @@ export const SubscriptionStar = ({ serverId }: SubscriptionStarProps): JSX.Eleme
     return null;
   }
 
-  return <StarIcon className="ml-4 w-7 text-red-500" />;
+  return <StarIcon className="w-7 text-red-500" />;
 };
