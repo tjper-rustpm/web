@@ -28,15 +28,23 @@ export const VerifyEmail = (): JSX.Element => {
         {
           onSuccess: () => {
             setStatus('success');
-            toast.success('Email verified! Rerouting to home.');
+            toast.success('Email verified! Navigating to home.');
             setTimeout(() => {
               router.push('/servers');
             }, 3000);
           },
-          onError: () => {
+          onError: (error) => {
             setStatus('error');
-            oops();
-            router.push('servers');
+
+            if (error.code == 403) {
+              toast.error('Email verfication failed; go to your profile settings to retry.');
+            } else {
+              oops();
+            }
+
+            setTimeout(() => {
+              router.push('/servers');
+            }, 3000);
           },
         },
       );

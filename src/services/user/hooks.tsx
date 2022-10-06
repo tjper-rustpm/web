@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult, useQueryClient } from 'react-query';
-import { client } from '../../axios/axios';
+import { client, AxiosError } from '../../axios/axios';
 
 import {
   User,
@@ -66,10 +66,10 @@ export function useLoginUser(): UseMutationResult<User, Error, LoginUserArgs> {
   );
 }
 
-export function useVerifyEmail(): UseMutationResult<void, Error, VerifyEmailArgs> {
+export function useVerifyEmail(): UseMutationResult<void, AxiosError, VerifyEmailArgs> {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, VerifyEmailArgs>(
+  return useMutation<void, AxiosError, VerifyEmailArgs>(
     async (args) => {
       return client.post<void>('/user-api/v1/user/verify-email', args).then((res) => res.data);
     },
