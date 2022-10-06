@@ -93,8 +93,8 @@ export function useForgotPassword(): UseMutationResult<void, Error, ForgotPasswo
   });
 }
 
-export function useResetPassword(): UseMutationResult<void, Error, ResetPasswordArgs> {
-  return useMutation<void, Error, ResetPasswordArgs>(async (args) => {
+export function useResetPassword(): UseMutationResult<void, AxiosError, ResetPasswordArgs> {
+  return useMutation<void, AxiosError, ResetPasswordArgs>(async (args) => {
     await client.post<void>('/user-api/v1/user/reset-password', args);
   });
 }

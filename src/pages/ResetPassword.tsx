@@ -54,9 +54,16 @@ export function ResetPassword(): JSX.Element {
                   router.push('/servers');
                 }, 3000);
               },
-              onError: () => {
-                oops();
-                router.push('/servers');
+              onError: (error) => {
+                if (error.code === 403) {
+                  toast.error('Password reset failed; try-again or contact support.');
+                } else {
+                  oops();
+                }
+
+                setTimeout(() => {
+                  router.push('/servers');
+                }, 3000);
               },
             },
           );

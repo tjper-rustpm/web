@@ -37,7 +37,7 @@ export const VerifyEmail = (): JSX.Element => {
             setStatus('error');
 
             if (error.code == 403) {
-              toast.error('Email verfication failed; go to your profile settings to retry.');
+              toast.error('Email verfication failed; see your profile settings to retry.');
             } else {
               oops();
             }
