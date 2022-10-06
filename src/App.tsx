@@ -41,7 +41,8 @@ function App(): JSX.Element {
             <Toaster
               position="bottom-center"
               reverseOrder={false}
-              toastOptions={{ duration: 4000, className: 'w-min-fit text-xl text-center px-6 py-2' }}
+              containerClassName="flex items-center gap-3"
+              toastOptions={{ duration: 4000, className: 'min-w-fit text-xl text-center px-6 py-2' }}
             />
             <div className="flex flex-col h-screen justify-between box-border">
               <div>
