@@ -96,7 +96,7 @@ export function useForgotPassword(): UseMutationResult<void, Error, ForgotPasswo
 
 export function useResetPassword(): UseMutationResult<void, AxiosError, ResetPasswordArgs> {
   return useMutation<void, AxiosError, ResetPasswordArgs>(async (args) => {
-    await client.post<void>('/user-api/v1/user/reset-password', args);
+    await client.post('/user-api/v1/user/reset-password', args);
   });
 }
 
