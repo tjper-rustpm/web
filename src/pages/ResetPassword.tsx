@@ -55,7 +55,7 @@ export function ResetPassword(): JSX.Element {
                 }, 3000);
               },
               onError: (error) => {
-                if (error.code === 403) {
+                if (error?.code === '403') {
                   toast.error('Password reset failed; try-again or contact support.');
                 } else {
                   oops();

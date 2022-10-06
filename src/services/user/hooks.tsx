@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult, useQueryClient } from 'react-query';
-import { client, AxiosError } from '../../axios/axios';
+import { client } from '../../axios/axios';
+import { AxiosError } from 'axios';
 
 import {
   User,
