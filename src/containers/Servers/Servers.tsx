@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Schedule from '../../components/Schedule/Schedule';
+import { ScheduleV2 } from '../../components/Schedule';
 
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
@@ -104,16 +104,18 @@ const Servers = (): JSX.Element => {
 
     return (
       <Card key={server.id} padding="compact">
-        <div className="space-y-6">
+        <div className="space-y-7">
           {nameplate}
-          <div className="flex space-x-4 w-11/12 m-auto">
-            {buttons.map((button: JSX.Element, index: number) => (
-              <span key={index.toString()} className="w-full">
-                {button}
-              </span>
-            ))}
-          </div>
-          <Schedule schedule={server.events} />
+          {buttons.length > 0 && (
+            <div className="flex space-x-4 w-11/12 m-auto">
+              {buttons.map((button: JSX.Element, index: number) => (
+                <span key={index.toString()} className="w-full">
+                  {button}
+                </span>
+              ))}
+            </div>
+          )}
+          <ScheduleV2 schedule={server.events} />
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-4 pb-4">
             {server.tags.map((tag: Tag) => (
               <div key={tag.id}>
