@@ -16,7 +16,7 @@ import { Redirect as PaymentRedirect } from '../services/payment/types';
 import { useServers } from '../services/server/hooks';
 import { AnyServer } from '../services/server/types';
 
-import { ExclamationIcon, StarIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, StarIcon } from '@heroicons/react/24/solid';
 import { ReactComponent as PoweredByStripe } from '../imgs/stripe/white.svg';
 
 import * as yup from 'yup';
@@ -46,7 +46,7 @@ export const Vip = (): JSX.Element => {
     return (
       <Card>
         <div className="flex items-center mb-6">
-          <ExclamationIcon className="h-10 text-red-400 mr-3" />
+          <ExclamationCircleIcon className="h-10 text-red-400 mr-3" />
           <Typography size="4xl">Error!</Typography>
         </div>
         <p className="font-sans">

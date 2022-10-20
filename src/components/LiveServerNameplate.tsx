@@ -6,7 +6,7 @@ import { Typography } from './Typography';
 
 import GroupIcon from '@material-ui/icons/Group';
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
-import { StarIcon } from '@heroicons/react/solid';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 import { useSession } from '../services/user/hooks';
 import { useSubscriptions } from '../services/payment/hooks';

@@ -1,7 +1,7 @@
 import { Card } from '../components/Card';
 import { Spinner } from '../components/Spinner';
 
-import { ExclamationIcon, CheckIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from '../router/router';
@@ -60,7 +60,7 @@ export const VerifyEmail = (): JSX.Element => {
           </div>
         )}
         {status === 'success' && <CheckIcon className="m-auto w-14 h-14 text-emerald-400" />}
-        {status === 'error' && <ExclamationIcon className="animate-bounce m-auto w-14 h-14 text-yellow-400" />}
+        {status === 'error' && <ExclamationCircleIcon className="animate-bounce m-auto w-14 h-14 text-yellow-400" />}
         <p className="my-6 text-xl text-center">
           {status === 'loading' && 'Verifying your email.'}
           {status === 'success' && 'Verified! Returning to home.'}

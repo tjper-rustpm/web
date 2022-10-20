@@ -18,8 +18,9 @@ import { useSubscriptions } from '../../services/payment/hooks';
 
 import {
   CalendarIcon,
-  ExclamationIcon,
-  GlobeIcon,
+  CalendarDaysIcon,
+  ExclamationCircleIcon,
+  GlobeAmericasIcon,
   MapIcon,
   PlayIcon,
   ScaleIcon,
@@ -27,7 +28,7 @@ import {
   UserGroupIcon,
   FingerPrintIcon,
   ClockIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 
 /**
  * Servers is a component responsible for Rustpm's servers.
@@ -47,7 +48,7 @@ const Servers = (): JSX.Element => {
     return (
       <Card>
         <div className="flex items-center mb-6">
-          <ExclamationIcon className="h-10 text-red-400 mr-3" />
+          <ExclamationCircleIcon className="h-10 text-red-400 mr-3" />
           <Typography size="4xl">Error!</Typography>
         </div>
         <p className="font-sans">
@@ -141,9 +142,9 @@ export default Servers;
 const TagIconComponent: Record<string, JSX.Element> = {
   userGroup: <UserGroupIcon className="h-full" />,
   map: <MapIcon className="h-full" />,
-  globe: <GlobeIcon className="h-full" />,
+  globe: <GlobeAmericasIcon className="h-full" />,
   calendarDay: <CalendarIcon className="h-full" />,
-  calendarWeek: <CalendarIcon className="h-full" />,
+  calendarWeek: <CalendarDaysIcon className="h-full" />,
   calendarEvent: <CalendarIcon className="h-full" />,
   games: <ScaleIcon className="h-full" />,
   fingerPrint: <FingerPrintIcon className="h-full" />,

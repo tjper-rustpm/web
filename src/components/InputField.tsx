@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { ExclamationIcon, CheckIcon, EyeOffIcon, EyeIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, CheckIcon, EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 import { useField, FieldHookConfig } from 'formik';
 
 import { Typography } from './Typography';
@@ -41,7 +41,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
         {props.type === 'password' && (
           <button className="absolute top-3 right-4" type="button" onClick={() => setVisible(!visible)}>
             {visible ? (
-              <EyeOffIcon className="w-5 h-5 text-slate-700" />
+              <EyeSlashIcon className="w-5 h-5 text-slate-700" />
             ) : (
               <EyeIcon className="w-5 h-5 text-slate-700" />
             )}
@@ -58,7 +58,7 @@ export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
         leaveTo="opacity-0"
       >
         <div className="flex items-center ml-2 mb-3">
-          <ExclamationIcon className="mr-2 h-6 text-red-400" />
+          <ExclamationCircleIcon className="mr-2 h-6 text-red-400" />
           <p className="font-sans text-md text-red-500">{meta.error}</p>
         </div>
       </Transition>

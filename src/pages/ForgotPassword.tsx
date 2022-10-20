@@ -2,7 +2,7 @@ import { Card } from '../components/Card';
 import { InputField } from '../components/InputField';
 import { Button } from '../components/Button';
 
-import { MailIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
+import { EnvelopeIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -45,7 +45,7 @@ export function ForgotPassword(): JSX.Element {
             </div>
             <Button slate type="submit" loading={isSubmitting}>
               <div className="flex items-center w-max m-auto">
-                <MailIcon className="w-4 h-4 mr-2" />
+                <EnvelopeIcon className="w-4 h-4 mr-2" />
                 Request Password Reset
               </div>
             </Button>

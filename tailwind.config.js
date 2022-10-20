@@ -19,6 +19,7 @@ module.exports = {
         'tower-night-nameplate': "url('/src/imgs/nameplates/towerNight.webp')",
       },
       gridTemplateColumns: {
+        24: 'repeat(24, minmax(0, 1fr))',
         26: 'repeat(26, minmax(0, 1fr))',
       },
       gridTemplateRows: {

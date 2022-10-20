@@ -9,7 +9,7 @@ import { Menu, Transition } from '@headlessui/react';
 import Logo from '../../components/Logo/Logo';
 import { User as UserIcon } from '@styled-icons/boxicons-solid/User';
 import { ReactComponent as DiscordLogo } from '../../imgs/Discord-Logo-Color.svg';
-import { MenuIcon } from '@heroicons/react/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 
 import { useRouter } from '../../router/router';
 import { useLogoutUser, useSession } from '../../services/user/hooks';
@@ -45,7 +45,7 @@ function Header(): JSX.Element {
       >
         <div className="md:hidden">
           <button className="flex items-center" onClick={handleNavToggle}>
-            <MenuIcon className="h-10" />
+            <Bars3Icon className="h-10" />
           </button>
         </div>
         <div className="flex items-center">

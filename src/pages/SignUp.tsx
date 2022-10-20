@@ -4,7 +4,7 @@ import { Divider } from '../components/Divider';
 import { InputField } from '../components/InputField';
 import { Typography } from '../components/Typography';
 
-import { LockOpenIcon, UserCircleIcon } from '@heroicons/react/outline';
+import { LockOpenIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 
 import { Link } from 'react-router-dom';
 import { Form, Formik } from 'formik';

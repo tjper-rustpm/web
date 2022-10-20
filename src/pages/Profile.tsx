@@ -6,7 +6,7 @@ import { Divider } from '../components/Divider';
 import { Subscriptions } from '../components/Subscriptions';
 import { Typography } from '../components/Typography';
 
-import { CreditCardIcon, FingerPrintIcon, MenuIcon } from '@heroicons/react/outline';
+import { CreditCardIcon, FingerPrintIcon, Bars3Icon } from '@heroicons/react/24/outline';
 
 import { Tab } from '@headlessui/react';
 import { Transition } from '@headlessui/react';
@@ -38,7 +38,7 @@ export function Profile(): JSX.Element {
             <div className="flex items-center">
               <button className="mr-4" onClick={() => setOpen(!open)}>
                 <div className="flex flex-col w-11 h-11 bg-zinc-100 rounded-full">
-                  <MenuIcon className="justify-center m-auto w-8 h-8" />
+                  <Bars3Icon className="justify-center m-auto w-8 h-8" />
                 </div>
               </button>
               <Transition

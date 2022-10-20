@@ -5,9 +5,121 @@ import { Cron } from '../cron/cron';
 import { Tooltip } from './Tooltip';
 import { Typography } from './Typography';
 
-import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
+import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
+import { ArrowPathIcon, ArrowTrendingUpIcon } from '@heroicons/react/20/solid';
 
 import { Event, EventKind } from '../services/server/types';
+
+export const ScheduleV3 = ({ schedule }: ScheduleProps): JSX.Element => {
+  const nextWipeEvent = schedule
+    .filter((event: Event) => event.kind === 'mapWipe' || event.kind === 'fullWipe')
+    .map((event: Event) => {
+      return { kind: event.kind, at: new Cron(event.schedule, event.weekday).next() };
+    })
+    .sort((a: EventOccurrence, b: EventOccurrence) => {
+      return a.at.toSeconds() - b.at.toSeconds();
+    })[0];
+
+  const prevWipeEvent = schedule
+    .filter((event: Event) => event.kind === 'mapWipe' || event.kind === 'fullWipe')
+    .map((event: Event) => {
+      return { kind: event.kind, at: new Cron(event.schedule, event.weekday).prev() };
+    })
+    .sort((a: EventOccurrence, b: EventOccurrence) => {
+      return a.at.toSeconds() - b.at.toSeconds();
+    })
+    .at(-1);
+
+  const wipeAge = prevWipeEvent?.at
+    .diffNow('seconds')
+    .negate()
+    .shiftTo('days', 'hours')
+    .toHuman({ maximumFractionDigits: 0, listStyle: 'narrow', unitDisplay: 'short' });
+
+  const liveSchedule = schedule
+    .filter((event: Event) => event.kind === 'live' || event.kind === 'stop')
+    .map((event: Event) => {
+      const cron = new Cron(event.schedule, event.weekday);
+      const start = DateTime.local().startOf('day').toUTC();
+      const end = DateTime.local().endOf('day').toUTC();
+      return cron.events(start, end).map((occurrence) => {
+        return { kind: event.kind, at: occurrence };
+      });
+    })
+    .flat()
+    .sort((a: EventOccurrence, b: EventOccurrence) => {
+      return a.at.toSeconds() - b.at.toSeconds();
+    });
+
+  let active = false;
+  const eventHash = new Map();
+
+  liveSchedule.forEach((event: EventOccurrence, index: number): void => {
+    if (index === 0 && event.kind === 'stop') {
+      active = true;
+    }
+
+    const at = DateTime.fromISO(event.at.toString());
+    const key = `${at.hour}`;
+    eventHash.set(key, event);
+  });
+
+  const now = DateTime.local();
+  const xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+  const yAxis = ['day', 0];
+
+  return (
+    <div className="my-2 bg-slate-100 shadow-lg shadow-slate-400 p-3 border border-slate-200 rounded-md max-w-xl">
+      <div className="mt-5">
+        <div className="grid grid-cols-24 grid-rows-2 gap-0.5 text-xs">
+          {yAxis.map((y: number | string) =>
+            xAxis.map((x: number) => {
+              const key = `${x}`;
+              const event = eventHash.has(key) ? eventHash.get(key) : null;
+
+              if (event?.kind === 'live') {
+                active = true;
+              } else if (event?.kind === 'stop') {
+                active = false;
+              }
+
+              let bg = '';
+              if (active) {
+                bg = now.hour === x ? 'bg-green-200' : 'bg-green-100';
+              } else if (now.hour === x) {
+                bg = 'bg-green-200';
+              }
+
+              let style = `${bg} border h-4 w-4 rounded-sm shadow-xs`;
+              let text: string | number | null = '';
+
+              if (y === 'day') {
+                style =
+                  'font-sans font-bold self-end row-span-2 -translate-x-2.5 -translate-y-2.5 -rotate-[55deg] w-max';
+                text = x % 2 === 0 ? readableHour(x) : null;
+              }
+
+              return (
+                <div key={key} className={style}>
+                  <div>{text}</div>
+                </div>
+              );
+            }),
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <ArrowPathIcon className="w-5" />
+          <div>{nextWipeEvent.at.toLocaleString()}</div>
+        </div>
+        <div className="flex items-center gap-2">
+          <ArrowTrendingUpIcon className="w-5 h-5" />
+          <div>{wipeAge}</div>
+        </div>
+      </div>
+      <div className="border-b mt-2 mb-2" />
+    </div>
+  );
+};
 
 export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
   const remPerMinute = 0.007;
@@ -38,7 +150,8 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
       return a.at.toSeconds() - b.at.toSeconds();
     });
 
-  const liveStyle = 'bg-green-100 shadow-slate-500 shadow-sm';
+  const bubbleStyle = 'shadow-slate-500 shadow-sm hover:scale-105';
+  const liveStyle = `${bubbleStyle} bg-green-100`;
 
   const daySchedule = new Map();
   let live = false;
@@ -71,10 +184,14 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
         ...(daySchedule.get(day) ?? []),
         <div
           key={`${day}-${current.kind}-wipe`}
-          style={{ top: `${top}rem`, height: `${20 * remPerMinute}rem` }}
-          className={`absolute w-full z-10 ${color} shadow-slate-500 shadow-sm`}
+          style={{ top: `${top}rem` }}
+          className={'group relative w-full z-10 h-0.5 transition'}
         >
-          {!live && <div className="relative bottom-5">{current.at.toLocaleString(hourFormat)}</div>}
+          <div className={`h-full w-full z-10 shadow-slate-500 shadow-sm group-hover:scale-105 ${color}`} />
+          <div className="w-full absolute bottom-0 z-0">
+            <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
+            <span className="hidden group-hover:block">Wipe</span>
+          </div>
         </div>,
       ]);
 
@@ -90,8 +207,13 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
           <div
             key={`${day}-${current.kind}-post-wipe-live`}
             style={{ top: `${top}rem`, height: `${height}rem` }}
-            className={`absolute w-full ${liveStyle}`}
-          />,
+            className={`group absolute w-full ${liveStyle} transition`}
+          >
+            <div style={{ top: `${height}rem` }} className="absolute w-full">
+              <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
+              <span className="hidden group-hover:block">Offline</span>
+            </div>
+          </div>,
         ]);
       }
       // If the next event is not a stop event, create a filler component.
@@ -114,9 +236,18 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
         <div
           key={`${day}-${current.kind}-live`}
           style={{ top: `${top}rem`, height: `${height}rem` }}
-          className={`absolute w-full ${liveStyle}`}
+          className={`group absolute w-full ${liveStyle} transition`}
         >
-          <div>{current.at.toLocaleString(hourFormat)}</div>
+          <div>
+            <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
+            <span className="hidden group-hover:block">Live</span>
+          </div>
+          {next.kind === 'stop' && (
+            <div style={{ top: `${height}rem` }} className="absolute w-full">
+              <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
+              <span className="hidden group-hover:block">Offline</span>
+            </div>
+          )}
         </div>,
       ]);
       live = true;
@@ -125,13 +256,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     else if (current.kind === 'stop') {
       daySchedule.set(day, [
         ...(daySchedule.get(day) ?? []),
-        <div
-          key={`${day}-${current.kind}-stop`}
-          style={{ top: `${top}rem`, height: `${remPerMinute}rem` }}
-          className="absolute w-full"
-        >
-          <div>{current.at.toLocaleString(hourFormat)}</div>
-        </div>,
+        <div key={`${day}-${current.kind}-stop`} style={{ top: `${top}rem` }} />,
       ]);
       live = false;
     }
@@ -142,7 +267,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
   const legend = (
     <div className="w-20 space-y-2 font-sans">
       <div className="flex items-center space-x-1">
-        <span className="bg-green-50 border rounded-md shadow-md w-5 h-5" />
+        <span className="bg-green-100 border rounded-md shadow-md w-5 h-5" />
         <span>Online</span>
       </div>
       <div className="flex items-center space-x-1">

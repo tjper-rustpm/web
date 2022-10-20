@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { LockOpenIcon, UserCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline';
+import { LockOpenIcon, UserCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';

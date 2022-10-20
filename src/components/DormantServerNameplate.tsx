@@ -4,7 +4,7 @@ import { Clock } from './Clock';
 import { Typography } from './Typography';
 import { Tooltip } from './Tooltip';
 
-import { StarIcon } from '@heroicons/react/solid';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 import { useSession } from '../services/user/hooks';
 import { useSubscriptions } from '../services/payment/hooks';

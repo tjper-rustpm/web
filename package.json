@@ -6,7 +6,7 @@
   "dependencies": {
     "@fontsource/bebas-neue": "^4.5.7",
     "@headlessui/react": "^1.4.2",
-    "@heroicons/react": "^1.0.5",
+    "@heroicons/react": "^2.0.12",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
@@ -23,7 +23,7 @@
     "axios": "^0.24.0",
     "cron-parser": "^4.2.1",
     "formik": "^2.2.9",
-    "luxon": "^1.27.0",
+    "luxon": "^3.0.4",
     "oidc-client": "^1.11.5",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
@@ -65,7 +65,7 @@
     ]
   },
   "devDependencies": {
-    "@types/luxon": "^1.26.5",
+    "@types/luxon": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
     "autoprefixer": "^10.4.0",

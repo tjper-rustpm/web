@@ -59,12 +59,42 @@ describe('Cron.next', () => {
       start: DateTime.utc(2022, 8, 4, 0, 0, 0, 0),
       expected: DateTime.utc(2022, 8, 4, 18, 0, 0, 0),
     },
+    {
+      description: 'next thursday',
+      cron: new Cron('0 18 * * *', 4),
+      start: DateTime.utc(2022, 10, 18, 0, 0, 0, 0),
+      expected: DateTime.utc(2022, 10, 20, 18, 0, 0, 0),
+    },
   ];
 
   kases.forEach((kase) => {
     test(kase.description, () => {
       const next = kase.cron.next(kase.start);
       expect(next.toMillis()).toEqual(kase.expected.toMillis());
+    });
+  });
+});
+
+describe('Cron.prev', () => {
+  const kases = [
+    {
+      description: 'prev day',
+      cron: new Cron('0 18 * * *'),
+      start: DateTime.utc(2022, 8, 4, 0, 0, 0, 0),
+      expected: DateTime.utc(2022, 8, 3, 18, 0, 0, 0),
+    },
+    {
+      description: 'prev thursday',
+      cron: new Cron('0 18 * * *', 4),
+      start: DateTime.utc(2022, 10, 18, 0, 0, 0, 0),
+      expected: DateTime.utc(2022, 10, 13, 18, 0, 0, 0),
+    },
+  ];
+
+  kases.forEach((kase) => {
+    test(kase.description, () => {
+      const prev = kase.cron.prev(kase.start);
+      expect(prev.toMillis()).toEqual(kase.expected.toMillis());
     });
   });
 });

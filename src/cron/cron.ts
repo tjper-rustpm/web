@@ -35,6 +35,25 @@ export class Cron {
 
   next(start: DateTime = DateTime.utc()): DateTime {
     const iter = parser.parseExpression(this.#schedule, { utc: true, currentDate: start.toJSDate() });
-    return DateTime.fromISO(iter.next().toISOString(), { zone: 'utc' });
+    while (true) {
+      const current = DateTime.fromISO(iter.next().toISOString(), { zone: 'utc' });
+      if (this.#weekday && this.#weekday !== current.weekday) {
+        continue;
+      }
+
+      return current;
+    }
+  }
+
+  prev(start: DateTime = DateTime.utc()): DateTime {
+    const iter = parser.parseExpression(this.#schedule, { utc: true, currentDate: start.toJSDate() });
+    while (true) {
+      const current = DateTime.fromISO(iter.prev().toISOString(), { zone: 'utc' });
+      if (this.#weekday && this.#weekday !== current.weekday) {
+        continue;
+      }
+
+      return current;
+    }
   }
 }
