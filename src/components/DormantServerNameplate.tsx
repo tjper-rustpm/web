@@ -2,13 +2,9 @@ import { DateTime } from 'luxon';
 
 import { Clock } from './Clock';
 import { Typography } from './Typography';
-import { Tooltip } from './Tooltip';
-
-import { StarIcon } from '@heroicons/react/24/solid';
+import { SubscriptionStar } from './SubscriptionStar';
 
 import { useSession } from '../services/user/hooks';
-import { useSubscriptions } from '../services/payment/hooks';
-import { Subscription } from '../services/payment/types';
 import { DormantServer, Background } from '../services/server/types';
 
 type DormantServerNameplateProps = {
@@ -17,11 +13,6 @@ type DormantServerNameplateProps = {
 
 export const DormantServerNameplate = ({ server }: DormantServerNameplateProps): JSX.Element => {
   const { data: session } = useSession();
-  const { data: subscriptions } = useSubscriptions();
-
-  const subscription = subscriptions?.find(
-    (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
-  );
 
   return (
     <figure className="relative">
@@ -34,11 +25,7 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
         <div className="col-start-1 col-span-full">
           <div className="flex items-center gap-3">
             <Typography size="4xl">{server.name}</Typography>
-            {session && subscription && (
-              <Tooltip content={<p className="font-sans text-md min-w-max">VIP access</p>} position="bottom">
-                <StarIcon className="w-7 text-red-500" />
-              </Tooltip>
-            )}
+            {session && <SubscriptionStar serverId={server.id} />}
           </div>
         </div>
         <div className="col-start-2 justify-self-end self-end text-2xl">
