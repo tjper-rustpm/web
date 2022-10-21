@@ -27,7 +27,7 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
       />
       <div className="absolute inset-0 p-4 w-full h-full grid grid-cols-2 text-white">
         <div className="col-start-1 col-span-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Typography size="4xl">{server.name}</Typography>
             {session && <SubscriptionStar serverId={server.id} />}
           </div>
