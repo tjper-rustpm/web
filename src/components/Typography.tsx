@@ -21,22 +21,22 @@ export const Typography = (props: TypographyProps): JSX.Element => {
       style = `${style} text-xl pt-0.5`;
       break;
     case '2xl':
-      style = `${style} text-2xl pt-0.5`;
+      style = `${style} text-2xl pt-1`;
       break;
     case '3xl':
       style = `${style} text-3xl pt-1`;
       break;
     case '4xl':
-      style = `${style} text-4xl pt-1`;
+      style = `${style} text-4xl pt-1.5`;
       break;
     case '5xl':
-      style = `${style} text-5xl pt-1`;
+      style = `${style} text-5xl pt-1.5`;
       break;
     case '7xl':
-      style = `${style} text-7xl pt-1`;
+      style = `${style} text-7xl pt-1.5`;
       break;
     case '8xl':
-      style = `${style} text-8xl pt-1`;
+      style = `${style} text-8xl pt-1.5`;
       break;
   }
 
