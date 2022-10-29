@@ -13,9 +13,6 @@ import { Typography } from '../../components/Typography';
 import { AnyServer, Tag } from '../../services/server/types';
 import { useServers } from '../../services/server/hooks';
 
-import { Subscription } from '../../services/payment/types';
-import { useSubscriptions } from '../../services/payment/hooks';
-
 import {
   CalendarIcon,
   CalendarDaysIcon,
@@ -35,7 +32,6 @@ import {
  */
 const Servers = (): JSX.Element => {
   const { data, isLoading, error } = useServers();
-  const { data: subscriptions } = useSubscriptions();
 
   if (isLoading || !data) {
     return (
@@ -63,13 +59,9 @@ const Servers = (): JSX.Element => {
     let nameplate: JSX.Element;
     const buttons: JSX.Element[] = [];
 
-    const subscription = subscriptions?.find(
-      (subscription: Subscription) => subscription.serverId === server.id && subscription.status === 'paid',
-    );
-
     const capacityAvailable = server.subscriptions?.activeSubscriptions < server.subscriptions?.subscriptionLimit;
 
-    if (capacityAvailable && !subscription) {
+    if (capacityAvailable) {
       buttons.push(
         <Link to={`../vip/${server.subscriptions.id}`} className="w-full">
           <Button slate>

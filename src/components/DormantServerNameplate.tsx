@@ -25,7 +25,7 @@ export const DormantServerNameplate = ({ server }: DormantServerNameplateProps):
         <div className="col-start-1 col-span-full">
           <div className="flex items-center gap-4">
             <Typography size="4xl">{server.name}</Typography>
-            {session ? <SubscriptionStar serverId={server.id} /> : null}
+            {session && <SubscriptionStar serverId={server.id} />}
           </div>
         </div>
         <div className="col-start-2 justify-self-end self-end text-2xl">
