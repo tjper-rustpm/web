@@ -7,12 +7,15 @@ import { EnvelopeIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outlin
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 
+import { useRouter } from '../router/router';
 import { useForgotPassword } from '../services/user/hooks';
 import { toast } from 'react-hot-toast';
 import { oops } from '../errors/errors';
 
 export function ForgotPassword(): JSX.Element {
   const forgotPassword = useForgotPassword();
+
+  const router = useRouter();
 
   return (
     <Card>
@@ -26,10 +29,16 @@ export function ForgotPassword(): JSX.Element {
         onSubmit={async (values) => {
           forgotPassword.mutate(values, {
             onSuccess: () => {
-              toast.success('An email to reset your password has been sent.');
+              toast.success('An email to reset your password has been sent. Navigating to home.');
+              setTimeout(() => {
+                router.push('/servers');
+              }, 3000);
             },
             onError: () => {
               oops();
+              setTimeout(() => {
+                router.push('/servers');
+              }, 3000);
             },
           });
         }}
