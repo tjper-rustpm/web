@@ -49,7 +49,7 @@ export function ResetPassword(): JSX.Element {
             { hash: router.query.hash as string, password: values.password },
             {
               onSuccess: () => {
-                toast.success('Password has been updated. Rerouting to home.');
+                toast.success('Password has been updated. Navigating to home.');
                 setTimeout(() => {
                   router.push('/servers');
                 }, 3000);
