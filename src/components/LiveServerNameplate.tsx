@@ -29,7 +29,7 @@ export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.E
         <div className="col-start-1 col-span-4">
           <div className="flex items-center gap-4">
             <Typography size="4xl">{server.name}</Typography>
-            {session && <SubscriptionStar serverId={server.id} />}
+            {session ? <SubscriptionStar serverId={server.id} /> : null}
           </div>
           <div className="w-min">
             <Tooltip content={<p className="font-sans text-md min-w-max">IP Address</p>} position="bottom">
