@@ -12,7 +12,7 @@ export interface StripeCheckoutArgs {
   priceId: Price;
 }
 
-export declare type Price = 'price_1KLJWjCEcXRU8XL2TVKcLGUO';
+export declare type Price = 'price_1KLJWjCEcXRU8XL2TVKcLGUO' | "price_1LyigBCEcXRU8XL2L6eMGz6Y";
 
 export interface Redirect {
   url: string;

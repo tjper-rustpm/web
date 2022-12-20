@@ -1,5 +1,6 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from 'react-query';
 import { client } from '../../axios/axios';
+import { AxiosError } from 'axios';
 
 import { Redirect, StripeBillingDashboardArgs, StripeCheckoutArgs, Subscription } from './types';
 
@@ -17,9 +18,16 @@ export function useStripeBillingDashboard(): UseMutationResult<Redirect, Error, 
   });
 }
 
-export function useStripeCheckout(): UseMutationResult<Redirect, Error, StripeCheckoutArgs> {
-  return useMutation<Redirect, Error, StripeCheckoutArgs>(async (args) => {
-    const res = await client.post<Redirect>('/payment-api/v1/checkout', args);
+export function useStripeCheckout(): UseMutationResult<Redirect, AxiosError, StripeCheckoutArgs> {
+  return useMutation<Redirect, AxiosError, StripeCheckoutArgs>(async (args) => {
+    const res = await client.post('/payment-api/v1/checkout', args);
+    return res.data;
+  });
+}
+
+export function useStripeSubscriptionCheckout(): UseMutationResult<Redirect, AxiosError, StripeCheckoutArgs> {
+  return useMutation<Redirect, AxiosError, StripeCheckoutArgs>(async (args) => {
+    const res = await client.post('/payment-api/v1/subscription/checkout', args);
     return res.data;
   });
 }

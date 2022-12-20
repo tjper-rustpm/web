@@ -3,33 +3,40 @@ import { Transition } from '@headlessui/react';
 import { ExclamationCircleIcon, CheckIcon, EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 import { useField, FieldHookConfig } from 'formik';
 
-import { Typography } from './Typography';
+import { Typography, TypographySize } from './Typography';
 
 type InputFieldProps = FieldHookConfig<string> & {
   label: string;
+  labelSize?: TypographySize;
+  help?: React.ReactNode;
 };
 
-export function InputField({ label, ...props }: InputFieldProps): JSX.Element {
+export function InputField({ label, labelSize = 'xl', help, ...props }: InputFieldProps): JSX.Element {
   const [field, meta] = useField(props);
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <div>
-      <div className="inline-flex items-center my-2">
-        <label className="text-slate-700 text-xl mx-2" htmlFor={label.toLowerCase()}>
-          <Typography size="xl">{label}</Typography>
-        </label>
-        <Transition
-          show={meta.touched && meta.error == undefined}
-          enter="transition-opacity duration-100"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <CheckIcon className="w-4 h-4 text-green-400" />
-        </Transition>
+      <div className="my-2">
+        <div className="flex items-center justify-between px-2">
+          <div className="flex items-center space-x-2">
+            <label className="text-slate-700 text-xl" htmlFor={label.toLowerCase()}>
+              <Typography size={labelSize}>{label}</Typography>
+            </label>
+            <Transition
+              show={meta.touched && meta.error == undefined}
+              enter="transition-opacity duration-100"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <CheckIcon className="w-5 pb-1 text-green-400" />
+            </Transition>
+          </div>
+          {help ? help : null}
+        </div>
       </div>
       <div className="relative w-full">
         <input
