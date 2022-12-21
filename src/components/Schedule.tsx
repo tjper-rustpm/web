@@ -137,7 +137,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     })
     .map((scheduleEvent: Event) => {
       const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
-      const now = DateTime.local().plus({ days: 10 });
+      const now = DateTime.local();
       const start = now.minus({ days: 1 }).startOf('day').toUTC();
       const end = now.plus({ days: scheduleDuration }).endOf('day').toUTC();
 
@@ -331,7 +331,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     </div>
   );
 
-  const now = DateTime.local().plus({ days: 10 });
+  const now = DateTime.local();
   return (
     <div className="my-2 bg-slate-100 shadow-lg shadow-slate-400 p-3 border border-slate-200 rounded-md max-w-xl">
       <div className="flex items-center space-x-2">
