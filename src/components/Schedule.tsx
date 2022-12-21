@@ -137,7 +137,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     })
     .map((scheduleEvent: Event) => {
       const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
-      const now = DateTime.local();
+      const now = DateTime.local().plus({ days: 10 });
       const start = now.minus({ days: 1 }).startOf('day').toUTC();
       const end = now.plus({ days: scheduleDuration }).endOf('day').toUTC();
 
@@ -155,6 +155,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
 
   const daySchedule = new Map();
   let live = false;
+  let wiped = '';
   let current = events.shift();
   events.forEach((value: EventOccurrence) => {
     if (!current) return;
@@ -162,15 +163,21 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     const next = value;
     const day = current.at.day;
 
+    const currentIsAtDayStart = current.at.diff(current.at.startOf('day'), 'minutes').minutes === 0;
     // if first event of a day, need to create div for pre-event
-    if (!daySchedule.has(day) && live) {
+    if (!daySchedule.has(day) && live && !currentIsAtDayStart) {
       const height = current.at.diff(current.at.startOf('day'), 'minutes').minutes * remPerMinute;
       daySchedule.set(day, [
         <div
           key={`${day}-${current.kind}-live-passover`}
           style={{ height: `${height}rem` }}
-          className={`${liveStyle}`}
-        />,
+          className={`group ${liveStyle} transition`}
+        >
+          <div style={{ top: `${height}rem` }} className="absolute w-full">
+            <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
+            <span className="hidden group-hover:block">Offline</span>
+          </div>
+        </div>,
       ]);
     }
 
@@ -180,74 +187,117 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     // live component.
     if (current.kind === 'mapWipe' || current.kind === 'fullWipe') {
       const color = current.kind === 'mapWipe' ? 'bg-rose-300' : 'bg-rose-400';
-      daySchedule.set(day, [
-        ...(daySchedule.get(day) ?? []),
-        <div
-          key={`${day}-${current.kind}-wipe`}
-          style={{ top: `${top}rem` }}
-          className={'group relative w-full z-10 h-0.5 transition'}
-        >
-          <div className={`h-full w-full z-10 shadow-slate-500 shadow-sm group-hover:scale-105 ${color}`} />
-          <div className="w-full absolute bottom-0 z-0">
-            <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
-            <span className="hidden group-hover:block">Wipe</span>
-          </div>
-        </div>,
-      ]);
 
-      // If the next event is a stop event, we assume the server is live and
-      // create a new live component after the wipe.
-      if (next.kind === 'stop') {
-        const untilNext = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
-        const untilEOD = current.at.endOf('day').diff(current.at, 'minutes').minutes * remPerMinute;
-        const height = untilEOD < untilNext ? untilEOD : untilNext;
-
+      // Wipe event occurs while server is live. Add a component that indicates
+      // this will occur.
+      if (live) {
         daySchedule.set(day, [
-          ...daySchedule.get(day),
-          <div
-            key={`${day}-${current.kind}-post-wipe-live`}
-            style={{ top: `${top}rem`, height: `${height}rem` }}
-            className={`group absolute w-full ${liveStyle} transition`}
-          >
-            <div style={{ top: `${height}rem` }} className="absolute w-full">
-              <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
-              <span className="hidden group-hover:block">Offline</span>
+          ...(daySchedule.get(day) ?? []),
+          <div key={`${day}-${current.kind}-wipe`} style={{ top: `${top}rem` }} className="w-full absolute">
+            <div className={'group relative w-full z-10 h-0.5 transition'}>
+              <div className={`h-full w-full z-10 shadow-slate-500 shadow-sm group-hover:scale-105 ${color}`} />
             </div>
           </div>,
         ]);
+
+        // If the next event is a stop event, we assume the server is live and
+        // create a new live component after the wipe.
+        if (next.kind === 'stop') {
+          const untilNext = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
+          const untilEOD = current.at.endOf('day').diff(current.at, 'minutes').minutes * remPerMinute;
+          const height = untilEOD < untilNext ? untilEOD : untilNext;
+          const nextAtEOD = Math.abs(untilNext - untilEOD) < remPerMinute;
+
+          let offlineTop = height;
+          if (untilEOD - height < 160 * remPerMinute) {
+            offlineTop = height - 160 * remPerMinute;
+          }
+
+          daySchedule.set(day, [
+            ...daySchedule.get(day),
+            <div
+              key={`${day}-${current.kind}-post-wipe-live`}
+              style={{ top: `${top}rem`, height: `${height}rem` }}
+              className={`group absolute w-full ${liveStyle} transition`}
+            >
+              {height === untilNext || nextAtEOD ? (
+                <div style={{ top: `${offlineTop}rem` }} className="absolute w-full">
+                  <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
+                  <span className="hidden group-hover:block">Offline</span>
+                </div>
+              ) : null}
+            </div>,
+          ]);
+        }
+        // If the next event is not a stop event, create a filler component.
+        else {
+          const height = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
+          daySchedule.set(day, [
+            ...daySchedule.get(day),
+            <div key={`${day}-${current.kind}-post-wipe`} style={{ top: `${top}rem`, height: `${height}rem` }} />,
+          ]);
+        }
       }
-      // If the next event is not a stop event, create a filler component.
+      // The below code path executes when a wipe event is found that does
+      // not occur while the server is live. The wiped variable is set to
+      // inform the next 'live' event that a wipe has previously occurred.
       else {
-        const height = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
-        daySchedule.set(day, [
-          ...daySchedule.get(day),
-          <div key={`${day}-${current.kind}-post-wipe`} style={{ top: `${top}rem`, height: `${height}rem` }} />,
-        ]);
+        wiped = current.kind;
       }
     }
     // If event is live, create live event component.
     else if (current.kind === 'live') {
-      const untilNext = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
       const untilEOD = current.at.endOf('day').diff(current.at, 'minutes').minutes * remPerMinute;
+      const untilNext = next.at.diff(current.at, 'minutes').minutes * remPerMinute;
       const height = untilEOD < untilNext ? untilEOD : untilNext;
+      const nextAtEOD = Math.abs(untilNext - untilEOD) < remPerMinute;
+
+      let offlineTop = height;
+      if (untilEOD - height < 160 * remPerMinute) {
+        offlineTop = height - 160 * remPerMinute;
+      }
+
+      let liveTop = 0;
+      if (untilEOD < 160 * remPerMinute) {
+        liveTop = -160 * remPerMinute;
+      }
+
+      let border = '';
+      if (wiped) {
+        if (wiped === 'fullWipe') {
+          border = 'border-t-2 border-rose-400';
+        } else if (wiped === 'mapWipe') {
+          border = 'border-t-2 border-rose-300';
+        }
+        // Adjust liveTop and offlineTop as border size affects where these
+        // components are drawn.
+        liveTop -= 16 * remPerMinute;
+        offlineTop -= 16 * remPerMinute;
+
+        // Update wiped so that the next live event does not think a wipe has
+        // recently occurred.
+        wiped = '';
+      }
 
       daySchedule.set(day, [
         ...(daySchedule.get(day) ?? []),
         <div
           key={`${day}-${current.kind}-live`}
           style={{ top: `${top}rem`, height: `${height}rem` }}
-          className={`group absolute w-full ${liveStyle} transition`}
+          className={`group absolute w-full transition ${liveStyle} ${border}`}
         >
-          <div>
-            <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
-            <span className="hidden group-hover:block">Live</span>
-          </div>
-          {next.kind === 'stop' && (
-            <div style={{ top: `${height}rem` }} className="absolute w-full">
-              <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
-              <span className="hidden group-hover:block">Offline</span>
+          <div className="relative">
+            <div style={{ top: `${liveTop}rem` }} className="absolute w-full">
+              <span className="group-hover:hidden">{current.at.toLocaleString(hourFormat)}</span>
+              <span className="hidden group-hover:block">Live</span>
             </div>
-          )}
+            {next.kind === 'stop' && (height === untilNext || nextAtEOD) ? (
+              <div style={{ top: `${offlineTop}rem` }} className="absolute w-full">
+                <span className="group-hover:hidden">{next.at.toLocaleString(hourFormat)}</span>
+                <span className="hidden group-hover:block">Offline</span>
+              </div>
+            ) : null}
+          </div>
         </div>,
       ]);
       live = true;
@@ -281,7 +331,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     </div>
   );
 
-  const now = DateTime.local();
+  const now = DateTime.local().plus({ days: 10 });
   return (
     <div className="my-2 bg-slate-100 shadow-lg shadow-slate-400 p-3 border border-slate-200 rounded-md max-w-xl">
       <div className="flex items-center space-x-2">
