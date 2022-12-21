@@ -122,7 +122,7 @@ export const ScheduleV3 = ({ schedule }: ScheduleProps): JSX.Element => {
 };
 
 export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
-  const remPerMinute = 0.007;
+  const remPerMinute = 0.006;
   const scheduleDuration = 10; // days
 
   const dayOfMonthFormat: DateTimeFormatOptions = { month: '2-digit', day: '2-digit' };
@@ -209,8 +209,8 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
           const nextAtEOD = Math.abs(untilNext - untilEOD) < remPerMinute;
 
           let offlineTop = height;
-          if (untilEOD - height < 160 * remPerMinute) {
-            offlineTop = height - 160 * remPerMinute;
+          if (untilEOD - height < 180 * remPerMinute) {
+            offlineTop = height - 180 * remPerMinute;
           }
 
           daySchedule.set(day, [
@@ -253,13 +253,13 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
       const nextAtEOD = Math.abs(untilNext - untilEOD) < remPerMinute;
 
       let offlineTop = height;
-      if (untilEOD - height < 160 * remPerMinute) {
-        offlineTop = height - 160 * remPerMinute;
+      if (untilEOD - height < 180 * remPerMinute) {
+        offlineTop = height - 180 * remPerMinute;
       }
 
       let liveTop = 0;
-      if (untilEOD < 160 * remPerMinute) {
-        liveTop = -160 * remPerMinute;
+      if (untilEOD < 180 * remPerMinute) {
+        liveTop = -180 * remPerMinute;
       }
 
       let border = '';
@@ -271,8 +271,8 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
         }
         // Adjust liveTop and offlineTop as border size affects where these
         // components are drawn.
-        liveTop -= 16 * remPerMinute;
-        offlineTop -= 16 * remPerMinute;
+        liveTop -= 18 * remPerMinute;
+        offlineTop -= 18 * remPerMinute;
 
         // Update wiped so that the next live event does not think a wipe has
         // recently occurred.
