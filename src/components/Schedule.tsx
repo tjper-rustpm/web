@@ -347,8 +347,8 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
             <div className="grow" key={index}>
               <div className="mb-3">{now.plus({ day: index }).toLocaleString(dayOfMonthFormat)}</div>
               <div
-                style={{ marginTop: `${30 * remPerMinute}rem`, height: `${1440 * remPerMinute}rem` }}
-                className="relative shadow-sm shadow-slate-400 border-slate-100 border"
+                style={{ height: `${1440 * remPerMinute}rem` }}
+                className="relative shadow-sm shadow-slate-400 border-slate-300 border"
               >
                 {daySchedule.get(now.plus({ day: index }).day)}
               </div>
