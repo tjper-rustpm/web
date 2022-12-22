@@ -148,14 +148,7 @@ export const Vip = (): JSX.Element => {
               <p>Becoming a VIP of {server.name} allows you to bypass the player queue when joining.</p>
             </div>
             <div className="mb-4">
-              <RadioGroup
-                className="mb-6"
-                value={plan}
-                onChange={(plan: Plan) => {
-                  setPlan(plan);
-                  handlePlanChange(plan);
-                }}
-              >
+              <RadioGroup className="mb-6" value={plan} onChange={(plan: Plan) => handlePlanChange(plan)}>
                 <RadioGroup.Label>
                   <div className="text-slate-700 mx-2 mb-2">
                     <Typography size="2xl">Plan</Typography>
