@@ -11,6 +11,7 @@ import { VerifyEmail } from './pages/VerifyEmail';
 import { ResetPassword } from './pages/ResetPassword';
 import { Profile } from './pages/Profile';
 import { Vip } from './pages/Vip';
+import { VipStatus } from './pages/VipStatus';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -73,6 +74,9 @@ function App(): JSX.Element {
                   </Route>
                   <Route path="/about">
                     <About />
+                  </Route>
+                  <Route path="/vip/status">
+                    <VipStatus />
                   </Route>
                   <Route path="/vip/:serverID">
                     <Vip />
