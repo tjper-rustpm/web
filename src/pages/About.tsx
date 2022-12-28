@@ -45,6 +45,14 @@ export const About = (): JSX.Element => {
           If you&apos;re interested and qualified, submit an application to become a server admin. Do know, we take this
           role very seriously as you would become a representative of the organization.
         </p>
+        <h4 className="text-xl font-medium mb-3">Supporting Us</h4>
+        <p className="leading-7 mb-3">
+          Our current focus is to provide premium servers with engaged and fast-acting admin support.
+        </p>
+        <p className="leading-7 mb-3">
+          When we have provided a product worthy of your investment, non-gameplay effecting VIP packages will be
+          offered.
+        </p>
       </div>
     </div>
   );

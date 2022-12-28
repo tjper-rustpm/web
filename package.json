@@ -2,7 +2,7 @@
   "name": "react-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://dev.rustpm.com",
+  "proxy": "https://rustpm.com",
   "dependencies": {
     "@fontsource/bebas-neue": "^4.5.7",
     "@headlessui/react": "^1.4.2",
