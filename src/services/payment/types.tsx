@@ -9,10 +9,8 @@ export interface StripeCheckoutArgs {
   steamId: string;
   cancelUrl: string;
   successUrl: string;
-  priceId: Price;
+  priceId: string;
 }
-
-export declare type Price = 'price_1KLJWjCEcXRU8XL2TVKcLGUO' | 'price_1LyigBCEcXRU8XL2L6eMGz6Y';
 
 export interface Redirect {
   url: string;

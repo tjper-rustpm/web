@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { config } from '../config';
 
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -13,7 +14,7 @@ import { useRouter } from '../router/router';
 
 import { useSession } from '../services/user/hooks';
 import { useStripeCheckout, useStripeSubscriptionCheckout } from '../services/payment/hooks';
-import { Price, Redirect as PaymentRedirect } from '../services/payment/types';
+import { Redirect as PaymentRedirect } from '../services/payment/types';
 import { useServers } from '../services/server/hooks';
 import { AnyServer } from '../services/server/types';
 
@@ -97,13 +98,13 @@ export const Vip = (): JSX.Element => {
         })}
         onSubmit={(values, formikHelpers) => {
           let mutate = checkout.mutate;
-          let priceId: Price = 'price_1LyigBCEcXRU8XL2L6eMGz6Y';
+          let priceId = config.stripeFiveDayPriceID;
           switch (plan) {
             case 'one time':
               break;
             case 'monthly subscription':
               mutate = subscriptionCheckout.mutate;
-              priceId = 'price_1KLJWjCEcXRU8XL2TVKcLGUO';
+              priceId = config.stripeMonthlyPriceID;
               break;
             default:
               oops();
