@@ -122,13 +122,20 @@ export const ScheduleV3 = ({ schedule }: ScheduleProps): JSX.Element => {
 };
 
 export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
+  const now = DateTime.local();
+  const start = now.startOf('day');
+
   const remPerMinute = 0.006;
+  const heightMultipler = 1440;
   const scheduleDuration = 10; // days
 
   const dayOfMonthFormat: DateTimeFormatOptions = { month: '2-digit', day: '2-digit' };
   const hourFormat: DateTimeFormatOptions = { hour: 'numeric' };
 
+  // events are the events generated from the server schedule.
   const events = schedule
+    // Only concerned with "live" and "stop" events. The "start" event is not
+    // needed to properly display the schedule.
     .filter((scheduleEvent: Event) => {
       if (scheduleEvent.kind === 'start') {
         return false;
@@ -137,9 +144,12 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     })
     .map((scheduleEvent: Event) => {
       const cron = new Cron(scheduleEvent.schedule, scheduleEvent.weekday);
-      const now = DateTime.local();
-      const start = now.minus({ days: 1 }).startOf('day').toUTC();
-      const end = now.plus({ days: scheduleDuration }).endOf('day').toUTC();
+
+      // Depending on timezones, schedule can generate incorrrectly and some
+      // events are missed, adding a 3 day buffer mitigates known occurrences
+      // of this.
+      const scheduleBuffer = 3;
+      const end = now.plus({ days: scheduleDuration + scheduleBuffer }).endOf('day');
 
       return cron.events(start, end).map((event) => {
         return { kind: scheduleEvent.kind, at: event.toLocal() };
@@ -157,17 +167,65 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
   let live = false;
   let wiped = '';
   let current = events.shift();
-  events.forEach((value: EventOccurrence) => {
-    if (!current) return;
+  events.forEach((value: EventOccurrence, index) => {
+    if (!current || !current.at) return;
 
     const next = value;
     const day = current.at.day;
 
+    // If first event is stop and there are days between first event and now,
+    // create events to fill "live" days as needed.
+    const nowDaysDiff = current.at.diff(start, ['days', 'hours']).days;
+    if (index === 0 && current.kind === 'stop' && nowDaysDiff > 0) {
+      [...Array(nowDaysDiff)].forEach((_, index) => {
+        const day = start.plus({ days: index }).day;
+
+        daySchedule.set(day, [
+          ...(daySchedule.get(day) ?? []),
+          <div
+            key={`${day}-live-filler`}
+            style={{ height: `${heightMultipler * remPerMinute}rem` }}
+            className={`group ${liveStyle} transition`}
+          >
+            <div className="absolute w-full">
+              <span className="hidden group-hover:block">Live</span>
+            </div>
+          </div>,
+        ]);
+      });
+    }
+
+    // If there is more than a day between events, create events to fill "live"
+    // days as needed.
+    const daysDiff = next.at.diff(current.at, ['days', 'hours']).days;
+    if (daysDiff > 1) {
+      if (current.kind === 'live') {
+        [...Array(daysDiff)].forEach((_, index) => {
+          if (!current) return;
+
+          const day = current.at.plus({ days: index + 1 }).day;
+          daySchedule.set(day, [
+            ...(daySchedule.get(day) ?? []),
+            <div
+              key={`${day}-live-filler`}
+              style={{ height: `${heightMultipler * remPerMinute}rem` }}
+              className={`group ${liveStyle} transition`}
+            >
+              <div className="absolute w-full">
+                <span className="hidden group-hover:block">Live</span>
+              </div>
+            </div>,
+          ]);
+        });
+      }
+    }
+
     const currentIsAtDayStart = current.at.diff(current.at.startOf('day'), 'minutes').minutes === 0;
-    // if first event of a day, need to create div for pre-event
-    if (!daySchedule.has(day) && live && !currentIsAtDayStart) {
+    // If first event of a day, need to create div for pre-event.
+    if (!daySchedule.has(day) && current.kind === 'stop' && !currentIsAtDayStart) {
       const height = current.at.diff(current.at.startOf('day'), 'minutes').minutes * remPerMinute;
       daySchedule.set(day, [
+        ...(daySchedule.get(day) ?? []),
         <div
           key={`${day}-${current.kind}-live-passover`}
           style={{ height: `${height}rem` }}
@@ -331,7 +389,6 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
     </div>
   );
 
-  const now = DateTime.local();
   return (
     <div className="my-2 bg-slate-100 shadow-lg shadow-slate-400 p-3 border border-slate-200 rounded-md max-w-xl">
       <div className="flex items-center space-x-2">
@@ -347,7 +404,7 @@ export const ScheduleV2 = ({ schedule }: ScheduleProps): JSX.Element => {
             <div className="grow" key={index}>
               <div className="mb-3">{now.plus({ day: index }).toLocaleString(dayOfMonthFormat)}</div>
               <div
-                style={{ height: `${1440 * remPerMinute}rem` }}
+                style={{ height: `${heightMultipler * remPerMinute}rem` }}
                 className="relative shadow-sm shadow-slate-400 border-slate-300 border"
               >
                 {daySchedule.get(now.plus({ day: index }).day)}
