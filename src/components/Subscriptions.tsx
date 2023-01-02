@@ -9,7 +9,7 @@ import { oops } from '../errors/errors';
 
 export function Subscriptions(): JSX.Element {
   const { data: subscriptions } = useSubscriptions();
-  const subscriptionsExist = subscriptions.length > 0;
+  const subscriptionsExist = subscriptions && subscriptions?.length > 0 ? true : false;
 
   const stripeBillingDashboard = useStripeBillingDashboard();
 
