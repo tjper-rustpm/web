@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Servers from './containers/Servers/Servers';
 
 import { About } from './pages/About';
+import { Faq } from './pages/Faq';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
@@ -74,6 +75,9 @@ function App(): JSX.Element {
                   </Route>
                   <Route path="/about">
                     <About />
+                  </Route>
+                  <Route path="/faq">
+                    <Faq />
                   </Route>
                   <Route path="/vip/status">
                     <VipStatus />

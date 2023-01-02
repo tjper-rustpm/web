@@ -8,7 +8,7 @@ import { useSession } from '../services/user/hooks';
 import { DormantServer, Background } from '../services/server/types';
 
 type DormantServerNameplateProps = {
-  server: DormantServer;
+  server: Pick<DormantServer, 'id' | 'name' | 'background' | 'startsAt'>;
 };
 
 export const DormantServerNameplate = ({ server }: DormantServerNameplateProps): JSX.Element => {

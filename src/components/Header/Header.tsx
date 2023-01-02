@@ -84,6 +84,15 @@ function Header(): JSX.Element {
             <Typography size="2xl">Servers</Typography>
           </NavLink>
         </span>
+        <span>
+          <NavLink
+            to="/faq"
+            style={(isActive) => ({ borderBottom: isActive ? '2px solid' : 'none' })}
+            className="border-slate-600"
+          >
+            <Typography size="2xl">FAQ</Typography>
+          </NavLink>
+        </span>
       </nav>
       {!session && (
         <div className="flex items-center justify-evenly md:space-x-4">

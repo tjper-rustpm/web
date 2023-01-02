@@ -12,7 +12,10 @@ import { useSession } from '../services/user/hooks';
 import { LiveServer, Background } from '../services/server/types';
 
 type LiveServerNameplateProps = {
-  server: LiveServer;
+  server: Pick<
+    LiveServer,
+    'id' | 'name' | 'elasticIP' | 'activePlayers' | 'queuedPlayers' | 'background' | 'createdAt'
+  >;
 };
 
 export const LiveServerNameplate = ({ server }: LiveServerNameplateProps): JSX.Element => {

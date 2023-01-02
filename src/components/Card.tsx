@@ -1,6 +1,6 @@
 interface CardProps {
   children: React.ReactNode;
-  size?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  size?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
   border?: boolean;
   padding?: 'none' | 'compact' | 'standard';
   background?: 'none' | 'trianglify';
@@ -52,6 +52,9 @@ export const Card = ({
       break;
     case '4xl':
       style = `${style} max-w-4xl`;
+      break;
+    case '5xl':
+      style = `${style} max-w-5xl`;
       break;
   }
 
