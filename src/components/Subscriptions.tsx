@@ -9,6 +9,7 @@ import { oops } from '../errors/errors';
 
 export function Subscriptions(): JSX.Element {
   const { data: subscriptions } = useSubscriptions();
+  const subscriptionsExist = subscriptions.length > 0;
 
   const stripeBillingDashboard = useStripeBillingDashboard();
 
@@ -32,11 +33,11 @@ export function Subscriptions(): JSX.Element {
       <Typography size="2xl">Subscriptions</Typography>
       <p className="font-sans my-4 text-md">
         Rustpm uses Stripe to manage subscriptions.
-        {subscriptions
+        {subscriptionsExist
           ? ' Press the button below to be routed to your billing dashboard.'
           : ' You currently do not have any active subscriptions.'}
       </p>
-      <Button slate disabled={!subscriptions} onClick={onStripeBillingDashboard}>
+      <Button slate disabled={!subscriptionsExist} onClick={onStripeBillingDashboard}>
         <div className="flex items-center space-x-3 w-max m-auto">
           <Typography>Billing Dashboard</Typography>
           <PoweredByStripe className="w-28" />
