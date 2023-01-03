@@ -1,5 +1,4 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import Servers from './containers/Servers/Servers';
 
@@ -42,25 +41,6 @@ function App(): JSX.Element {
               containerClassName="flex items-center gap-3"
               toastOptions={{ duration: 4000, className: 'min-w-fit text-xl text-center px-6 py-2' }}
             />
-            <Helmet>
-              <meta charSet="utf-8" />
-              <title>Rustpm</title>
-              <meta name="description" content="Rustpm operates scheduled Rust servers." />
-
-              <meta property="og:url" content="https://rustpm.com" />
-              <meta property="og:type" content="website" />
-              <meta property="og:title" content="Rustpm" />
-              <meta property="og:description" content="Rustpm operates scheduled Rust servers." />
-              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner_dark.webp" />
-
-              <meta name="twitter:card" content="summary_large_image" />
-              <meta property="twitter:domain" content="rustpm.com" />
-              <meta property="twitter:url" content="https://rustpm.com" />
-              <meta name="twitter:title" content="Rustpm" />
-              <meta name="twitter:description" content="Rustpm operates scheduled Rust servers." />
-              <meta name="twitter:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner_dark.webp" />
-              <link rel="canonical" href="https://rustpm.com" />
-            </Helmet>
             <div className="flex flex-col h-screen justify-between box-border">
               <div>
                 <Header />
