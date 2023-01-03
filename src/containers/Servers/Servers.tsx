@@ -45,7 +45,7 @@ const Servers = (): JSX.Element => {
     );
   });
 
-  return <div className="mx-auto max-w-[1880px] gap-x-16 gap-y-16 flex flex-wrap justify-evenly">{servers}</div>;
+  return <div className="mb-32 mx-auto max-w-[1880px] gap-x-16 gap-y-16 flex flex-wrap justify-evenly">{servers}</div>;
 };
 
 export default Servers;
