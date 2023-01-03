@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import Servers from './containers/Servers/Servers';
 
@@ -31,9 +31,8 @@ import { Toaster } from 'react-hot-toast';
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  useEffect(() => {
-    document.title = 'Rustpm';
-  }, []);
+  const description = 'Rustpm operates scheduled Rust servers.';
+  const link = 'https://rustpm.com';
 
   return (
     <BrowserRouter>
@@ -46,6 +45,20 @@ function App(): JSX.Element {
               containerClassName="flex items-center gap-3"
               toastOptions={{ duration: 4000, className: 'min-w-fit text-xl text-center px-6 py-2' }}
             />
+            <Helmet>
+              <meta charSet="utf-8" />
+              <meta name="twitter:card" content="summary" />
+              <meta name="twitter:site" content="@Penutty_" />
+              <meta name="twitter:creator" content="@Penutty_" />
+              <meta property="og:url" content={link} />
+              <meta property="og:title" content="Rustpm" />
+              <meta property="og:description" content={description} />
+              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
+              <meta name="author" content="1337 Perry LLC" />
+              <meta name="description" content={description} />
+              <title>Rustpm</title>
+              <link rel="canonical" href={link} />
+            </Helmet>
             <div className="flex flex-col h-screen justify-between box-border">
               <div>
                 <Header />
