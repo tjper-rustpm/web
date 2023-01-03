@@ -31,9 +31,6 @@ import { Toaster } from 'react-hot-toast';
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const description = 'Rustpm operates scheduled Rust servers.';
-  const link = 'https://rustpm.com';
-
   return (
     <BrowserRouter>
       <ThemeProvider theme={light}>
@@ -47,17 +44,22 @@ function App(): JSX.Element {
             />
             <Helmet>
               <meta charSet="utf-8" />
-              <meta name="twitter:card" content="summary" />
-              <meta name="twitter:site" content="@Penutty_" />
-              <meta name="twitter:creator" content="@Penutty_" />
-              <meta property="og:url" content={link} />
-              <meta property="og:title" content="Rustpm" />
-              <meta property="og:description" content={description} />
-              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
-              <meta name="author" content="1337 Perry LLC" />
-              <meta name="description" content={description} />
               <title>Rustpm</title>
-              <link rel="canonical" href={link} />
+              <meta name="description" content="Rustpm operates scheduled Rust servers." />
+
+              <meta property="og:url" content="https://rustpm.com" />
+              <meta property="og:type" content="website" />
+              <meta property="og:title" content="Rustpm" />
+              <meta property="og:description" content="Rustpm operates scheduled Rust servers." />
+              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
+
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta property="twitter:domain" content="rustpm.com" />
+              <meta property="twitter:url" content="https://rustpm.com" />
+              <meta name="twitter:title" content="Rustpm" />
+              <meta name="twitter:description" content="Rustpm operates scheduled Rust servers." />
+              <meta name="twitter:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
+              <link rel="canonical" href="https://rustpm.com" />
             </Helmet>
             <div className="flex flex-col h-screen justify-between box-border">
               <div>
