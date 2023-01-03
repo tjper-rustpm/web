@@ -51,14 +51,14 @@ function App(): JSX.Element {
               <meta property="og:type" content="website" />
               <meta property="og:title" content="Rustpm" />
               <meta property="og:description" content="Rustpm operates scheduled Rust servers." />
-              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
+              <meta property="og:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner_dark.webp" />
 
               <meta name="twitter:card" content="summary_large_image" />
               <meta property="twitter:domain" content="rustpm.com" />
               <meta property="twitter:url" content="https://rustpm.com" />
               <meta name="twitter:title" content="Rustpm" />
               <meta name="twitter:description" content="Rustpm operates scheduled Rust servers." />
-              <meta name="twitter:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner.png" />
+              <meta name="twitter:image" content="https://s3.amazonaws.com/rustpm.public.assets/banner_dark.webp" />
               <link rel="canonical" href="https://rustpm.com" />
             </Helmet>
             <div className="flex flex-col h-screen justify-between box-border">
